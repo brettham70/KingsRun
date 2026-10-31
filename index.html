@@ -76,7 +76,7 @@ body{background:var(--bg);color:var(--fg);font-family:var(--body);overflow:hidde
 button{font:inherit;color:inherit}
 button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
-.app{height:100%;max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:10px;
+.app{height:100%;max-width:960px;margin:0 auto;display:flex;flex-direction:column;gap:10px;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:10px}
 
 .top{display:flex;align-items:center;gap:10px}
@@ -97,7 +97,12 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
 .table{background:var(--bg2);border-radius:16px;padding:10px 12px;display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:14px}
 .piles{display:flex;gap:12px;align-items:flex-end}
-.pile{display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:0;padding:0;cursor:pointer;--cw:clamp(44px,6.6vh,60px)}
+.pile{display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:0;padding:0;cursor:pointer;--cw:clamp(46px,min(9vh,19vw),104px)}
+/* Early rounds (small hands) leave room to spare, so the table and its piles get bigger. */
+.app.roomy .pile{--cw:clamp(56px,min(15vh,21vw),150px)}
+.app.roomy .table{padding:16px;gap:18px}
+.app.roomy .info .status{font-size:clamp(15px,2.1vh,19px)}
+.app.roomy .info .log{font-size:clamp(13px,1.7vh,15px)}
 .info{display:flex;flex-direction:column;gap:4px;min-width:0}
 .info .eyebrow{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
 .info .status,.info .log{text-align:left}
@@ -110,7 +115,7 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .status{font-size:14px;font-weight:600;text-align:center;text-wrap:balance}
 .log{font-size:12.5px;color:var(--muted);text-align:center;min-height:1.2em}
 
-.handhead{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.handhead{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-top:auto}
 .handhead h2{font-family:var(--display);font-size:17px;font-weight:400;margin:0}
 .handhead .meta{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
 /* Hand: each group is one unbroken row of cards. When space runs out, cards overlap like a held fan instead of wrapping,
@@ -249,8 +254,10 @@ table.sc{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;f
       <div class="log" id="log"></div>
     </div>
   </section>
-  <div class="handhead"><h2 id="handTitle">Your hand</h2><span class="meta" id="handMeta"></span></div>
-  <section class="handzone" id="handzone"><div class="groups" id="groups"></div></section>
+  <section class="handzone" id="handzone">
+    <div class="handhead"><h2 id="handTitle">Your hand</h2><span class="meta" id="handMeta"></span></div>
+    <div class="groups" id="groups"></div>
+  </section>
   <div class="actions">
     <button class="btn ghost" id="hintBtn" data-act="hint">Hint</button>
     <button class="btn" id="discardBtn" data-act="discard">Discard</button>
@@ -556,17 +563,20 @@ function grpHTML(kind,label,cards,btn){
   return `<div class="grp ${kind}" style="--n:${n};--nb:${nb}"><span class="gl">${label}</span><div class="cs" style="grid-template-columns:${cols}">${cards.map(btn).join('')}</div></div>`;
 }
 // Pick the largest card size at which the whole hand fits on screen without scrolling.
-// Preference order: spread-out cards at a comfortable size, then rows packed with slight overlap, then smaller cards.
-const FIT_STEPS=[...[64,60,56,52,48].map(cw=>[cw,false]),...[60,56,52,48,45,42,39,36,33].map(cw=>[cw,true])];
+// Preference order: the biggest cards that fit fully spread out, then rows packed with slight overlap, then smaller cards.
+// Small early-round hands get big cards; they shrink as the hand grows, so the hand always fills its space.
+const FIT_STEPS=[...[150,138,128,116,106,98,90,83,77,71,66,62,58,54,50,48].map(cw=>[cw,false]),...[60,56,52,48,45,42,39,36,33].map(cw=>[cw,true])];
 function fitHand(){
   const z=$('handzone'),g=$('groups');if(!z||!g)return;
-  const maxByWidth=Math.floor((z.clientWidth-16)/4.2);
   let chosen=FIT_STEPS[FIT_STEPS.length-1];
   for(const step of FIT_STEPS){
-    if(step[0]>maxByWidth)continue;
-    g.style.setProperty('--cw',step[0]+'px');g.classList.toggle('packed',step[1]);
-    const wide=[...g.querySelectorAll('.cs')].some(cs=>cs.scrollWidth>cs.clientWidth+1);
-    if(!wide&&z.scrollHeight<=z.clientHeight+1){chosen=step;break;}
+    const [cw,packed]=step;
+    g.style.setProperty('--cw',cw+'px');g.classList.toggle('packed',packed);
+    const rows=[...g.querySelectorAll('.cs')];
+    const tooWide=rows.some(cs=>cs.scrollWidth>cs.clientWidth+1);
+    // Spread mode must not overlap at all; overlap is only allowed once we fall back to packed rows.
+    const squeezed=!packed&&rows.some(cs=>{const n=cs.children.length;return cs.clientWidth+1<n*cw+(n-1)*4;});
+    if(!tooWide&&!squeezed&&z.scrollHeight<=z.clientHeight+1){chosen=step;break;}
   }
   g.style.setProperty('--cw',chosen[0]+'px');g.classList.toggle('packed',chosen[1]);
 }
@@ -610,6 +620,7 @@ function render(){
   $('log').textContent=errText||logText;
   $('log').classList.toggle('err',!!errText);
 
+  document.querySelector('.app').classList.toggle('roomy',me.hand.length<=6);
   $('handTitle').textContent=(me.name==='You'||onl())?'Your hand':`${me.name}'s hand`;
   const s=solve(me.hand,wr);
   $('handMeta').textContent=`${s.cost} pts unmatched · Score ${me.score}`;
