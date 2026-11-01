@@ -38,7 +38,7 @@ img{max-width:100%}
 :root{
   --bg:#D9DEE0; --bg2:#C9D1D4; --panel:#EEF1F2; --fg:#1C2329; --muted:#56636B; --line:#B5BFC4;
   --accent:#6B2D7F; --accent-fg:#FFFFFF; --tray:#E3E8EA; --good:#23784A; --bad:#B4233A;
-  --face:#FBF8F1; --edge:#CFC8B8; --shadow:#1C232955; --wild:#7A3592;
+  --face:#FBF8F1; --edge:#CFC8B8; --shadow:#1C232955; --wild:#7A3592; --gold:#8A6510; --coin1:#E9C766; --coin2:#B8891C;
   --su0:#A8740F; --su1:#C2283A; --su2:#23784A; --su3:#1F232B; --su4:#2457B8;
   --back1:#5A2569; --back2:#6E3480; --joker1:#4A1E58; --joker2:#7A3592;
   --display:"Young Serif", Georgia, "Times New Roman", serif;
@@ -48,12 +48,12 @@ img{max-width:100%}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#12161B; --bg2:#1A2128; --panel:#1F262E; --fg:#E8ECEE; --muted:#97A4AC; --line:#33404A;
   --accent:#C08BD6; --accent-fg:#1A0F20; --tray:#182027; --good:#5BC28A; --bad:#F0707F;
-  --face:#EFEADF; --edge:#8C8574; --shadow:#000000AA; color-scheme:dark;
+  --face:#EFEADF; --edge:#8C8574; --shadow:#000000AA; --gold:#E2C064; color-scheme:dark;
 }}
 :root[data-theme="dark"]{
   --bg:#12161B; --bg2:#1A2128; --panel:#1F262E; --fg:#E8ECEE; --muted:#97A4AC; --line:#33404A;
   --accent:#C08BD6; --accent-fg:#1A0F20; --tray:#182027; --good:#5BC28A; --bad:#F0707F;
-  --face:#EFEADF; --edge:#8C8574; --shadow:#000000AA; color-scheme:dark;
+  --face:#EFEADF; --edge:#8C8574; --shadow:#000000AA; --gold:#E2C064; color-scheme:dark;
 }
 /* Colour themes: each sets table, accent, wild marker, card backs and Jokers, with its own dark-mode values */
 :root[data-palette="felt"]{--bg2:#C3D3C9;--accent:#8A6510;--accent-fg:#FFFFFF;--wild:#7A5A0E;--back1:#174F37;--back2:#1F6446;--joker1:#123D2B;--joker2:#1E6B49}
@@ -170,11 +170,19 @@ button.card.fresh:not(.sel){box-shadow:0 0 0 2px var(--good),0 2px 6px -2px var(
 .sheet h3{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin:4px 0 0;font-weight:500}
 .res{display:flex;flex-direction:column;gap:6px;padding:10px;border-radius:12px;background:var(--tray);border:1px solid var(--line)}
 .res .row{display:flex;justify-content:space-between;align-items:baseline;font-variant-numeric:tabular-nums}
-.res .row b{font-size:15px}
-.res .row span{font-size:13px;color:var(--muted)}
+/* Round results scale with the screen: --rcw (card width) is fitted so every hand and the Deal button show without scrolling. */
+.sheet.results{max-width:960px;max-height:calc(100% - 6px);--rcw:30px;gap:10px;padding-bottom:0}
+.sheet.results h2{font-size:clamp(20px,calc(var(--rcw)*.3 + 12px),32px)}
+.sheet.results .res{padding:8px 10px}
+.sheetfoot{position:sticky;bottom:0;margin-top:auto;display:grid;grid-template-columns:auto 1fr;gap:8px;background:var(--panel);
+  padding:10px 0 calc(14px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);z-index:2}
+.res .row b{font-size:clamp(15px,calc(var(--rcw)*.28 + 7px),24px)}
+.res .row span{font-size:clamp(13px,calc(var(--rcw)*.22 + 6px),19px);color:var(--muted)}
 .res .pts{font-weight:700;color:var(--bad)} .res .pts.zero{color:var(--good)}
-.res .lay{display:flex;flex-wrap:wrap;gap:8px}
-.res .lay .g{display:flex;gap:2px;padding:3px;border-radius:7px;border:1px solid var(--line)}
+.res .lay{display:flex;flex-wrap:wrap;gap:8px;--cw:var(--rcw);min-width:0}
+.res .lay .g{display:grid;grid-auto-flow:column;padding:3px;border-radius:7px;border:1px solid var(--line);min-width:0;max-width:100%}
+.res .lay .card{box-shadow:-2px 0 4px -2px var(--shadow)}
+.sheet.results.tiny .res .card .tag{display:none}
 .res .lay .g.dead{border-style:dashed;border-color:var(--bad)}
 .seg{display:flex;gap:6px}
 .seg button{flex:1;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--bg);font-weight:600;cursor:pointer}
@@ -186,6 +194,14 @@ table.sc{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;f
 .sc tfoot td{font-weight:700;border-bottom:0}
 .rules{margin:0;padding-left:18px;font-size:14px;line-height:1.5;display:flex;flex-direction:column;gap:4px;max-width:60ch}
 .btn.wide{width:100%}
+.sheethead{position:sticky;top:-18px;margin-top:-18px;padding:18px 0 10px;background:var(--panel);z-index:3;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--line)}
+.sheethead h2{flex:1;min-width:0}
+.navlist{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.nav{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto;column-gap:10px;text-align:left;padding:13px 14px;background:var(--tray);border:0;border-bottom:1px solid var(--line);cursor:pointer}
+.nav:last-child{border-bottom:0}
+.nav b{font-size:15px;font-weight:700}
+.nav span{grid-row:2;font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-variant-numeric:tabular-nums}
+.nav i{grid-row:1/3;grid-column:2;align-self:center;font-style:normal;font-size:22px;color:var(--muted)}
 .note.err,.log.err{color:var(--bad)}
 .lobby{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
 .lobby li{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:10px;background:var(--tray);border:1px solid var(--line);min-width:0}
@@ -233,6 +249,57 @@ table.sc{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;f
 .fan3 .card:nth-child(1){transform:rotate(-12deg) translateX(14px)}
 .fan3 .card:nth-child(2){z-index:1}
 .fan3 .card:nth-child(3){transform:rotate(12deg) translateX(-14px)}
+
+/* The Run: Treasury bar on the table, the Court shop, the round ledger */
+.runbar{display:flex;align-items:center;gap:8px;min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:5px 9px;cursor:pointer;text-align:left;font-size:13px}
+.coin{display:inline-block;width:.95em;height:.95em;border-radius:50%;background:radial-gradient(circle at 35% 35%,var(--coin1),var(--coin2));box-shadow:inset 0 0 0 1.5px #00000022;vertical-align:-.1em;margin-right:4px}
+.runbar .gold{font-family:var(--mono);font-weight:500;font-size:15px;color:var(--gold);white-space:nowrap;font-variant-numeric:tabular-nums}
+.runbar .regs{display:flex;gap:4px;flex:1;min-width:0;overflow:hidden;mask-image:linear-gradient(90deg,#000 85%,transparent);-webkit-mask-image:linear-gradient(90deg,#000 85%,transparent)}
+.rg{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.06em;padding:2px 6px;border-radius:5px;border:1px solid var(--line);background:var(--tray);white-space:nowrap}
+.rgn{font-size:12px;color:var(--muted);white-space:nowrap}
+.runbar .decs{font-size:12.5px;color:var(--muted);white-space:nowrap;font-weight:600}
+.runbar .decs b{color:var(--fg)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.opp.boss{border-color:var(--bad);background:linear-gradient(var(--panel),var(--panel)) padding-box}
+.opp.boss .nm{color:var(--bad)}
+.opp.boss.active{box-shadow:0 0 0 1px var(--bad)}
+.card.peek{box-shadow:0 0 0 2px var(--gold),0 2px 6px -2px var(--shadow)}
+.card.locked{opacity:.55;filter:grayscale(.6)}
+.card.joker.deadj{background:linear-gradient(160deg,#55505A,#2F2C33);color:#D8D2DC}
+.card.joker.deadj .tag{background:var(--bad);color:#FFFFFF}
+.ledger{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:12px;background:var(--tray);padding:6px 12px}
+.ll{display:flex;justify-content:space-between;gap:10px;padding:4px 0;font-size:14px;font-variant-numeric:tabular-nums}
+.ll b.neg{color:var(--bad)} .ll b.pos{color:var(--good)}
+.ll.tot{border-top:1px solid var(--line);margin-top:2px;padding-top:7px;font-weight:700}
+.ll.tot b{font-family:var(--mono);font-weight:500;color:var(--gold)}
+.treasury{display:flex;flex-direction:column;gap:2px;padding:10px 12px;border-radius:12px;background:var(--tray);border:1px solid var(--line)}
+.treasury .ml{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.treasury b{font-family:var(--display);font-weight:400;font-size:30px;color:var(--gold);line-height:1.1}
+.treasury .mw{font-size:12.5px;color:var(--muted)}
+.goldbig{font-family:var(--display);font-size:24px;color:var(--gold);white-space:nowrap}
+.bossnote{display:flex;flex-direction:column;gap:2px;padding:10px 12px;border-radius:12px;border:1px solid var(--bad);background:var(--tray);font-size:13px}
+.bossnote b{color:var(--bad);font-size:14px}
+.offers{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px}
+.offer{display:flex;flex-direction:column;gap:4px;padding:12px;border-radius:12px;background:var(--tray);border:1px solid var(--line);min-width:0}
+.offer .kind{font-family:var(--mono);font-size:9.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--gold)}
+.offer b{font-family:var(--display);font-weight:400;font-size:18px;line-height:1.15}
+.offer .tx{font-size:13px;color:var(--muted);flex:1;margin-bottom:6px}
+.offer .btn{padding:10px;font-size:14px}
+.offer.sold{opacity:.6}
+.owned{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.owned li{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;background:var(--tray);border:1px solid var(--line)}
+.owned li div{display:flex;flex-direction:column;gap:1px;min-width:0;flex:1}
+.owned li b{font-size:14px}
+.owned li span{font-size:12.5px;color:var(--muted)}
+.mini-btn.go{background:var(--accent);color:var(--accent-fg);border-color:transparent}
+.mini-btn:disabled{opacity:.45;cursor:default}
+.note.good{color:var(--good);font-weight:600}
+.marks.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:420px){.marks.four{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.runend{display:flex;flex-direction:column;gap:4px}
+.runend .big{font-family:var(--display);font-size:clamp(28px,8vw,40px);line-height:1.1;margin:0}
+.runintro{display:flex;flex-direction:column;gap:8px;padding:12px;border-radius:12px;background:var(--tray);border:1px solid var(--line);font-size:13.5px}
+.runintro p{margin:0}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 
@@ -243,6 +310,7 @@ table.sc{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;f
     <button class="iconbtn" id="menuBtn" data-act="menu">Menu</button>
   </header>
   <section class="opps" id="opps"></section>
+  <button class="runbar" id="runbar" data-act="rpanel" hidden></button>
   <section class="table">
     <div class="piles">
       <button class="pile" id="deckBtn" data-act="deck"><span id="deckCard"></span><span class="lbl">Deck</span></button>
@@ -271,12 +339,17 @@ table.sc{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;f
 const SUITS=['★','♥','♣','♠','♦'].map(s=>s+'︎');
 const SUIT_NAMES=['stars','hearts','clubs','spades','diamonds'];
 const rankLabel=r=>r<=10?String(r):({11:'J',12:'Q',13:'K'})[r];
-const isWild=(c,wr)=>c.s<0||c.r===wr;
-const pts=(c,wr)=>c.s<0?50:c.r===wr?20:c.r;
+// `wr` is either the round's wild rank (a number) or, in a Run, one player's rules object:
+// {wr, wild(c)→bool, pts(c)→cost, bookMin(rank)→smallest book}. A plain number always means the standard rules.
+// Rules objects add a tiny cost (1/1024) to every leftover card, so a cost of 0 still means every card is grouped
+// even when some cards are free; bills round the cost down.
+const isWild=(c,wr)=>typeof wr==='object'?wr.wild(c):c.s<0||c.r===wr;
+const pts=(c,wr)=>typeof wr==='object'?wr.pts(c):c.s<0?50:c.r===wr?20:c.r;
 const short=c=>c.s<0?'a Joker':rankLabel(c.r)+SUITS[c.s];
 
 // Best arrangement of a hand into books/runs, minimising unmatched points.
 function solve(hand,wr){
+  const BMf=typeof wr==='object'&&wr.bookMin, BM=r=>BMf?BMf(r):3;
   const nat=[],wild=[];
   for(const c of hand)(isWild(c,wr)?wild:nat).push(c);
   nat.sort((a,b)=>a.s-b.s||a.r-b.r);
@@ -296,13 +369,14 @@ function solve(hand,wr){
     }else{
       const c=nat[i],bi=1<<i;
       const nm0=mask|bi;
-      best={cost:go(nm0,used,has).cost+c.r,step:{t:'dead',i},next:[nm0,used,has]};
+      best={cost:go(nm0,used,has).cost+pts(c,wr),step:{t:'dead',i},next:[nm0,used,has]};
+      if(c.s<0){memo.set(key,best);return best;}  // a Joker that isn't wild can't join a group
       const same=[];
       for(let j=i+1;j<n;j++)if(!(mask>>j&1)&&nat[j].r===c.r)same.push(j);
       for(let m=0;m<(1<<same.length);m++){
         let nm=nm0,cnt=1;const idx=[i];
         for(let k=0;k<same.length;k++)if(m>>k&1){nm|=1<<same[k];cnt++;idx.push(same[k]);}
-        const need=Math.max(0,3-cnt);
+        const need=Math.max(0,BM(c.r)-cnt);
         if(used+need>W)continue;
         const r=go(nm,used+need,1);
         if(r.cost<best.cost)best={cost:r.cost,step:{t:'book',idx,need},next:[nm,used+need,1]};
@@ -396,10 +470,10 @@ function setPalette(k){
 }
 try{setPalette(localStorage.getItem(PAL_KEY)||'plum')}catch(e){setPalette('plum')}
 const NAMES_KEY='kingsrun-names';
-let G=null, sel=null, menuOpen=false, timer=null, pending=null, autoKey=null, confirmReset=false, confirmClear=false, restoreOpen=false, backupCode=null, recMsg='';
+let G=null, sel=null, menuOpen=false, timer=null, pending=null, menuView='main', autoKey=null, confirmReset=false, confirmClear=false, restoreOpen=false, backupCode=null, recMsg='';
 
 const $=id=>document.getElementById(id);
-const wildRank=()=>G.round+2;
+const wildRank=()=>G.mode==='run'&&G.run&&G.run.jw?G.run.jw:G.round+2;
 const N=()=>G.players.length;
 const cur=()=>G.players[G.turn];
 const pp=()=>G.mode==='pp';
@@ -408,7 +482,8 @@ const viewer=()=>onl()?G.me:pp()?G.turn:0;
 const canAct=()=>onl()
   ?G.turn===G.me&&(G.phase==='draw'||G.phase==='discard')&&!(O&&O.busy)
   :G.turn===viewer()&&!cur().ai&&(!pp()||G.reveal);
-const isMe=i=>onl()?i===G.me:G.mode==='ai'&&i===0;
+const isMe=i=>onl()?i===G.me:(G.mode==='ai'||G.mode==='run')&&i===0;
+const isRun=()=>G&&G.mode==='run';
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
 const cleanName=s=>String(s||'').replace(/[<>&"]/g,'').trim().slice(0,14);
 function loadNames(){try{return JSON.parse(localStorage.getItem(NAMES_KEY))||[]}catch(e){return[]}}
@@ -420,10 +495,12 @@ function load(){try{const s=localStorage.getItem(KEY);if(s)return JSON.parse(s)}
 function newGame(cfg){
   const list=cfg.mode==='pp'
     ?Array.from({length:cfg.count},(_,i)=>({name:cleanName(cfg.names[i])||`Player ${i+1}`,ai:false}))
+    :cfg.mode==='run'?[{name:'You',ai:false},...NAMES.slice(0,2).map(n=>({name:n,base:n,ai:true}))]
     :[{name:'You',ai:false},...NAMES.slice(0,cfg.count).map(n=>({name:n,ai:true}))];
-  G={mode:cfg.mode,cfg:{mode:cfg.mode,count:cfg.count,names:[...(cfg.names||[])]},
+  G={mode:cfg.mode,cfg:{mode:cfg.mode,count:cfg.mode==='run'?2:cfg.count,names:[...(cfg.names||[])]},
      players:list.map(p=>({...p,hand:[],score:0,rounds:[]})),reveal:false,
      round:0,dealer:0,deck:[],discard:[],turn:0,phase:'draw',outBy:null,finalLeft:0,log:'',fresh:null,result:null};
+  if(cfg.mode==='run')G.run=newRun();
   G.dealer=(N()-2+N())%N();
   sel=null;menuOpen=false;
   startRound();
@@ -436,23 +513,26 @@ function startRound(){
   G.outBy=null;G.finalLeft=0;G.turn=(G.dealer+1)%N();G.phase='draw';G.fresh=null;G.result=null;G.reveal=false;
   G.log=`Round ${G.round}: ${G.round+2} cards each. ${rankLabel(G.round+2)}s are wild.`;
   sel=null;
+  if(isRun())runStartRound();
 }
 function drawDeck(){
   if(!G.deck.length){const top=G.discard.pop();G.deck=shuffle(G.discard);G.discard=[top];}
   return G.deck.pop();
 }
 function endTurn(){
-  const p=cur(),wr=wildRank();
+  const p=cur(),wr=rulesFor(G.turn);
   if(G.outBy===null){
     if(solve(p.hand,wr).cost===0){G.outBy=G.turn;G.finalLeft=N()-1;G.log+=` and went out!`;}
   }else G.finalLeft--;
+  if(isRun())runEndTurn();
   if(G.outBy!==null&&G.finalLeft<=0){endRound();return;}
   G.turn=(G.turn+1)%N();G.phase='draw';G.fresh=null;G.reveal=false;
+  if(isRun())runNextTurn();
 }
 function endRound(){
-  const wr=wildRank();
-  G.result=G.players.map((p,i)=>{const s=solve(p.hand,wr);const v=i===G.outBy?0:s.cost;p.score+=v;p.rounds.push(v);return{melds:s.melds,dead:s.dead,pts:v};});
+  G.result=G.players.map((p,i)=>{const s=solve(p.hand,rulesFor(i));const v=i===G.outBy?0:Math.floor(s.cost);p.score+=v;p.rounds.push(v);return{melds:s.melds,dead:s.dead,pts:v};});
   G.phase=G.round>=11?'gameEnd':'roundEnd';
+  if(isRun()){runEndRound();return;}
   if(G.phase==='gameEnd')recordGame();
 }
 
@@ -517,12 +597,244 @@ function recentGames(){
     return `<li><span class="rd">${d} · ${x.mode==='pp'?'Pass &amp; play':x.mode==='online'?'Online':'Vs computer'}</span><b>${w}</b><span class="rs">${res}</span></li>`;}).join('')}</ul>`;
 }
 
+/* ---------- The Run ----------
+   A solo roguelike over the usual 11 rounds. Gold is both health and money: every point you're caught with costs
+   1 gold, going out and beating bosses earns gold, and the Court sells Regalia (permanent perks) and Decrees (one-use).
+   Numbers were tuned by simulating thousands of rounds (see KINGSRUN-RUN-DESIGN.md). */
+const ECON={start:25,act1Cap:10,tribute:3,out:10,low:4,boss:12,reroll:2,maxR:5,maxD:3,vault:25};
+const TIERS=r=>r<=3?{title:'Squire',skill:.55}:r<=7?{title:'Knight',skill:.8}:{title:'Baron',skill:.95};
+const BOSSES={
+  4:{key:'miser',name:'The Miser',short:'No one takes discards',rule:'Nobody may take from the discard pile this round.'},
+  8:{key:'jester',name:'The Jester',short:'Wild changes every turn',rule:'The wild rank changes after every turn.'},
+  11:{key:'usurper',name:'The Usurper',short:'Your Jokers aren’t wild',rule:'Jokers aren’t wild for you. They’re dead cards worth 50.'}};
+for(const k in BOSSES)BOSSES[BOSSES[k].key]=BOSSES[k];
+const REGALIA=[
+  {id:'commoner',name:"Commoner's Crown",short:'3s wild',text:'3s are wild for you.',price:22},
+  {id:'seventh',name:'Seventh Heaven',short:'7s wild',text:'7s are wild for you.',price:24},
+  {id:'jewels',name:'Crown Jewels',short:'Ks wild',text:'Kings are wild for you.',price:24},
+  {id:'fool',name:'Court Fool',short:'+Joker',text:'You’re dealt an extra Joker every round (except against the Usurper).',price:15},
+  {id:'twin',name:'Twin Crowns',short:'Royal pairs',text:'Pairs of J, Q or K count as books for you.',price:16},
+  {id:'starlight',name:'Starlight',short:'★ free',text:'★ cards left in your hand cost nothing.',price:13},
+  {id:'lowtide',name:'Low Tide',short:'3–5 free',text:'3s, 4s and 5s left in your hand cost nothing.',price:13},
+  {id:'purse',name:'Heavy Purse',short:'Faces 5',text:'J, Q and K left in your hand cost 5 each.',price:9},
+  {id:'vault',name:"Miser's Vault",short:'Cap 25',text:'A round never costs you more than 25 gold.',price:12},
+  {id:'spyglass',name:'Spyglass',short:'See deck',text:'You can always see the top card of the deck.',price:10},
+  {id:'eaves',name:'Eavesdropper',short:'Read foes',text:'See how many unmatched points each opponent holds.',price:5},
+  {id:'herald',name:'Herald',short:'+5 out',text:'+5 more gold whenever you go out first.',price:9},
+  {id:'earlybird',name:'Early Bird',short:'Quick out',text:'Go out within your first 3 turns and your going-out gold doubles.',price:6},
+  {id:'mint',name:'Royal Mint',short:'♦ gold',text:'+1 gold for every ♦ in your groups at round end.',price:6},
+  {id:'tax',name:'Tax Collector',short:'Tax',text:'+1 gold for every 10 points your opponents are caught with.',price:9},
+  {id:'interest',name:'Interest',short:'Interest',text:'+1 gold for every 10 in your Treasury at round end (up to +5).',price:10},
+  {id:'patron',name:'Patron',short:'+3/round',text:'+3 gold every round.',price:10},
+  {id:'secondwind',name:'Second Wind',short:'2nd wind',text:'Once per run, survive bankruptcy with 10 gold. Then it’s used up.',price:9},
+  {id:'gambler',name:"Gambler's Hand",short:'Gamble',text:'Going-out gold ×3, but what you’re caught with costs 1.5×.',price:4}];
+const DECREES=[
+  {id:'pickpocket',name:'Pickpocket',text:'Before you draw: take the second card down in the discard pile.',price:4},
+  {id:'scout',name:'Scout',text:'Before you draw: see the top card of the deck.',price:3},
+  {id:'redeal',name:'Redeal',text:'Before you draw: shuffle your hand into the deck and draw a fresh one.',price:5},
+  {id:'fog',name:'Fog',text:'On your turn: the next player can’t take from the discard pile.',price:3},
+  {id:'pardon',name:'Royal Pardon',text:'This round, your highest-scoring leftover card is free.',price:4},
+  {id:'insurance',name:'Insurance',text:'This round’s bill is halved.',price:5}];
+const REG=id=>REGALIA.find(x=>x.id===id), DEC=id=>DECREES.find(x=>x.id===id);
+const EPS=1/1024;
+let runPanel=false, runMsg='';
+
+function newRun(){return {gold:ECON.start,regalia:[],decrees:[],shop:[],rerollCost:ECON.reroll,free:false,
+  boss:null,jw:null,callout:'',peek:false,fog:null,pardon:false,insurance:false,turns:0,ledger:null,over:null,bossesBeaten:0};}
+const runHas=k=>isRun()&&G.run.regalia.includes(k);
+
+// Rules for one seat. Outside a Run this is just the wild rank, so every other mode plays exactly as before.
+function rulesFor(i){
+  if(!isRun())return wildRank();
+  const wr=wildRank(),me=i===0,has=k=>me&&G.run.regalia.includes(k);
+  const extra=[];if(has('commoner'))extra.push(3);if(has('seventh'))extra.push(7);if(has('jewels'))extra.push(13);
+  const noJ=me&&G.run.boss==='usurper';
+  const wild=c=>c.s<0?!noJ:(c.r===wr||extra.includes(c.r));
+  return {wr,wild,bookMin:has('twin')?(r=>r>=11?2:3):null,pts:c=>{
+    if(wild(c))return EPS+(c.s<0?50:20);
+    if(c.s<0)return EPS+50;
+    let v=c.r;
+    if(has('lowtide')&&c.r<=5)v=0;
+    if(has('purse')&&c.r>=11)v=5;
+    if(has('starlight')&&c.s===0)v=0;
+    return v+EPS;}};
+}
+function canTakePile(i){
+  if(!isRun())return true;
+  return G.run.boss!=='miser'&&G.run.fog!==i;
+}
+function runStartRound(){
+  const r=G.run,boss=BOSSES[G.round],tier=TIERS(G.round);
+  r.boss=boss?boss.key:null;r.jw=null;r.callout='';r.peek=false;r.fog=null;r.pardon=false;r.insurance=false;r.turns=0;r.ledger=null;
+  G.players.forEach((p,i)=>{if(!i)return;
+    if(boss&&i===1){p.name=boss.name;p.boss=boss.key;p.skill=1;p.title='Boss';}
+    else{p.name=`${tier.title} ${p.base}`;p.boss=null;p.skill=tier.skill;p.title=tier.title;}});
+  if(runHas('fool')&&r.boss!=='usurper'){const j=G.deck.findIndex(c=>c.s<0);if(j>=0)G.players[0].hand.push(G.deck.splice(j,1)[0]);}
+  if(boss)G.log=`Round ${G.round}: ${boss.name} joins the table. ${boss.rule}`;
+}
+function runEndTurn(){if(G.turn===0)G.run.turns++;if(G.run.fog===G.turn)G.run.fog=null;}
+function runNextTurn(){
+  const r=G.run;r.callout='';
+  if(r.boss==='jester'){let k;do{k=3+randInt(11);}while(k===wildRank());r.jw=k;r.callout=`The Jester calls ${rankLabel(k)}s wild.`;}
+}
+// Settle the round: pay the bill, then collect income. Every line goes into the ledger shown on the results screen.
+function runEndRound(){
+  runPanel=false;
+  const r=G.run,res=G.result[0],L=[],before=r.gold,out=G.outBy===0;
+  let bill=res.pts;
+  if(!out){
+    L.push({t:`Caught with ${bill} point${bill===1?'':'s'}`,v:-bill});
+    if(r.pardon&&res.dead.length){const R=rulesFor(0),top=Math.max(...res.dead.map(c=>Math.floor(R.pts(c))));if(top>0){bill-=top;L.push({t:'Royal Pardon',v:top});}}
+    if(runHas('gambler')&&bill>0){const nb=Math.ceil(bill*1.5);L.push({t:"Gambler's Hand ×1.5",v:bill-nb});bill=nb;}
+    if(r.insurance&&bill>0){const nb=Math.ceil(bill/2);L.push({t:'Insurance halves it',v:bill-nb});bill=nb;}
+    if(G.round<=3&&bill>ECON.act1Cap){L.push({t:`Act 1: bills capped at ${ECON.act1Cap}`,v:bill-ECON.act1Cap});bill=ECON.act1Cap;}
+    if(runHas('vault')&&bill>ECON.vault){L.push({t:"Miser's Vault",v:bill-ECON.vault});bill=ECON.vault;}
+  }
+  r.gold-=bill;
+  if(r.gold<0&&runHas('secondwind')){r.regalia=r.regalia.filter(x=>x!=='secondwind');L.push({t:'Second Wind saves you',v:10-r.gold});r.gold=10;}
+  if(r.gold<0){r.ledger={lines:L,before,after:r.gold};r.over='bust';G.phase='gameEnd';recordRun();return;}
+  const pts=G.result.map(x=>x.pts),add=(t,v)=>{if(v){L.push({t,v});r.gold+=v;}};
+  add('Royal tribute',ECON.tribute);
+  if(out){let g=ECON.out+(runHas('herald')?5:0);
+    if(runHas('earlybird')&&r.turns<=3)g*=2;
+    if(runHas('gambler'))g*=3;
+    add('You went out first',g);}
+  if(pts[0]<=Math.min(...pts.slice(1)))add('Lowest score at the table',ECON.low);
+  if(r.boss&&pts[0]<pts[1]){add(`Beat ${BOSSES[r.boss].name}`,ECON.boss);r.free=true;r.bossesBeaten++;}
+  if(runHas('mint'))add('Royal Mint',res.melds.flatMap(m=>m.cards).filter(c=>c.s===4).length);
+  if(runHas('tax'))add('Tax Collector',Math.floor((pts[1]+pts[2])/10));
+  if(runHas('patron'))add('Patron',3);
+  if(runHas('interest'))add('Interest',Math.min(5,Math.floor(r.gold/10)));
+  r.ledger={lines:L,before,after:r.gold};
+  if(G.phase==='gameEnd'){r.over='won';recordRun();}
+}
+function openCourt(){const r=G.run;r.rerollCost=ECON.reroll;rollCourt();G.phase='court';}
+function rollCourt(){
+  const r=G.run,pick=(a,n)=>shuffle([...a]).slice(0,n);
+  r.shop=[...pick(REGALIA.filter(x=>!r.regalia.includes(x.id)),2).map(x=>({kind:'R',id:x.id})),...pick(DECREES,1).map(x=>({kind:'D',id:x.id}))];
+}
+const offerPrice=o=>G.run.free?0:(o.kind==='R'?REG(o.id):DEC(o.id)).price;
+function buyOffer(k){
+  const r=G.run,o=r.shop[k];if(!o||o.sold)return;
+  const price=offerPrice(o),full=o.kind==='R'?r.regalia.length>=ECON.maxR:r.decrees.length>=ECON.maxD;
+  if(price>r.gold||full)return;
+  r.gold-=price;o.sold=true;r.free=false;
+  (o.kind==='R'?r.regalia:r.decrees).push(o.id);
+  runMsg=`${(o.kind==='R'?REG(o.id):DEC(o.id)).name} is yours.`;
+}
+function sellRegalia(id){
+  const r=G.run;if(!r.regalia.includes(id))return;
+  const g=Math.floor(REG(id).price/2);r.regalia=r.regalia.filter(x=>x!==id);r.gold+=g;runMsg=`Sold ${REG(id).name} for ${g} gold.`;
+}
+// Whether a Decree can be played right now, and if not, why.
+function decreeBlock(id){
+  if(!isRun()||!(G.phase==='draw'||G.phase==='discard'))return 'Only during a round.';
+  const mine=G.turn===0,draw=mine&&G.phase==='draw',r=G.run;
+  if(id==='pickpocket'){if(!draw)return 'Use it on your turn, before you draw.';if(!canTakePile(0))return 'The discard pile is off limits.';if(G.discard.length<2)return 'Needs two cards in the discard pile.';}
+  if(id==='scout'){if(!draw)return 'Use it on your turn, before you draw.';if(r.peek||runHas('spyglass'))return 'You can already see the top card.';}
+  if(id==='redeal'&&!draw)return 'Use it on your turn, before you draw.';
+  if(id==='fog'&&!mine)return 'Use it on your turn.';
+  if(id==='fog'&&r.fog!=null)return 'Fog is already down.';
+  if(id==='pardon'&&r.pardon)return 'Already pardoned this round.';
+  if(id==='insurance'&&r.insurance)return 'Already insured this round.';
+  if(G.outBy===0)return 'You’re already out.';
+  return '';
+}
+function useDecree(id){
+  const r=G.run,me=G.players[0];
+  if(!r.decrees.includes(id)||decreeBlock(id))return;
+  r.decrees.splice(r.decrees.indexOf(id),1);
+  if(id==='pickpocket'){const c=G.discard.splice(G.discard.length-2,1)[0];me.hand.push(c);G.fresh=c.id;sel=null;G.phase='discard';G.log=`Pickpocket: you took ${short(c)} from under the top card.`;}
+  else if(id==='scout'){r.peek=true;G.log='Scout: the top card of the deck is face up.';}
+  else if(id==='redeal'){const n=me.hand.length;G.deck.push(...me.hand);shuffle(G.deck);me.hand=G.deck.splice(G.deck.length-n,n);sel=null;G.log=`Redeal: you drew ${n} fresh cards.`;}
+  else if(id==='fog'){r.fog=1;G.log=`Fog: ${G.players[1].name} can’t take from the discard pile next turn.`;}
+  else if(id==='pardon'){r.pardon=true;G.log='Royal Pardon: your highest-scoring leftover card is free this round.';}
+  else if(id==='insurance'){r.insurance=true;G.log='Insurance: this round’s bill is halved.';}
+  runPanel=false;
+}
+
+const RUNREC_KEY='kingsrun-runs';
+function loadRuns(){try{const r=JSON.parse(localStorage.getItem(RUNREC_KEY));if(r&&r.recent)return r}catch(e){}return{played:0,won:0,best:null,furthest:0,recent:[]}}
+function recordRun(){
+  if(G.recorded)return;G.recorded=true;
+  const x=loadRuns(),r=G.run,won=r.over==='won';
+  x.played++;if(won){x.won++;if(x.best===null||r.gold>x.best)x.best=r.gold;}
+  x.furthest=Math.max(x.furthest,won?11:G.round);
+  x.recent.unshift({date:Date.now(),won,round:G.round,gold:r.gold,regalia:r.regalia.map(id=>REG(id).name)});
+  x.recent=x.recent.slice(0,10);
+  try{localStorage.setItem(RUNREC_KEY,JSON.stringify(x))}catch(e){}
+}
+function runRecordsHTML(){
+  const x=loadRuns();
+  if(!x.played)return '<p class="note">No runs yet. Start one from the Menu.</p>';
+  const tile=(l,v,w)=>`<div class="mark"><span class="ml">${l}</span><b>${v}</b>${w?`<span class="mw">${w}</span>`:''}</div>`;
+  return `<div class="marks four">${tile('Runs',x.played)}${tile('Won',x.won,x.played?Math.round(100*x.won/x.played)+'%':'')}${tile('Best Treasury',x.best??'–')}${tile('Furthest',x.furthest?'Round '+x.furthest:'–')}</div>
+    <ul class="recent">${x.recent.slice(0,6).map(g=>`<li><span class="rd">${new Date(g.date).toLocaleDateString(undefined,{day:'numeric',month:'short'})}</span><b>${g.won?`Won · ${g.gold} gold`:`Bankrupt · round ${g.round}`}</b><span class="rs">${g.regalia.length?esc(g.regalia.join(' · ')):'No Regalia'}</span></li>`).join('')}</ul>`;
+}
+
+function renderRunbar(){
+  const b=$('runbar');
+  if(!isRun()){b.hidden=true;return;}
+  const r=G.run;b.hidden=false;
+  b.innerHTML=`<span class="gold"><i class="coin" aria-hidden="true"></i>${r.gold}<span class="sr"> gold in your Treasury</span></span>
+    <span class="regs">${r.regalia.length?r.regalia.map(id=>`<span class="rg">${esc(REG(id).short)}</span>`).join(''):'<span class="rgn">No Regalia yet</span>'}</span>
+    <span class="decs">${r.decrees.length?`Decrees <b>${r.decrees.length}</b>`:'Court'} ›</span>`;
+  b.setAttribute('aria-label',`Treasury ${r.gold} gold, ${r.regalia.length} Regalia, ${r.decrees.length} Decrees. Open your Court.`);
+}
+function ledgerHTML(){
+  const l=G.run.ledger;if(!l)return '';
+  return `<div class="ledger">${l.lines.map(x=>`<div class="ll"><span>${esc(x.t)}</span><b class="${x.v<0?'neg':'pos'}">${x.v<0?'−'+(-x.v):'+'+x.v}</b></div>`).join('')}
+    <div class="ll tot"><span>Treasury</span><b>${l.before} → ${l.after<0?'bankrupt':l.after}</b></div></div>`;
+}
+function regaliaList(sell){
+  const r=G.run;
+  if(!r.regalia.length)return '<p class="note">None yet. Regalia last for the whole run.</p>';
+  return `<ul class="owned">${r.regalia.map(id=>{const x=REG(id);return `<li><div><b>${esc(x.name)}</b><span>${esc(x.text)}</span></div>${sell?`<button class="mini-btn" data-act="rsell" data-id="${id}">Sell · ${Math.floor(x.price/2)}</button>`:''}</li>`;}).join('')}</ul>`;
+}
+function decreeList(usable){
+  const r=G.run;
+  if(!r.decrees.length)return '<p class="note">None held. Decrees are one-use cards you play during a round.</p>';
+  return `<ul class="owned">${r.decrees.map((id,k)=>{const x=DEC(id),why=usable?decreeBlock(id):'';
+    return `<li><div><b>${esc(x.name)}</b><span>${esc(why||x.text)}</span></div>${usable?`<button class="mini-btn${why?'':' go'}" data-act="decree" data-id="${id}" ${why?'disabled':''}>Use</button>`:''}</li>`;}).join('')}</ul>`;
+}
+function runPanelHTML(){
+  const r=G.run,boss=BOSSES[r.boss];
+  return `<div class="sheethead"><h2>Your Court</h2><button class="iconbtn" data-act="rclose">Done</button></div>
+    <div class="treasury"><span class="ml">Treasury</span><b><i class="coin" aria-hidden="true"></i>${r.gold}</b><span class="mw">Every point you’re caught with costs 1 gold.${G.round<=3?` Act 1 bills are capped at ${ECON.act1Cap}.`:''}</span></div>
+    ${boss?`<div class="bossnote"><b>${boss.name}</b><span>${boss.rule}</span></div>`:''}
+    <h3>Decrees · ${r.decrees.length} of ${ECON.maxD}</h3>${decreeList(true)}
+    ${r.pardon||r.insurance?`<p class="note">Active this round: ${[r.pardon&&'Royal Pardon',r.insurance&&'Insurance'].filter(Boolean).join(', ')}.</p>`:''}
+    <h3>Regalia · ${r.regalia.length} of ${ECON.maxR}</h3>${regaliaList(false)}`;
+}
+function courtHTML(){
+  const r=G.run,nr=G.round+1,nb=BOSSES[nr];
+  const offer=(o,k)=>{const x=o.kind==='R'?REG(o.id):DEC(o.id),p=offerPrice(o);
+    const full=o.kind==='R'?r.regalia.length>=ECON.maxR:r.decrees.length>=ECON.maxD;
+    const lbl=o.sold?'Bought':full?(o.kind==='R'?'Regalia full':'Decrees full'):p>r.gold?`${p} gold`:p?`Buy · ${p}`:'Take free';
+    return `<div class="offer${o.sold?' sold':''}"><span class="kind">${o.kind==='R'?'Regalia':'Decree'}</span><b>${esc(x.name)}</b><span class="tx">${esc(x.text)}</span>
+      <button class="btn${o.sold||full||p>r.gold?' ghost':''}" data-act="rbuy" data-k="${k}" ${o.sold||full||p>r.gold?'disabled':''}>${lbl}</button></div>`;};
+  return `<div class="sheethead"><h2>The Court</h2><span class="goldbig"><i class="coin" aria-hidden="true"></i>${r.gold}</span></div>
+    <p class="note">Next: round ${nr} of 11 · ${nr+2} cards · ${rankLabel(nr+2)}s wild${nr<=3?` · bills capped at ${ECON.act1Cap}`:''}</p>
+    ${nb?`<div class="bossnote"><b>Boss next: ${nb.name}</b><span>${nb.rule} Beat it for +${ECON.boss} gold and a free pick at the next Court.</span></div>`:''}
+    ${r.free?'<p class="note good">Boss bounty: your first pick here is free.</p>':''}
+    ${nr<=3&&r.gold<ECON.act1Cap?`<p class="note err">Careful: next round can cost up to ${ECON.act1Cap}, and you have ${r.gold}.</p>`:''}
+    <div class="offers">${r.shop.map(offer).join('')}</div>
+    <button class="btn ghost wide" data-act="rreroll" ${r.rerollCost>r.gold?'disabled':''}>New offers · ${r.rerollCost} gold</button>
+    ${runMsg?`<p class="note" role="status">${esc(runMsg)}</p>`:''}
+    <h3>Your Regalia · ${r.regalia.length} of ${ECON.maxR}</h3>${regaliaList(true)}
+    <h3>Your Decrees · ${r.decrees.length} of ${ECON.maxD}</h3>${decreeList(false)}
+    <div class="sheetfoot"><button class="btn ghost" data-act="menu">Menu</button><button class="btn" data-act="next">Deal round ${nr} · ${rankLabel(nr+2)}s wild</button></div>`;
+}
+
+// Computer players. In a Run, `skill` (0–1) is how often they make the best play; otherwise they always do.
+const sloppy=p=>p.skill!=null&&Math.random()>p.skill;
 function aiDraw(){
-  const p=cur(),wr=wildRank(),top=G.discard[G.discard.length-1];
+  const p=cur(),wr=rulesFor(G.turn),top=G.discard[G.discard.length-1];
   let take=false;
-  if(top){
+  if(top&&canTakePile(G.turn)){
     if(isWild(top,wr))take=true;
-    else{const now=solve(p.hand,wr).cost;const d=bestDiscard([...p.hand,top],wr);if(d.card!==top&&d.cost<now)take=true;}
+    else{const now=solve(p.hand,wr).cost;const d=bestDiscard([...p.hand,top],wr);if(d.card!==top&&d.cost<now)take=true;
+      if(sloppy(p))take=Math.random()<.5;}
   }
   const c=take?G.discard.pop():drawDeck();
   p.hand.push(c);
@@ -530,7 +842,8 @@ function aiDraw(){
   G.phase='discard';
 }
 function aiDiscard(){
-  const p=cur(),d=bestDiscard(p.hand,wildRank());
+  const p=cur(),wr=rulesFor(G.turn),d=bestDiscard(p.hand,wr);
+  if(d.cost!==0&&sloppy(p)){const nw=p.hand.filter(c=>!isWild(c,wr));if(nw.length)d.card=nw[randInt(nw.length)];}
   p.hand=p.hand.filter(x=>x!==d.card);G.discard.push(d.card);
   G.log=G.log.replace(/\.$/,'')+`, discarded ${short(d.card)}`;
   endTurn();
@@ -544,8 +857,9 @@ function pump(){
 function commit(){save();render();pump();}
 
 function cardHTML(c,wr,tag='div',attrs='',cls=''){
-  if(c.s<0)return `<${tag} class="card joker wild ${cls}" ${attrs} aria-label="Joker, wild"><span class="rk">JKR</span><span class="big">✦</span><span class="tag">wild</span></${tag}>`;
-  const w=c.r===wr;
+  if(c.s<0){const w=isWild(c,wr);
+    return `<${tag} class="card joker${w?' wild':' deadj'} ${cls}" ${attrs} aria-label="Joker, ${w?'wild':'not wild'}"><span class="rk">JKR</span><span class="big">✦</span><span class="tag">${w?'wild':'dead'}</span></${tag}>`;}
+  const w=isWild(c,wr);
   return `<${tag} class="card s${c.s}${w?' wild':''} ${cls}" ${attrs} aria-label="${rankLabel(c.r)} of ${SUIT_NAMES[c.s]}${w?', wild':''}"><span class="rk">${rankLabel(c.r)}<i>${SUITS[c.s]}</i></span><span class="big">${SUITS[c.s]}</span>${w?'<span class="tag">wild</span>':''}</${tag}>`;
 }
 function meldLabel(m,wr){
@@ -585,22 +899,24 @@ let fitW=0,fitH=0;
 try{new ResizeObserver(es=>{const r=es[0].contentRect;if(Math.abs(r.width-fitW)>1||Math.abs(r.height-fitH)>1){fitW=r.width;fitH=r.height;if(G)fitHand();}}).observe(document.getElementById('handzone'));}catch(e){addEventListener('resize',()=>{if(G)fitHand();});}
 try{document.fonts.ready.then(()=>{if(G)fitHand();});}catch(e){}
 function render(){
-  const wr=wildRank(),v=viewer(),me=G.players[v],myTurn=canAct();
-  $('roundPill').textContent=G.round>0?`Round ${G.round} of 11${onl()?` · Game ${O.code}`:''}`:onl()?`Online · Game ${O.code}`:'';
-  $('wildPill').textContent=G.round>0?`${rankLabel(wr)}s wild`:'Lobby';
+  const v=viewer(),wr=rulesFor(v),wn=wildRank(),me=G.players[v],myTurn=canAct(),run=isRun()?G.run:null,boss=run&&BOSSES[run.boss];
+  $('roundPill').textContent=G.round>0?`Round ${G.round} of 11${onl()?` · Game ${O.code}`:boss?` · Boss: ${boss.name}`:run?' · The Run':''}`:onl()?`Online · Game ${O.code}`:'';
+  $('wildPill').textContent=G.round>0?`${rankLabel(wn)}s wild`:'Lobby';
 
   const opps=G.players.map((p,i)=>({p,i})).filter(o=>o.i!==v);
   $('opps').style.gridTemplateColumns=`repeat(${opps.length},minmax(0,1fr))`;
   $('opps').innerHTML=opps.map(({p,i})=>{const act=G.turn===i&&(G.phase==='draw'||G.phase==='discard');
-    return `<div class="opp${act?' active':''}"><div class="nm">${p.name}${onl()&&p.ai?'<span class="cpu">CPU</span>':''}${G.outBy===i?'<span class="badge">Out</span>':''}${act?'<span class="badge">Playing</span>':''}</div>
-    <div class="meta"><b>${p.score}</b> pts</div></div>`;}).join('');
+    const meta=run?(p.boss?esc(BOSSES[p.boss].short):runHas('eaves')?`<b>${Math.floor(solve(p.hand,rulesFor(i)).cost)}</b> unmatched`:`${p.hand.length} cards`):`<b>${p.score}</b> pts`;
+    return `<div class="opp${act?' active':''}${p.boss?' boss':''}"><div class="nm">${p.name}${onl()&&p.ai?'<span class="cpu">CPU</span>':''}${G.outBy===i?'<span class="badge">Out</span>':''}${act?'<span class="badge">Playing</span>':''}</div>
+    <div class="meta">${meta}</div></div>`;}).join('');
 
   const canDraw=myTurn&&G.phase==='draw';
-  $('deckCard').innerHTML=`<div class="card back"><span class="cnt">${G.deck.length}</span></div>`;
-  const top=G.discard[G.discard.length-1];
-  $('pileCard').innerHTML=top?cardHTML(top,wr):'<div class="empty"></div>';
+  const peek=run&&G.deck.length&&(runHas('spyglass')||run.peek)&&(G.phase==='draw'||G.phase==='discard')?G.deck[G.deck.length-1]:null;
+  $('deckCard').innerHTML=peek?cardHTML(peek,wr,'div','','peek'):`<div class="card back"><span class="cnt">${G.deck.length}</span></div>`;
+  const top=G.discard[G.discard.length-1],pileOK=canTakePile(v);
+  $('pileCard').innerHTML=top?cardHTML(top,wr,'div','',pileOK?'':'locked'):'<div class="empty"></div>';
   $('deckBtn').disabled=!canDraw;$('deckBtn').classList.toggle('can',canDraw);
-  $('pileBtn').disabled=!canDraw||!top;$('pileBtn').classList.toggle('can',canDraw&&!!top);
+  $('pileBtn').disabled=!canDraw||!top||!pileOK;$('pileBtn').classList.toggle('can',canDraw&&!!top&&pileOK);
   $('deckBtn').setAttribute('aria-label',`Draw from deck, ${G.deck.length} cards`);
   $('pileBtn').setAttribute('aria-label',top?`Take ${short(top)} from discard`:'Discard pile empty');
 
@@ -609,7 +925,7 @@ function render(){
   if(G.phase==='lobby')st='Waiting for the game to start.';
   else if(G.phase==='roundEnd'||G.phase==='gameEnd')st='Round over.';
   else if(myTurn){const yt=pp()?`${me.name}'s turn`:'Your turn';
-    st=lastTurn+(G.phase==='draw'?(lastTurn?`${yt}: last turn, draw a card.`:`${yt}: draw from the deck or take the discard.`):'Now choose a card to discard.');}
+    st=lastTurn+(G.phase==='draw'?(lastTurn?`${yt}: last turn, draw a card.`:pileOK?`${yt}: draw from the deck or take the discard.`:`${yt}: draw from the deck.`):'Now choose a card to discard.');}
   else st=lastTurn+`${cur().name} is playing…`;
   $('status').textContent=st;
   let logText=G.log;
@@ -617,13 +933,15 @@ function render(){
     const c=me.hand.find(x=>x.id===G.fresh);if(c)logText=`You drew ${short(c)}.`;
   }
   const errText=onl()&&O?(O.err||(O.offline?'Can’t reach the game server. Retrying…':'')):'';
+  if(run&&run.callout&&!errText)logText=(logText?logText+' ':'')+run.callout;
   $('log').textContent=errText||logText;
   $('log').classList.toggle('err',!!errText);
 
   document.querySelector('.app').classList.toggle('roomy',me.hand.length<=6);
   $('handTitle').textContent=(me.name==='You'||onl())?'Your hand':`${me.name}'s hand`;
   const s=solve(me.hand,wr);
-  $('handMeta').textContent=`${s.cost} pts unmatched · Score ${me.score}`;
+  $('handMeta').textContent=run?`${Math.floor(s.cost)} pts unmatched`:`${s.cost} pts unmatched · Score ${me.score}`;
+  renderRunbar();
   const canSel=myTurn&&G.phase==='discard';
   const btn=c=>cardHTML(c,wr,'button',`data-act="sel" data-id="${c.id}" ${canSel?'':'tabindex="-1"'}`,(sel===c.id?'sel ':'')+(G.fresh===c.id?'fresh':''));
   // If a discard lets this player go out, show the hand as it will be laid down, with the spare card set apart.
@@ -641,7 +959,7 @@ function render(){
   if(spare)html+=grpHTML('spare','Discard',[spare],btn);
   else if(s.dead.length){
     // A long unmatched set is split into one row per suit, so nothing has to squeeze or wrap.
-    if(s.dead.length<=6)html+=grpHTML('dead',`Unmatched · ${s.cost}`,s.dead,btn);
+    if(s.dead.length<=6)html+=grpHTML('dead',`Unmatched · ${Math.floor(s.cost)}`,s.dead,btn);
     else{
       const bySuit=new Map();
       for(const c of s.dead){const k=isWild(c,wr)?'w':c.s;if(!bySuit.has(k))bySuit.set(k,[]);bySuit.get(k).push(c);}
@@ -667,7 +985,7 @@ function render(){
   if(showCover){
     const p=cur();
     $('coverBody').innerHTML=`<div class="fan3"><span class="card back"></span><span class="card back"></span><span class="card back"></span></div>
-      <p class="eyebrow">Round ${G.round} of 11 · ${rankLabel(wr)}s wild</p>
+      <p class="eyebrow">Round ${G.round} of 11 · ${rankLabel(wn)}s wild</p>
       <h2>Pass to ${p.name}</h2>
       ${G.log?`<p class="clog">${G.log}</p>`:''}
       <p class="cscores">${G.players.map(q=>`${q.name} ${q.score}`).join(' · ')}</p>
@@ -678,71 +996,135 @@ function render(){
   renderSheet();
 }
 
+// A finished hand on the results screen. Like the hand on the table, each group stays on one row and overlaps if it must.
 function layHTML(r,wr){
-  return `<div class="lay mini">${r.melds.map(m=>`<div class="g">${m.cards.map(c=>cardHTML(c,wr)).join('')}</div>`).join('')}${r.dead.length?`<div class="g dead">${r.dead.map(c=>cardHTML(c,wr)).join('')}</div>`:''}</div>`;
+  const g=(cls,cards)=>{const n=cards.length;
+    const cols=n>1?`repeat(${n-1},minmax(calc(var(--cw)*.5),calc(var(--cw) + 2px))) var(--cw)`:'var(--cw)';
+    return `<div class="g${cls}" style="grid-template-columns:${cols}">${cards.map(c=>cardHTML(c,wr)).join('')}</div>`;};
+  return `<div class="lay">${r.melds.map(m=>g('',m.cards)).join('')}${r.dead.length?g(' dead',r.dead):''}</div>`;
 }
 function scoreTable(){
   const rows=G.players[0].rounds.map((_,i)=>`<tr><td>Round ${i+1}</td>${G.players.map(p=>`<td>${p.rounds[i]}</td>`).join('')}</tr>`).join('');
   return `<div class="scroll"><table class="sc"><thead><tr><th></th>${G.players.map(p=>`<th>${p.name}</th>`).join('')}</tr></thead><tbody>${rows||`<tr><td colspan="${N()+1}">No rounds finished yet</td></tr>`}</tbody><tfoot><tr><td>Total</td>${G.players.map(p=>`<td>${p.score}</td>`).join('')}</tr></tfoot></table></div>`;
 }
+// Largest card size at which every player's hand (and, between rounds, the Deal button) fits on screen.
+const RES_SIZES=[96,86,78,70,63,57,52,47,43,39,36,33,30];
+function fitResults(){
+  const sh=$('sheet');if(!sh.classList.contains('results'))return;
+  // The Deal / Play again buttons are pinned to the bottom, so fit every hand into the space above them.
+  let chosen=RES_SIZES[RES_SIZES.length-1];
+  for(const cw of RES_SIZES){
+    sh.style.setProperty('--rcw',cw+'px');
+    const t=[...sh.querySelectorAll('.res')].pop(),foot=sh.querySelector('.sheetfoot');
+    const sr=sh.getBoundingClientRect(),tr=t.getBoundingClientRect();
+    const room=sh.clientHeight-(foot?foot.offsetHeight:0);
+    const squeezed=[...sh.querySelectorAll('.res .g')].some(g=>g.scrollWidth>g.clientWidth+1);
+    if(!squeezed&&tr.bottom-sr.top+sh.scrollTop<=room+1){chosen=cw;break;}
+  }
+  sh.style.setProperty('--rcw',chosen+'px');
+  sh.classList.toggle('tiny',chosen<44);
+}
+addEventListener('resize',()=>{if(G)fitResults();});
 function renderSheet(){
   const ov=$('overlay'),sh=$('sheet'),wr=wildRank();
+  sh.classList.remove('results','tiny');sh.style.removeProperty('--rcw');
   if(menuOpen){
-    const P=pending,isPP=P.mode==='pp';
+    const P=pending,isPP=P.mode==='pp',isR=P.mode==='run';
     const counts=isPP?[2,3,4]:[1,2,3];
-    sh.innerHTML=`<h2>Menu</h2>
-    <h3>Scores</h3>${scoreTable()}
-    <h3>Win–loss record</h3>${marksHTML()}${recordsTable()}
-    ${recentGames()}
-    ${Object.keys(loadRec().players).length?(confirmClear
-      ?`<div class="confirm"><p>Delete every player's win–loss record and the recent games list? This can't be undone.</p>
-        <div class="seg"><button class="danger" data-act="clearYes">Yes, clear records</button><button data-act="clearNo">Cancel</button></div></div>`
-      :`<button class="btn ghost wide" data-act="clearAsk">Clear records</button>`):''}
-    <div class="seg">${Object.keys(loadRec().players).length?'<button data-act="backup">Copy backup code</button>':''}<button data-act="restoreAsk" aria-pressed="${restoreOpen}">Restore from code</button></div>
-    ${backupCode?`<label class="names" for="backupBox"><span class="note">Copy this code and keep it somewhere safe, or paste it into Kingsrun on another phone.</span><textarea id="backupBox" class="codebox" readonly rows="3">${backupCode}</textarea></label>`:''}
-    ${restoreOpen?`<div class="confirm"><label class="names" for="restoreBox"><span class="note">Paste a backup code. It replaces the records on this phone.</span><textarea id="restoreBox" class="codebox" rows="3" placeholder="KR1:…" autocomplete="off" spellcheck="false"></textarea></label>
-      <div class="seg"><button class="danger" data-act="restoreYes">Restore records</button><button data-act="restoreNo">Cancel</button></div></div>`:''}
-    ${recMsg?`<p class="note" role="status">${recMsg}</p>`:''}
-    ${onlineMenuHTML()}
-    ${onl()?'':`<h3>Restart</h3>
-    ${confirmReset
-      ?`<div class="confirm"><p>Start again from round 1 with the same players? Everyone's scores go back to 0.</p>
-        <div class="seg"><button class="danger" data-act="restartYes">Yes, restart</button><button data-act="restartNo">Cancel</button></div></div>`
-      :`<button class="btn ghost wide" data-act="restartAsk">Restart this game</button>`}
-    <h3>New game</h3>
-    <div class="seg"><button data-act="mode" data-m="ai" aria-pressed="${!isPP}">Vs computer</button><button data-act="mode" data-m="pp" aria-pressed="${isPP}">Pass &amp; play</button></div>
-    <div class="seg">${counts.map(k=>`<button data-act="count" data-n="${k}" aria-pressed="${k===P.count}">${isPP?`${k} players`:`${k} opponent${k>1?'s':''}`}</button>`).join('')}</div>
-    ${isPP?`<div class="names">${Array.from({length:P.count},(_,i)=>`<label for="pname${i}">Player ${i+1}<input id="pname${i}" data-i="${i}" value="${esc(P.names[i]||'')}" placeholder="Player ${i+1}" maxlength="14" autocomplete="off"></label>`).join('')}</div>`:''}
-    <button class="btn" data-act="new">${isPP?'Start pass &amp; play':'Start new game'}</button>`}
-    <h3>Colour</h3>
-    <div class="swatches">${PALETTES.map(p=>`<button class="sw" data-act="palette" data-p="${p.key}" aria-pressed="${p.key===palette}"><span class="chip" style="background:repeating-linear-gradient(45deg,${p.a} 0 4px,${p.b} 4px 8px)"></span>${p.name}</button>`).join('')}</div>
-    <h3>How to play</h3>
-    <ul class="rules">
-      <li>11 rounds. Round 1 deals 3 cards, each round one more, up to 13.</li>
-      <li>The rank matching the cards dealt is wild that round (3s, then 4s … up to Kings). Jokers are always wild.</li>
-      <li>On your turn, draw from the deck or the discard pile, then discard one card.</li>
-      <li>Group cards into books (3+ of a rank) or runs (3+ in a row, same suit). Your hand regroups itself as you play.</li>
-      <li>When every card is grouped after your discard, you go out. Everyone else gets one last turn.</li>
-      <li>Leftover cards score against you: face value, J 11, Q 12, K 13, wild 20, Joker 50. Lowest total wins.</li>
-    </ul>
-    <button class="btn ghost" data-act="close">Back to game</button>`;
+    const hasRec=Object.keys(loadRec().players).length>0;
+    const head=(title,back)=>`<div class="sheethead">${back?'<button class="iconbtn" data-act="mview" data-v="main">‹ Menu</button>':''}<h2>${title}</h2><button class="iconbtn" data-act="close">Done</button></div>`;
+    let html;
+    if(menuView==='scores'){
+      html=head('Scores',true)+`
+      <h3>This game · round ${Math.max(G.round,0)} of 11</h3>${scoreTable()}
+      <h3>The Run</h3>${runRecordsHTML()}
+      <h3>Win–loss record</h3>${marksHTML()}${recordsTable()}
+      ${recentGames()}
+      <h3>Keep your records</h3>
+      <div class="seg">${hasRec?'<button data-act="backup">Copy backup code</button>':''}<button data-act="restoreAsk" aria-pressed="${restoreOpen}">Restore from code</button></div>
+      ${backupCode?`<label class="names" for="backupBox"><span class="note">Copy this code and keep it somewhere safe, or paste it into Kingsrun on another phone.</span><textarea id="backupBox" class="codebox" readonly rows="3">${backupCode}</textarea></label>`:''}
+      ${restoreOpen?`<div class="confirm"><label class="names" for="restoreBox"><span class="note">Paste a backup code. It replaces the records on this phone.</span><textarea id="restoreBox" class="codebox" rows="3" placeholder="KR1:…" autocomplete="off" spellcheck="false"></textarea></label>
+        <div class="seg"><button class="danger" data-act="restoreYes">Restore records</button><button data-act="restoreNo">Cancel</button></div></div>`:''}
+      ${recMsg?`<p class="note" role="status">${recMsg}</p>`:''}
+      ${hasRec?(confirmClear
+        ?`<div class="confirm"><p>Delete every player's win–loss record and the recent games list? This can't be undone.</p>
+          <div class="seg"><button class="danger" data-act="clearYes">Yes, clear records</button><button data-act="clearNo">Cancel</button></div></div>`
+        :`<button class="btn ghost wide" data-act="clearAsk">Clear records</button>`):''}`;
+    }else if(menuView==='colour'){
+      html=head('Colour',true)+`
+      <p class="note">Changes the table, card backs, Jokers and buttons. Light and dark follow your phone.</p>
+      <div class="swatches">${PALETTES.map(p=>`<button class="sw" data-act="palette" data-p="${p.key}" aria-pressed="${p.key===palette}"><span class="chip" style="background:repeating-linear-gradient(45deg,${p.a} 0 4px,${p.b} 4px 8px)"></span>${p.name}</button>`).join('')}</div>`;
+    }else if(menuView==='rules'){
+      html=head('How to play',true)+`
+      <ul class="rules">
+        <li>11 rounds. Round 1 deals 3 cards, each round one more, up to 13.</li>
+        <li>The rank matching the cards dealt is wild that round (3s, then 4s … up to Kings). Jokers are always wild.</li>
+        <li>On your turn, draw from the deck or the discard pile, then discard one card.</li>
+        <li>Group cards into books (3+ of a rank) or runs (3+ in a row, same suit). Your hand regroups itself as you play.</li>
+        <li>When every card is grouped after your discard, you go out. Everyone else gets one last turn.</li>
+        <li>Leftover cards score against you: face value, J 11, Q 12, K 13, wild 20, Joker 50. Lowest total wins.</li>
+      </ul>
+      <h3>The Run</h3>
+      <ul class="rules">
+        <li>A solo run through the 11 rounds against two computer players: Squires, then Knights, then Barons.</li>
+        <li>Your gold is your life. Every point you're caught with costs 1 gold, and you start with ${ECON.start}. Run out and the run is over.</li>
+        <li>Earn gold by going out first (+${ECON.out}), having the lowest score at the table (+${ECON.low}) and a royal tribute each round (+${ECON.tribute}). In rounds 1–3 a bill is never more than ${ECON.act1Cap}.</li>
+        <li>Bosses take a seat in rounds 4, 8 and 11 and bend the rules. Score fewer points than the boss for +${ECON.boss} gold and a free pick.</li>
+        <li>After each round, visit the Court. Regalia are permanent perks (up to ${ECON.maxR}); Decrees are one-use cards you play from the gold bar on the table (up to ${ECON.maxD}).</li>
+        <li>Survive round 11 to win. Your score is the gold left in your Treasury.</li>
+      </ul>`;
+    }else{
+      const totals=G.players.map(p=>`${esc(p.name)} ${p.score}`).join(' · ');
+      const palName=(PALETTES.find(p=>p.key===palette)||PALETTES[0]).name;
+      html=head('Menu',false)+`
+      ${onl()?onlineMenuHTML():`<h3>This game</h3>
+      ${confirmReset
+        ?`<div class="confirm"><p>${isRun()?'Abandon this run and start a new one from round 1?':'Start again from round 1 with the same players? Everyone\'s scores go back to 0.'}</p>
+          <div class="seg"><button class="danger" data-act="restartYes">Yes, restart</button><button data-act="restartNo">Cancel</button></div></div>`
+        :`<button class="btn ghost wide" data-act="restartAsk">${isRun()?'Restart this run':'Restart this game'}</button>`}
+      <h3>New game</h3>
+      <div class="seg"><button data-act="mode" data-m="ai" aria-pressed="${P.mode==='ai'}">Vs computer</button><button data-act="mode" data-m="pp" aria-pressed="${isPP}">Pass &amp; play</button><button data-act="mode" data-m="run" aria-pressed="${isR}">The Run</button></div>
+      ${isR?`<div class="runintro"><p><b>A solo roguelike.</b> Your gold is your life: every point you're caught with costs a coin. Go out, beat the bosses and spend wisely at the Court to survive all 11 rounds.</p></div>`
+        :`<div class="seg">${counts.map(k=>`<button data-act="count" data-n="${k}" aria-pressed="${k===P.count}">${isPP?`${k} players`:`${k} opponent${k>1?'s':''}`}</button>`).join('')}</div>`}
+      ${isPP?`<div class="names">${Array.from({length:P.count},(_,i)=>`<label for="pname${i}">Player ${i+1}<input id="pname${i}" data-i="${i}" value="${esc(P.names[i]||'')}" placeholder="Player ${i+1}" maxlength="14" autocomplete="off"></label>`).join('')}</div>`:''}
+      <button class="btn" data-act="new">${isPP?'Start pass &amp; play':isR?'Start a new run':'Start new game'}</button>
+      ${onlineMenuHTML()}`}
+      <h3>More</h3>
+      <div class="navlist">
+        <button class="nav" data-act="mview" data-v="scores"><b>Scores &amp; records</b><span>${G.round>0?totals:'Win–loss record and recent games'}</span><i aria-hidden="true">›</i></button>
+        <button class="nav" data-act="mview" data-v="colour"><b>Colour</b><span>${palName}</span><i aria-hidden="true">›</i></button>
+        <button class="nav" data-act="mview" data-v="rules"><b>How to play</b><span>Rules and scoring</span><i aria-hidden="true">›</i></button>
+      </div>`;
+    }
+    sh.innerHTML=html;
     ov.hidden=false;return;
   }
   if(onl()&&G.phase==='lobby'){sh.innerHTML=lobbyHTML();ov.hidden=false;return;}
+  if(isRun()&&G.phase==='court'){sh.innerHTML=courtHTML();ov.hidden=false;return;}
+  if(isRun()&&runPanel&&(G.phase==='draw'||G.phase==='discard')){sh.innerHTML=runPanelHTML();ov.hidden=false;return;}
   if(G.phase==='roundEnd'||G.phase==='gameEnd'){
     const who=isMe(G.outBy)?'You':G.players[G.outBy].name;
     let head=`<h2>Round ${G.round}: ${who==='You'?'You went':who+' went'} out</h2>`;
-    if(G.phase==='gameEnd'){
+    if(G.phase==='gameEnd'&&isRun()){
+      const r=G.run;
+      head=r.over==='won'
+        ?`<div class="runend"><h3>Round 11 survived</h3><h2 class="big">The Kingsrun is yours</h2><p class="note">You finished with <b>${r.gold} gold</b>${r.bossesBeaten?` and beat ${r.bossesBeaten} of 3 bosses`:''}.</p></div>`
+        :`<div class="runend"><h3>Round ${G.round} · ${who==='You'?'You went':who+' went'} out</h3><h2 class="big">Bankrupt</h2><p class="note">The Treasury couldn’t cover the bill. You reached round ${G.round} of 11.</p></div>`;
+    }else if(G.phase==='gameEnd'){
       const min=Math.min(...G.players.map(p=>p.score));
       const wi=G.players.map((p,i)=>i).filter(i=>G.players[i].score===min);
       const winners=wi.map(i=>G.players[i].name);
       head=`<h2>${winners.length>1?'Tie: '+winners.join(' & '):isMe(wi[0])?'You win!':winners[0]+' wins'}</h2><h3>Final round · ${who} went out</h3>`;
     }
     if(onl()&&O&&O.err)head+=`<p class="note err" role="status">${esc(O.err)}</p>`;
-    sh.innerHTML=head+G.result.map((r,i)=>`<div class="res"><div class="row"><b>${G.players[i].name}</b><span><span class="pts${r.pts?'':' zero'}">+${r.pts}</span> · total ${G.players[i].score}</span></div>${layHTML(r,wr)}</div>`).join('')+
-      (G.phase==='gameEnd'?`<h3>Scores</h3>${scoreTable()}<h3>Win–loss record</h3>${marksHTML()}${recordsTable(G.players.map(recKey))}<button class="btn" data-act="again">Play again</button>`:`<button class="btn" data-act="next">Deal round ${G.round+1} · ${rankLabel(G.round+3)}s wild</button>`)+
-      `<button class="btn ghost" data-act="menu">Menu</button>`;
-    ov.hidden=false;return;
+    const run=isRun();
+    sh.innerHTML=head+(run?ledgerHTML():'')+G.result.map((r,i)=>`<div class="res"><div class="row"><b>${G.players[i].name}</b><span><span class="pts${r.pts?'':' zero'}">${run?r.pts+' pts':'+'+r.pts}</span>${run?'':` · total ${G.players[i].score}`}</span></div>${layHTML(r,rulesFor(i))}</div>`).join('')+
+      (G.phase==='gameEnd'?(run?`<h3>Your Regalia</h3>${regaliaList(false)}<h3>Run records</h3>${runRecordsHTML()}`:`<h3>Scores</h3>${scoreTable()}<h3>Win–loss record</h3>${marksHTML()}${recordsTable(G.players.map(recKey))}`):'')+
+      `<div class="sheetfoot"><button class="btn ghost" data-act="menu">Menu</button>${G.phase==='gameEnd'
+        ?`<button class="btn" data-act="again">${run?'Start a new run':'Play again'}</button>`
+        :run?'<button class="btn" data-act="court">Visit the Court</button>'
+        :`<button class="btn" data-act="next">Deal round ${G.round+1} · ${rankLabel(G.round+3)}s wild</button>`}</div>`;
+    sh.classList.add('results');ov.hidden=false;fitResults();return;
   }
   ov.hidden=true;
 }
@@ -894,7 +1276,7 @@ function onlineMenuHTML(){
     ${onlineForm.err?`<p class="note err" role="status">${esc(onlineForm.err)}</p>`:''}`;
 }
 function openMenu(){
-  menuOpen=true;confirmReset=false;confirmClear=false;restoreOpen=false;backupCode=null;recMsg='';inviteMsg='';
+  menuOpen=true;menuView='main';confirmReset=false;confirmClear=false;restoreOpen=false;backupCode=null;recMsg='';inviteMsg='';
   const saved=loadNames();
   const m=G.cfg.mode==='online'?'ai':G.cfg.mode;
   pending={mode:m,count:G.cfg.mode==='online'?2:G.cfg.count,names:Array.from({length:4},(_,i)=>(G.cfg.names||[])[i]||saved[i]||'')};
@@ -931,9 +1313,10 @@ document.addEventListener('click',e=>{
   }
   if(a==='deck'||a==='pile'){
     if(!(myTurn&&G.phase==='draw'))return;
-    if(a==='pile'&&!G.discard.length)return;
+    if(a==='pile'&&(!G.discard.length||!canTakePile(viewer())))return;
     const c=a==='pile'?G.discard.pop():drawDeck();
     me.hand.push(c);G.fresh=c.id;sel=null;G.phase='discard';
+    if(isRun())G.run.peek=false;
     G.log=a==='pile'?`${me.name} took ${short(c)} from the discard.`:pp()?`${me.name} drew from the deck.`:`You drew ${short(c)}.`;
     commit();
   }else if(a==='reveal'){
@@ -943,7 +1326,7 @@ document.addEventListener('click',e=>{
     const id=+t.dataset.id;sel=sel===id?null:id;render();
   }else if(a==='hint'){
     if(!(myTurn&&G.phase==='discard'))return;
-    sel=bestDiscard(me.hand,wildRank()).card.id;render();
+    sel=bestDiscard(me.hand,rulesFor(viewer())).card.id;render();
   }else if(a==='discard'){
     const c=me.hand.find(x=>x.id===sel);if(!c||!(myTurn&&G.phase==='discard'))return;
     me.hand=me.hand.filter(x=>x!==c);G.discard.push(c);sel=null;
@@ -951,9 +1334,20 @@ document.addEventListener('click',e=>{
     endTurn();
     if(!/out!$/.test(G.log))G.log+='.';
     commit();
-  }else if(a==='next'){startRound();commit();}
-  else if(a==='again'){newGame(G.cfg);commit();}
+  }else if(a==='next'){
+    if(isRun()&&G.phase!=='court')return;
+    runMsg='';startRound();commit();
+  }
+  else if(a==='court'){if(isRun()&&G.phase==='roundEnd'){runMsg='';openCourt();commit();$('sheet').scrollTop=0;}}
+  else if(a==='rpanel'){if(isRun()&&(G.phase==='draw'||G.phase==='discard')){runPanel=true;render();$('sheet').scrollTop=0;}}
+  else if(a==='rclose'){runPanel=false;render();}
+  else if(a==='decree'){useDecree(t.dataset.id);commit();}
+  else if(a==='rbuy'){if(isRun()&&G.phase==='court'){buyOffer(+t.dataset.k);commit();}}
+  else if(a==='rsell'){if(isRun()&&G.phase==='court'){sellRegalia(t.dataset.id);commit();}}
+  else if(a==='rreroll'){const r=isRun()&&G.phase==='court'&&G.run;if(r&&r.gold>=r.rerollCost){r.gold-=r.rerollCost;r.rerollCost++;runMsg='';rollCourt();commit();}}
+  else if(a==='again'){runPanel=false;newGame(G.cfg);commit();}
   else if(a==='palette'){setPalette(t.dataset.p);render();}
+  else if(a==='mview'){menuView=t.dataset.v;confirmClear=false;restoreOpen=false;backupCode=null;recMsg='';render();$('sheet').scrollTop=0;}
   else if(a==='clearAsk'){confirmClear=true;render();}
   else if(a==='clearNo'){confirmClear=false;render();}
   else if(a==='clearYes'){saveRec({players:{},games:[]});confirmClear=false;render();}
@@ -979,7 +1373,7 @@ document.addEventListener('click',e=>{
   }
   else if(a==='restartAsk'){confirmReset=true;render();}
   else if(a==='restartNo'){confirmReset=false;render();}
-  else if(a==='restartYes'){clearTimeout(timer);timer=null;confirmReset=false;newGame(G.cfg);commit();}
+  else if(a==='restartYes'){clearTimeout(timer);timer=null;confirmReset=false;runPanel=false;newGame(G.cfg);commit();}
   else if(a==='menu'){openMenu();}
   else if(a==='close'){menuOpen=false;render();}
   else if(a==='mode'){const m=t.dataset.m;if(m!==pending.mode){pending.mode=m;pending.count=2;}render();}
@@ -1003,7 +1397,7 @@ if(!G||!G.players)newGame({mode:'ai',count:2,names:[]});
 if(!G.mode)G.mode='ai';
 if(!G.cfg)G.cfg={mode:G.mode,count:G.mode==='pp'?N():N()-1,names:[]};
 G.reveal=false;
-if(G.phase==='gameEnd')recordGame();
+if(G.phase==='gameEnd')(isRun()?recordRun:recordGame)();
 commit();
 if(ONLINE){
   // An invite link (…#join-ABCDE) opens the menu ready to join; otherwise pick up an online game left open.
