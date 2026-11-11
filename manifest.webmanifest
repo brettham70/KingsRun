@@ -1,14 +1,14 @@
 {
-  "name": "Kingsrun",
+  "name": "Kingsrun · Motion edition",
   "short_name": "Kingsrun",
-  "description": "A five-suit rummy card game with a rotating wild card.",
+  "description": "A five-suit rummy card game with a rotating wild card, on a 3D card table.",
   "id": "./",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "orientation": "portrait",
-  "background_color": "#12161B",
-  "theme_color": "#6B2D7F",
+  "orientation": "any",
+  "background_color": "#000000",
+  "theme_color": "#000000",
   "categories": [
     "games"
   ],

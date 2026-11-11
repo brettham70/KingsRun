@@ -4,10 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Kingsrun</title>
-<meta name="description" content="A five-suit rummy card game with a rotating wild card. Play the computer or pass and play.">
-<meta name="theme-color" content="#D9DEE0" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#12161B" media="(prefers-color-scheme: dark)">
-<meta name="color-scheme" content="light dark">
+<meta name="description" content="Kingsrun, Motion edition: a five-suit rummy card game with a rotating wild card, on a 3D card table.">
+<meta name="theme-color" content="#000000">
+<meta name="color-scheme" content="dark">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -36,40 +35,21 @@ img{max-width:100%}
 [hidden]{display:none!important}
 /* Layout: one-screen card table — opponents on top, piles in the middle, your hand grouped into melds below, action bar last */
 :root{
-  --bg:#D9DEE0; --bg2:#C9D1D4; --panel:#EEF1F2; --fg:#1C2329; --muted:#56636B; --line:#B5BFC4;
-  --accent:#6B2D7F; --accent-fg:#FFFFFF; --tray:#E3E8EA; --good:#23784A; --bad:#B4233A;
-  --face:#FBF8F1; --edge:#CFC8B8; --shadow:#1C232955; --wild:#7A3592; --gold:#8A6510; --coin1:#E9C766; --coin2:#B8891C;
-  --su0:#A8740F; --su1:#C2283A; --su2:#23784A; --su3:#1F232B; --su4:#2457B8;
-  --back1:#5A2569; --back2:#6E3480; --joker1:#4A1E58; --joker2:#7A3592;
+  color-scheme:dark;
+  --bg:#000000; --bg2:#0B0B0C; --panel:#111113; --fg:#F5F5F7; --muted:#98989F; --line:#2C2C30;
+  --accent:#BF5AF2; --accent-fg:#000000; --tray:#18181B; --good:#30D158; --bad:#FF453A;
+  --face:#3A3A3F; --edge:#3A3A3F; --shadow:#000000CC; --wild:#C7C7CC; --gold:#FFD60A; --coin1:#FFE27A; --coin2:#C9A227;
+  --su0:#FFD60A; --su1:#FF453A; --su2:#30D158; --su3:#E5E5EA; --su4:#4DA3FF;
+  --back1:#2A1040; --back2:#3D1A5C; --joker1:#5E5CE6; --joker2:#BF5AF2;
   --display:"Young Serif", Georgia, "Times New Roman", serif;
   --body:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
   --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
 }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#12161B; --bg2:#1A2128; --panel:#1F262E; --fg:#E8ECEE; --muted:#97A4AC; --line:#33404A;
-  --accent:#C08BD6; --accent-fg:#1A0F20; --tray:#182027; --good:#5BC28A; --bad:#F0707F;
-  --face:#EFEADF; --edge:#8C8574; --shadow:#000000AA; --gold:#E2C064; color-scheme:dark;
-}}
-:root[data-theme="dark"]{
-  --bg:#12161B; --bg2:#1A2128; --panel:#1F262E; --fg:#E8ECEE; --muted:#97A4AC; --line:#33404A;
-  --accent:#C08BD6; --accent-fg:#1A0F20; --tray:#182027; --good:#5BC28A; --bad:#F0707F;
-  --face:#EFEADF; --edge:#8C8574; --shadow:#000000AA; --gold:#E2C064; color-scheme:dark;
-}
-/* Colour themes: each sets table, accent, wild marker, card backs and Jokers, with its own dark-mode values */
-:root[data-palette="felt"]{--bg2:#C3D3C9;--accent:#8A6510;--accent-fg:#FFFFFF;--wild:#7A5A0E;--back1:#174F37;--back2:#1F6446;--joker1:#123D2B;--joker2:#1E6B49}
-:root[data-palette="ocean"]{--bg2:#C5D1DF;--accent:#1F57A6;--accent-fg:#FFFFFF;--wild:#1F57A6;--back1:#1A3C6B;--back2:#244F88;--joker1:#152F55;--joker2:#2A5E9E}
-:root[data-palette="ember"]{--bg2:#E0CFCA;--accent:#A3302A;--accent-fg:#FFFFFF;--wild:#9A2D27;--back1:#7A221F;--back2:#952D28;--joker1:#5E1917;--joker2:#A3362F}
-:root[data-palette="slate"]{--bg2:#CDD2D6;--accent:#2C343C;--accent-fg:#FFFFFF;--wild:#3A434C;--back1:#2A3037;--back2:#3A424B;--joker1:#1F2429;--joker2:#4A545E}
-@media (prefers-color-scheme: dark){
-  :root[data-palette="felt"]:not([data-theme="light"]){--bg2:#13241C;--accent:#E2C064;--accent-fg:#1E1606;--wild:#7A5A0E;--back1:#174F37;--back2:#1F6446;--joker1:#123D2B;--joker2:#1E6B49}
-  :root[data-palette="ocean"]:not([data-theme="light"]){--bg2:#121C29;--accent:#8DB6F0;--accent-fg:#0B1626;--wild:#1F57A6;--back1:#1A3C6B;--back2:#244F88;--joker1:#152F55;--joker2:#2A5E9E}
-  :root[data-palette="ember"]:not([data-theme="light"]){--bg2:#261614;--accent:#F0998A;--accent-fg:#2A0D0B;--wild:#9A2D27;--back1:#7A221F;--back2:#952D28;--joker1:#5E1917;--joker2:#A3362F}
-  :root[data-palette="slate"]:not([data-theme="light"]){--bg2:#1A1E22;--accent:#DDE3E7;--accent-fg:#14181C;--wild:#4A545E;--back1:#2A3037;--back2:#3A424B;--joker1:#1F2429;--joker2:#4A545E}
-}
-:root[data-palette="felt"][data-theme="dark"]{--bg2:#13241C;--accent:#E2C064;--accent-fg:#1E1606}
-:root[data-palette="ocean"][data-theme="dark"]{--bg2:#121C29;--accent:#8DB6F0;--accent-fg:#0B1626}
-:root[data-palette="ember"][data-theme="dark"]{--bg2:#261614;--accent:#F0998A;--accent-fg:#2A0D0B}
-:root[data-palette="slate"][data-theme="dark"]{--bg2:#1A1E22;--accent:#DDE3E7;--accent-fg:#14181C}
+/* Colour themes: each sets the glow, the buttons and the card backs */
+:root[data-palette="felt"]{--accent:#30D158;--back1:#0E3323;--back2:#15482F}
+:root[data-palette="ocean"]{--accent:#4DA3FF;--back1:#0F2747;--back2:#17386A}
+:root[data-palette="ember"]{--accent:#FF6B4A;--back1:#4A1210;--back2:#6A1A17}
+:root[data-palette="slate"]{--accent:#F5F5F7;--back1:#1C1C1E;--back2:#2C2C2E}
 html,body{height:100%}
 body{background:var(--bg);color:var(--fg);font-family:var(--body);overflow:hidden}
 *{box-sizing:border-box}
@@ -300,6 +280,116 @@ table.sc{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;f
 .runend .big{font-family:var(--display);font-size:clamp(28px,8vw,40px);line-height:1.1;margin:0}
 .runintro{display:flex;flex-direction:column;gap:8px;padding:12px;border-radius:12px;background:var(--tray);border:1px solid var(--line);font-size:13.5px}
 .runintro p{margin:0}
+
+/* ===== Motion edition =====
+   A black stage, dark cards with real 3D thickness, mouse-driven tilt and a card carousel on the title screen.
+   Everything below restyles the game; the rules and the layout logic above are unchanged. */
+html,body{background:#000}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;
+  background:radial-gradient(60% 42% at 50% 34%,color-mix(in srgb,var(--accent) 15%,transparent),transparent 72%)}
+.app{max-width:1180px;position:relative;z-index:1}
+.brand{background:linear-gradient(180deg,#FFFFFF,#9A9A9E);-webkit-background-clip:text;background-clip:text;color:transparent}
+.pill,.iconbtn,.opp,.runbar{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.pill.wildp{background:linear-gradient(180deg,#FFFFFF,#A9A9AE);color:#000}
+.opp.active{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent),0 0 26px -8px var(--accent)}
+.badge,.tagp{color:#000}
+.table{background:radial-gradient(120% 150% at 12% 0%,rgba(255,255,255,.08),rgba(255,255,255,.02) 62%);border:1px solid rgba(255,255,255,.1);box-shadow:inset 0 1px 1px rgba(255,255,255,.08)}
+.grp{background:rgba(255,255,255,.035);border-color:rgba(255,255,255,.1)}
+.grp.meld{border-color:color-mix(in srgb,var(--good) 40%,transparent)}
+.btn{border-radius:999px;box-shadow:inset 0 1px 1px rgba(255,255,255,.35),0 10px 34px -12px var(--accent)}
+.btn.ghost{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);box-shadow:none}
+.btn:disabled{opacity:1;background:rgba(255,255,255,.06);color:var(--muted);box-shadow:none}
+.offer .btn,.sheet .btn.wide{border-radius:12px}
+.overlay{background:rgba(0,0,0,.62);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.sheet{border:1px solid rgba(255,255,255,.12);border-bottom:0;box-shadow:0 -24px 90px -30px #000}
+@media (min-width:760px){
+  .overlay{align-items:center}
+  .sheet{border-radius:22px;border-bottom:1px solid rgba(255,255,255,.12);max-height:92%}
+}
+.keys{display:none;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:center;margin:-2px 0 0}
+.keys b{color:var(--fg);font-weight:500;border:1px solid rgba(255,255,255,.18);border-radius:5px;padding:1px 5px;margin-right:3px}
+@media (hover:hover) and (min-width:820px){.keys{display:block}}
+
+/* Cards: dark metal faces lit in the suit's colour */
+.card{background:radial-gradient(130% 85% at 100% 100%,color-mix(in srgb,currentColor 24%,transparent),transparent 62%),linear-gradient(155deg,#26262A 0%,#131315 46%,#09090A 100%);
+  border:1px solid rgba(255,255,255,.16);box-shadow:inset 0 1px 1px rgba(255,255,255,.16),0 4px 10px -4px #000}
+.card .big{opacity:.9;filter:drop-shadow(0 0 calc(var(--cw)*.12) color-mix(in srgb,currentColor 55%,transparent))}
+.card.wild{border:1.5px solid rgba(255,255,255,.8)}
+.card .tag{background:linear-gradient(180deg,#FFFFFF,#9C9CA1);color:#000}
+.card.joker{background:linear-gradient(135deg,#5E5CE6,#BF5AF2,#FF375F,#FF9F0A,#5E5CE6);background-size:320% 320%;color:#FFFFFF}
+@media (prefers-reduced-motion:no-preference){.card.joker{animation:irid 9s ease-in-out infinite}}
+@keyframes irid{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.card.joker .tag{background:rgba(0,0,0,.55);color:#FFFFFF}
+.card.joker.deadj{background:linear-gradient(160deg,#55505A,#2F2C33);animation:none}
+.card.back{background:repeating-linear-gradient(45deg,var(--back1) 0 6px,var(--back2) 6px 12px);border:1px solid rgba(255,255,255,.2)}
+.card.back::before{content:"";position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 48'%3E%3Cpath fill='white' fill-opacity='.92' d='M4 14l14 12L32 4l14 22 14-12-6 28H10z'/%3E%3C/svg%3E") center/40% no-repeat;filter:drop-shadow(0 0 calc(var(--cw)*.14) var(--accent))}
+.card.back::after{content:"";position:absolute;inset:calc(var(--cw)*.08);border:1px solid rgba(255,255,255,.24);border-radius:calc(var(--cw)*.08)}
+.card.back .cnt{color:#FFFFFF;z-index:1;text-shadow:0 1px 3px #000}
+.mini .card.back::before,.fan .card::before{display:none}
+.sw .chip{border:1px solid rgba(255,255,255,.3)}
+button.card.fresh:not(.sel){box-shadow:0 0 0 2px var(--good),0 0 22px -4px var(--good)}
+.card.peek{box-shadow:0 0 0 2px var(--gold),0 0 22px -4px var(--gold)}
+
+/* Hand: cards lift and lean toward the pointer */
+#groups button.card{transform:perspective(700px) translateY(var(--lift,0px)) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .18s ease-out,box-shadow .18s}
+#groups button.card.sel{--lift:-10px;z-index:4;box-shadow:0 0 0 2px var(--accent),0 0 30px -4px var(--accent),0 14px 20px -10px #000}
+@media (hover:hover){
+  #groups button.card:not([tabindex="-1"]):hover{--lift:-7px;z-index:5}
+  #groups button.card.sel:hover{--lift:-13px}
+}
+
+/* Deck and discard: stacked slabs give each pile real thickness; the whole pile leans with the mouse */
+.pile{perspective:720px}
+.p3d{display:block;position:relative;width:var(--cw);height:calc(var(--cw)*1.4);transform-style:preserve-3d;
+  transform:rotateX(calc(var(--my,0)*-13deg)) rotateY(calc(var(--mx,0)*16deg)) rotateZ(-3deg)}
+.p3d>i{position:absolute;inset:0;border-radius:calc(var(--cw)*.13);background:#808080;border:1px solid #6E6E73;transform:translateZ(calc(var(--n)*-2px))}
+.p3d>i:nth-child(1){--n:1}.p3d>i:nth-child(2){--n:2}.p3d>i:nth-child(3){--n:3}.p3d>i:nth-child(4){--n:4}.p3d>i:nth-child(5){--n:5;background:#4A4A4E}
+.p3d>span{display:block;position:relative;transform:translateZ(0)}
+.p3d::before{content:"";position:absolute;inset:8% -6% -12% 8%;border-radius:22%;background:var(--accent);opacity:.3;filter:blur(22px);transform:translateZ(-26px)}
+.p3d .card,.p3d .empty{box-shadow:inset 0 1px 1px rgba(255,255,255,.16)}
+.p3d .empty{border-color:rgba(255,255,255,.22)}
+.p3d.flat>i{display:none}
+.pile.can .card{animation:none!important;box-shadow:0 0 0 2px var(--accent),0 0 30px -2px var(--accent)}
+@keyframes floaty{50%{translate:0 -5px}}
+@keyframes sway{0%,100%{transform:rotateX(7deg) rotateY(-11deg) rotateZ(-3deg)}50%{transform:rotateX(-4deg) rotateY(11deg) rotateZ(-3deg)}}
+@keyframes sheen{from{background-position:130% 0}to{background-position:-130% 0}}
+@media (prefers-reduced-motion:no-preference){
+  .pile.can .p3d{animation:floaty 1.8s ease-in-out infinite}
+  .p3d .card:not(.back)::after,.tcard .card:not(.back)::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(115deg,transparent 36%,rgba(255,255,255,.17) 48%,transparent 60%) 0 0/260% 100% no-repeat;animation:sheen 5.5s linear infinite}
+}
+@media (prefers-reduced-motion:no-preference) and (hover:none){
+  .p3d{animation:sway 7s ease-in-out infinite}
+  .pile.can .p3d{animation:sway 7s ease-in-out infinite,floaty 1.8s ease-in-out infinite}
+}
+
+/* Title screen: a vertical 3D carousel of the five Kings and a Joker */
+.title{position:fixed;inset:0;z-index:40;background:#000;color:#FFFFFF;overflow:hidden;touch-action:none;-webkit-user-select:none;user-select:none}
+.title .cam{position:absolute;inset:0 0 30% 0;display:flex;align-items:center;justify-content:center;perspective:1350px;pointer-events:none}
+.title .rig{position:absolute;width:var(--cw);height:calc(var(--cw)*1.4);transform-style:preserve-3d}
+.tcard{position:absolute;inset:0;transform-style:preserve-3d;will-change:transform}
+/* The slabs are rims, not filled faces: only their edges are ever seen, and a filled slab can flash over the card face mid-spin. */
+.tcard>i{position:absolute;inset:0;border-radius:calc(var(--cw)*.13);border:3px solid #808080}
+.tcard>.card{position:absolute;inset:0;-webkit-backface-visibility:hidden;backface-visibility:hidden}
+.title .scrim{position:absolute;inset:0;pointer-events:none;background:linear-gradient(transparent 46%,#000 78%)}
+.ttop{position:absolute;left:0;right:0;top:0;display:flex;justify-content:space-between;gap:12px;padding:calc(16px + env(safe-area-inset-top,0px)) 20px 0;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#8E8E93}
+.ttext{position:absolute;left:0;right:0;bottom:0;padding:0 22px calc(26px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px}
+.ttext .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8E8E93;margin:0}
+.ttext h1{font-family:var(--display);font-weight:400;font-size:clamp(46px,13vw,66px);line-height:.95;margin:0;
+  background:linear-gradient(180deg,#FFFFFF 30%,#8E8E93);-webkit-background-clip:text;background-clip:text;color:transparent;padding-bottom:.08em}
+.ttext .lead{margin:0;color:#B9B9BE;font-size:15px;line-height:1.45;max-width:36ch}
+.tbtns{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:6px;width:100%;max-width:380px}
+.tbtns .btn{flex:1 1 150px;white-space:nowrap}
+@media (min-width:760px){
+  .title .cam{inset:0 0 0 min(18vw,280px)}
+  .title .scrim{background:linear-gradient(90deg,#000 4%,transparent 52%),linear-gradient(transparent 62%,#000)}
+  .ttop{padding-inline:clamp(2.8rem,5vw,6rem)}
+  .ttext{right:auto;align-items:flex-start;text-align:left;max-width:560px;padding-left:clamp(2.8rem,5vw,6rem);padding-bottom:clamp(36px,7vh,76px)}
+  .ttext h1{font-size:clamp(68px,7.4vw,112px)}
+  .tbtns{justify-content:flex-start}
+}
+.keys span{margin:0 9px;white-space:nowrap}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 
@@ -312,9 +402,9 @@ table.sc{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;f
   <section class="opps" id="opps"></section>
   <button class="runbar" id="runbar" data-act="rpanel" hidden></button>
   <section class="table">
-    <div class="piles">
-      <button class="pile" id="deckBtn" data-act="deck"><span id="deckCard"></span><span class="lbl">Deck</span></button>
-      <button class="pile" id="pileBtn" data-act="pile"><span id="pileCard"></span><span class="lbl">Discard</span></button>
+    <div class="piles" id="piles">
+      <button class="pile" id="deckBtn" data-act="deck"><span class="p3d"><i></i><i></i><i></i><i></i><i></i><span id="deckCard"></span></span><span class="lbl">Deck</span></button>
+      <button class="pile" id="pileBtn" data-act="pile"><span class="p3d" id="pile3d"><i></i><i></i><span id="pileCard"></span></span><span class="lbl">Discard</span></button>
     </div>
     <div class="info">
       <div class="eyebrow" id="roundPill"></div>
@@ -330,9 +420,21 @@ table.sc{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;f
     <button class="btn ghost" id="hintBtn" data-act="hint">Hint</button>
     <button class="btn" id="discardBtn" data-act="discard">Discard</button>
   </div>
+  <p class="keys" aria-hidden="true"><span><b>D</b>Draw</span><span><b>T</b>Take discard</span><span><b>← →</b>Pick a card</span><span><b>Enter</b>Discard</span><span><b>H</b>Hint</span><span><b>M</b>Menu</span></p>
 </div>
 <div class="overlay" id="overlay" hidden><div class="sheet" id="sheet"></div></div>
 <div class="cover" id="cover" hidden><div class="cinner" id="coverBody"></div></div>
+<div class="title" id="title" hidden>
+  <div class="cam"><div class="rig" id="trig"></div></div>
+  <div class="scrim"></div>
+  <div class="ttop"><span>Motion edition</span><span>Drag or scroll to spin</span></div>
+  <div class="ttext">
+    <p class="eyebrow">Five suits · 11 rounds · rising wilds</p>
+    <h1>Kingsrun</h1>
+    <p class="lead">Group your hand into books and runs before anyone else does. The wild card climbs from 3s all the way to Kings.</p>
+    <div class="tbtns"><button class="btn" id="tplay" data-act="tplay">Play</button><button class="btn ghost" data-act="tnew">New game</button></div>
+  </div>
+</div>
 
 <script>
 /*ENGINE-START*/
@@ -456,11 +558,11 @@ function makeDeck(){
 const KEY='kingsrun-v1';
 const NAMES=['Mara','Theo','Ines'];
 const PALETTES=[
-  {key:'plum',name:'Plum',a:'#5A2569',b:'#6E3480'},
-  {key:'felt',name:'Felt',a:'#174F37',b:'#1F6446'},
-  {key:'ocean',name:'Ocean',a:'#1A3C6B',b:'#244F88'},
-  {key:'ember',name:'Ember',a:'#7A221F',b:'#952D28'},
-  {key:'slate',name:'Slate',a:'#2A3037',b:'#3A424B'}];
+  {key:'plum',name:'Plum',a:'#2A1040',b:'#3D1A5C'},
+  {key:'felt',name:'Felt',a:'#0E3323',b:'#15482F'},
+  {key:'ocean',name:'Ocean',a:'#0F2747',b:'#17386A'},
+  {key:'ember',name:'Ember',a:'#4A1210',b:'#6A1A17'},
+  {key:'slate',name:'Slate',a:'#1C1C1E',b:'#2C2C2E'}];
 const PAL_KEY='kingsrun-palette';
 let palette='plum';
 function setPalette(k){
@@ -968,6 +1070,8 @@ function render(){
   }
   $('groups').innerHTML=html;
   fitHand();
+  $('pile3d').classList.toggle('flat',!top);
+  motionFx(v);
 
   const d=$('discardBtn');
   const selCard=me.hand.find(c=>c.id===sel);
@@ -1052,7 +1156,7 @@ function renderSheet(){
         :`<button class="btn ghost wide" data-act="clearAsk">Clear records</button>`):''}`;
     }else if(menuView==='colour'){
       html=head('Colour',true)+`
-      <p class="note">Changes the table, card backs, Jokers and buttons. Light and dark follow your phone.</p>
+      <p class="note">Changes the glow on the table, the card backs and the buttons.</p>
       <div class="swatches">${PALETTES.map(p=>`<button class="sw" data-act="palette" data-p="${p.key}" aria-pressed="${p.key===palette}"><span class="chip" style="background:repeating-linear-gradient(45deg,${p.a} 0 4px,${p.b} 4px 8px)"></span>${p.name}</button>`).join('')}</div>`;
     }else if(menuView==='rules'){
       html=head('How to play',true)+`
@@ -1094,6 +1198,7 @@ function renderSheet(){
         <button class="nav" data-act="mview" data-v="scores"><b>Scores &amp; records</b><span>${G.round>0?totals:'Win–loss record and recent games'}</span><i aria-hidden="true">›</i></button>
         <button class="nav" data-act="mview" data-v="colour"><b>Colour</b><span>${palName}</span><i aria-hidden="true">›</i></button>
         <button class="nav" data-act="mview" data-v="rules"><b>How to play</b><span>Rules and scoring</span><i aria-hidden="true">›</i></button>
+        <button class="nav" data-act="title"><b>Title screen</b><span>The card carousel</span><i aria-hidden="true">›</i></button>
       </div>`;
     }
     sh.innerHTML=html;
@@ -1292,6 +1397,9 @@ function copyInvite(){
 document.addEventListener('click',e=>{
   const t=e.target.closest('[data-act]');if(!t||!G)return;
   const a=t.dataset.act,me=G.players[viewer()],myTurn=canAct();
+  if(a==='tplay'){showTitle(false);render();return;}
+  if(a==='tnew'){showTitle(false);openMenu();return;}
+  if(a==='title'){menuOpen=false;render();showTitle(true);return;}
   // Online moves go to the game server instead of changing the board here.
   if(onl()){
     if(a==='deck'||a==='pile'){if(myTurn&&G.phase==='draw'&&(a==='deck'||G.discard.length))onlineAct('draw',{from:a});return;}
@@ -1392,6 +1500,182 @@ document.addEventListener('input',e=>{
   if(on==='code'){onlineForm.code=e.target.value.toUpperCase();}
 });
 
+/* ---------- Motion edition ----------
+   The title carousel, the mouse-driven tilt on the piles and hand, the deal and flip animations and the keyboard
+   shortcuts. None of this touches the rules: it only reads the game state and clicks the same buttons a player would. */
+const RM=matchMedia('(prefers-reduced-motion: reduce)');
+const smooth=t=>t*t*(3-2*t);
+
+// Title screen: six cards on a vertical cylinder. The front card dwells at the centre, then the wheel steps on.
+const T={open:false,raf:0,p:0,vel:0,mx:0,my:0,tx:0,ty:0,cw:200,ch:280,els:[],drag:null};
+const TITLE_CARDS=[{s:0,r:13},{s:1,r:13},{s:2,r:13},{s:-1,r:0},{s:3,r:13},{s:4,r:13}];
+const SLABS=[-1.47,-.73,0,.73,1.47];
+function titleBuild(){
+  const rig=$('trig');
+  rig.innerHTML=TITLE_CARDS.map(c=>`<div class="tcard"><div class="card back" style="transform:translateZ(${SLABS[0]}px) rotateX(180deg)"></div>${
+    SLABS.slice(1,4).map(z=>`<i style="transform:translateZ(${z}px)"></i>`).join('')}${
+    cardHTML(c,13,'div',`style="transform:translateZ(${SLABS[4]}px)"`)}</div>`).join('');
+  T.els=[...rig.children];
+}
+function titleMetrics(){
+  const w=innerWidth,h=innerHeight;
+  let cw=Math.min(340,Math.max(170,h*.3))/1.4;
+  cw=Math.round(Math.min(cw,w*.42));
+  T.cw=cw;T.ch=Math.round(cw*1.4);
+  $('trig').style.setProperty('--cw',cw+'px');
+}
+function titleFrame(){
+  T.mx+=(T.tx-T.mx)*.08;T.my+=(T.ty-T.my)*.08;
+  const n=T.els.length,h=innerHeight,cardH=T.ch,gap=36,peek=-55,D=1350;
+  const round=Math.round(T.p),diff=T.p-round;
+  const active=round+Math.sign(diff)*Math.pow(Math.abs(diff)*2,4.2)/2;
+  for(let i=0;i<n;i++){
+    const el=T.els[i];
+    let off=i-active;const half=n/2;
+    off=((off+half)%n+n)%n-half;
+    const a=Math.abs(off),sign=Math.sign(off);
+    if(a>3){el.style.visibility='hidden';continue;}
+    el.style.visibility='visible';
+    let y,z,rot;
+    if(a<=1){
+      const e=smooth(a);
+      y=e*(cardH+gap);z=400+e*(220-400);rot=e*132;
+    }else if(a<=2){
+      const e=smooth(a-1),zEnd=-60;
+      const yEnd=(h/2-peek)/(D/(D-zEnd))-cardH/2,y0=cardH+gap;
+      y=y0+e*(yEnd-y0);z=220+e*(zEnd-220);rot=132+e*(175-132);
+    }else{
+      const e=smooth(Math.min(a-2,1)),z0=-60,z1=-250;
+      const y0=(h/2-peek)/(D/(D-z0))-cardH/2,y1=(h/2+100)/(D/(D-z1))+cardH/2;
+      y=y0+e*(y1-y0);z=z0+e*(z1-z0);rot=175+e*(195-175);
+    }
+    const centre=Math.max(0,1-a);
+    const rx=-sign*rot-T.my*12*centre,ry=T.mx*15*centre;
+    el.style.zIndex=Math.round(z);
+    el.style.transform=`translateY(${(-sign*y).toFixed(2)}px) translateZ(${z.toFixed(2)}px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) rotateZ(-3deg)`;
+  }
+}
+function titleTick(){
+  T.raf=0;
+  if(!T.open||document.hidden)return;
+  T.vel*=.93;T.p+=.0016+T.vel;
+  titleFrame();
+  T.raf=requestAnimationFrame(titleTick);
+}
+function titleRun(){
+  if(!T.open)return;
+  if(RM.matches){titleFrame();return;}
+  if(!T.raf)T.raf=requestAnimationFrame(titleTick);
+}
+function showTitle(on){
+  T.open=on;$('title').hidden=!on;
+  if(!on){FX.deal=null;return;}
+  if(!T.els.length)titleBuild();
+  titleMetrics();
+  const live=G.round>0&&(G.phase==='draw'||G.phase==='discard'||G.phase==='roundEnd'||G.phase==='court');
+  $('tplay').textContent=live?`Continue · round ${G.round}`:'Play';
+  titleRun();
+}
+document.addEventListener('visibilitychange',titleRun);
+addEventListener('resize',()=>{if(T.open){titleMetrics();if(RM.matches)titleFrame();}});
+$('title').addEventListener('wheel',e=>{T.vel=Math.max(-.03,Math.min(.03,T.vel-e.deltaY*.00004));},{passive:true});
+$('title').addEventListener('pointerdown',e=>{if(!e.target.closest('button'))T.drag={y:e.clientY};});
+addEventListener('pointerup',()=>{T.drag=null;});
+addEventListener('pointercancel',()=>{T.drag=null;});
+
+// One pointer listener feeds both the carousel and the piles on the table. The tilt eases toward the pointer and
+// the loop stops as soon as it has caught up, so nothing runs while the mouse is still.
+const TILT={x:0,y:0,tx:0,ty:0,raf:0};
+function tiltTick(){
+  TILT.raf=0;
+  TILT.x+=(TILT.tx-TILT.x)*.08;TILT.y+=(TILT.ty-TILT.y)*.08;
+  const el=$('piles');
+  el.style.setProperty('--mx',TILT.x.toFixed(3));el.style.setProperty('--my',TILT.y.toFixed(3));
+  if(Math.abs(TILT.tx-TILT.x)+Math.abs(TILT.ty-TILT.y)>.002)TILT.raf=requestAnimationFrame(tiltTick);
+}
+function tiltTo(x,y){
+  TILT.tx=x;TILT.ty=y;
+  if(!TILT.raf&&!RM.matches&&!T.open)TILT.raf=requestAnimationFrame(tiltTick);
+}
+addEventListener('pointermove',e=>{
+  const x=Math.max(-1,Math.min(1,(e.clientX-innerWidth/2)/(innerWidth/2)));
+  const y=Math.max(-1,Math.min(1,(e.clientY-innerHeight/2)/(innerHeight/2)));
+  if(T.open){
+    T.tx=x;T.ty=y;
+    if(T.drag){const d=(e.clientY-T.drag.y)/(T.ch*1.7);T.drag.y=e.clientY;T.p+=d;T.vel=d*.35;}
+  }else if(e.pointerType==='mouse')tiltTo(x,y);
+});
+document.addEventListener('mouseleave',()=>{T.tx=0;T.ty=0;tiltTo(0,0);});
+
+// A card in your hand leans toward the mouse while it's under the pointer.
+let hov=null;
+function unhover(){if(hov){hov.style.removeProperty('--rx');hov.style.removeProperty('--ry');hov=null;}}
+$('groups').addEventListener('pointermove',e=>{
+  if(e.pointerType!=='mouse'||RM.matches)return;
+  const c=e.target.closest('button.card');
+  if(c!==hov)unhover();
+  if(!c||c.tabIndex<0)return;
+  hov=c;
+  const r=c.getBoundingClientRect();
+  const px=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width)),py=Math.max(0,Math.min(1,(e.clientY-r.top)/r.height));
+  c.style.setProperty('--ry',((px-.5)*20).toFixed(1)+'deg');
+  c.style.setProperty('--rx',((.5-py)*16).toFixed(1)+'deg');
+});
+$('groups').addEventListener('pointerleave',unhover);
+
+// Deal, draw and discard animations. Each one is keyed to the state that caused it, so re-drawing the screen
+// for any other reason doesn't replay it.
+const FX={deal:null,fresh:null,top:undefined};
+const EASE='cubic-bezier(.2,.8,.2,1)';
+function motionFx(v){
+  const playing=G.round>0&&(G.phase==='draw'||G.phase==='discard');
+  const top=G.discard[G.discard.length-1],tid=top?top.id:null;
+  const can=!RM.matches&&!T.open&&typeof Element.prototype.animate==='function';
+  const dk=`${G.round}:${v}:${pp()?G.reveal:''}`;
+  if(playing&&(!pp()||G.reveal)&&FX.deal!==dk){
+    FX.deal=dk;
+    if(can)[...$('groups').querySelectorAll('.card')].forEach((el,i)=>el.animate(
+      [{opacity:0,transform:'perspective(700px) translateY(-70px) rotateX(75deg) scale(.8)'},{opacity:1,transform:'perspective(700px) translateY(0) rotateX(0deg) scale(1)'}],
+      {duration:420,delay:i*28,easing:EASE,fill:'backwards'}));
+  }else if(playing&&G.fresh!=null&&FX.fresh!==G.fresh&&can){
+    const el=$('groups').querySelector(`[data-id="${G.fresh}"]`);
+    if(el)el.animate([{opacity:0,transform:'perspective(700px) translateY(-90px) rotateY(-80deg) scale(1.15)'},{opacity:1,transform:'perspective(700px) translateY(0) rotateY(0deg) scale(1)'}],{duration:380,easing:EASE});
+  }
+  FX.fresh=G.fresh;
+  if(FX.top!==undefined&&FX.top!==tid&&tid!=null&&can&&playing){
+    const el=$('pileCard').firstElementChild;
+    if(el)el.animate([{opacity:.3,transform:'translateY(46px) rotateX(-70deg) scale(1.1)'},{opacity:1,transform:'none'}],{duration:340,easing:EASE});
+  }
+  FX.top=tid;
+}
+
+// Keyboard: D draws, T takes the discard, arrows pick a card, Enter discards, H hints, M opens the menu.
+document.addEventListener('keydown',e=>{
+  if(!G||e.metaKey||e.ctrlKey||e.altKey)return;
+  const tag=e.target.tagName||'';
+  if(tag==='INPUT'||tag==='TEXTAREA')return;
+  const k=e.key.toLowerCase(),onBtn=tag==='BUTTON';
+  if(T.open){if((k==='enter'||k===' ')&&!onBtn){e.preventDefault();showTitle(false);render();}return;}
+  if(k==='escape'){
+    if(menuOpen){menuOpen=false;render();}else if(runPanel){runPanel=false;render();}
+    return;
+  }
+  if(!$('overlay').hidden||!$('cover').hidden)return;
+  if(k==='m')openMenu();
+  else if(k==='d')$('deckBtn').click();
+  else if(k==='t'||k==='p')$('pileBtn').click();
+  else if(k==='h')$('hintBtn').click();
+  else if((k==='enter'||k===' ')&&!onBtn){e.preventDefault();$('discardBtn').click();}
+  else if(k==='arrowleft'||k==='arrowright'){
+    if(!(canAct()&&G.phase==='discard'))return;
+    const ids=[...document.querySelectorAll('#groups button.card')].map(b=>+b.dataset.id);
+    if(!ids.length)return;
+    const step=k==='arrowright'?1:-1,i=ids.indexOf(sel);
+    sel=ids[i<0?(step>0?0:ids.length-1):(i+step+ids.length)%ids.length];
+    e.preventDefault();render();
+  }
+});
+
 G=load();
 if(!G||!G.players)newGame({mode:'ai',count:2,names:[]});
 if(!G.mode)G.mode='ai';
@@ -1405,6 +1689,8 @@ if(ONLINE){
   if(m){onlineForm.code=m[1].toUpperCase();openMenu();setTimeout(()=>{const f=$(onlineForm.name?'ocode':'oname');if(f)f.focus();},50);}
   else{const s=savedOnline();if(s)resumeOnline(s);}
 }
+// Open on the title screen, unless an invite link brought the player straight to the join form.
+if(!/^#join-/.test(location.hash||''))showTitle(true);
 </script>
 
 <script>
