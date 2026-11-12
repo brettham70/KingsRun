@@ -418,6 +418,37 @@ button.card.fresh:not(.sel){box-shadow:0 0 0 2px var(--good),0 0 22px -4px var(-
   .actions[data-ph=wait] #discardBtn{background:none;box-shadow:none;border:1px dashed rgba(255,255,255,.14)}
 }
 @media not ((hover:hover) and (min-width:900px) and (min-height:620px)){.dsk{display:none}}
+
+.opp.out{border-color:var(--good);box-shadow:0 0 0 1px var(--good),0 0 22px -8px var(--good)}
+.opp .badge{background:var(--accent)}.opp.out .badge{background:var(--good);color:#000}
+.board{display:none}
+@media (hover:hover) and (min-width:900px) and (min-height:620px){
+  .app{max-width:1420px;display:grid;grid-template-columns:200px minmax(0,1fr);column-gap:18px;row-gap:12px;
+    grid-template-rows:auto auto minmax(clamp(250px,36vh,420px),1fr) minmax(0,auto) auto auto}
+  .app>.top,.app>.keys{grid-column:1/-1}
+  .app>.top{grid-row:1}
+  .opps{display:none}
+  .board{display:flex;flex-direction:column;gap:8px;grid-column:1;grid-row:2/6;align-self:start}
+  .app>.runbar{grid-column:2;grid-row:2}
+  .app>.table{grid-column:2;grid-row:3}
+  .app>.handzone{grid-column:2;grid-row:4}
+  .app>.actions{grid-column:2;grid-row:5}
+  .app>.keys{grid-row:6}
+  .bh{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:2px 4px}
+  .bp{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:10px 14px 11px;display:flex;flex-direction:column;gap:1px;
+    -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);transition:border-color .2s,box-shadow .2s}
+  .bp .bn{display:flex;align-items:center;justify-content:space-between;gap:6px;font-weight:700;font-size:14px}
+  .bp .bn span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .bp .bsc{font-family:var(--display);font-size:38px;line-height:1.05;font-variant-numeric:tabular-nums}
+  .bp .bsc small{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-left:6px}
+  .bp .bm{font-size:12px;color:var(--muted)}
+  .bp.you{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.28)}
+  .bp.act{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent),0 0 26px -8px var(--accent)}
+  .bp.lead .bsc::after{content:"♛";font-size:15px;margin-left:8px;color:var(--good);vertical-align:middle}
+  .bp.out{border-color:var(--good);box-shadow:0 0 0 1px var(--good),0 0 28px -6px var(--good);background:color-mix(in srgb,var(--good) 14%,rgba(255,255,255,.04))}
+  .bdg{font-family:var(--mono);font-weight:500;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;border-radius:5px;background:var(--accent);color:#000;flex:none}
+  .bdg.out{background:var(--good)}
+}
 </style>
 
 <div class="app">
@@ -427,6 +458,7 @@ button.card.fresh:not(.sel){box-shadow:0 0 0 2px var(--good),0 0 22px -4px var(-
     <button class="iconbtn" id="menuBtn" data-act="menu">Menu</button>
   </header>
   <section class="opps" id="opps"></section>
+  <aside class="board" id="board" aria-label="Scores"></aside>
   <button class="runbar" id="runbar" data-act="rpanel" hidden></button>
   <section class="table">
     <div class="piles" id="piles">
@@ -1038,8 +1070,16 @@ function render(){
   $('opps').style.gridTemplateColumns=`repeat(${opps.length},minmax(0,1fr))`;
   $('opps').innerHTML=opps.map(({p,i})=>{const act=G.turn===i&&(G.phase==='draw'||G.phase==='discard');
     const meta=run?(p.boss?esc(BOSSES[p.boss].short):runHas('eaves')?`<b>${Math.floor(solve(p.hand,rulesFor(i)).cost)}</b> unmatched`:`${p.hand.length} cards`):`<b>${p.score}</b> pts`;
-    return `<div class="opp${act?' active':''}${p.boss?' boss':''}"><div class="nm">${p.name}${onl()&&p.ai?'<span class="cpu">CPU</span>':''}${G.outBy===i?'<span class="badge">Out</span>':''}${act?'<span class="badge">Playing</span>':''}</div>
+    return `<div class="opp${act?' active':''}${G.outBy===i?' out':''}${p.boss?' boss':''}"><div class="nm">${p.name}${onl()&&p.ai?'<span class="cpu">CPU</span>':''}${G.outBy===i?'<span class="badge">Out</span>':''}${act?'<span class="badge">Playing</span>':''}</div>
     <div class="meta">${meta}</div></div>`;}).join('');
+
+  {const lo=Math.min(...G.players.map(q=>q.score));
+   $('board').innerHTML=`<div class="bh">${run?'Table':'Scores'}</div>`+G.players.map((p,i)=>{
+    const act=G.turn===i&&(G.phase==='draw'||G.phase==='discard'),out=G.outBy===i,you=i===v;
+    const big=run?(you?`${run.gold}<small>gold</small>`:p.boss?'Boss':'&nbsp;'):p.score;
+    const last=!run&&p.rounds&&p.rounds.length?`last round ${p.rounds[p.rounds.length-1]>0?'+':''}${p.rounds[p.rounds.length-1]}`:'';
+    const sub=run?(you?`${Math.floor(solve(p.hand,rulesFor(i)).cost)} unmatched`:p.boss?esc(BOSSES[p.boss].short):`${p.hand.length} cards`):last;
+    return `<div class="bp${you?' you':''}${act?' act':''}${out?' out':''}${!run&&G.round>1&&p.score===lo?' lead':''}"><div class="bn"><span>${you&&!onl()&&p.name==='You'?'You':esc(p.name)}</span>${out?'<b class="bdg out">Out</b>':act?'<b class="bdg">Playing</b>':''}</div><div class="bsc">${big}</div><div class="bm">${sub}</div></div>`;}).join('');}
 
   const canDraw=myTurn&&G.phase==='draw';
   const peek=run&&G.deck.length&&(runHas('spyglass')||run.peek)&&(G.phase==='draw'||G.phase==='discard')?G.deck[G.deck.length-1]:null;
