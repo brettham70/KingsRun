@@ -506,6 +506,14 @@ button.card.fresh:not(.sel){box-shadow:0 0 0 2px var(--good),0 0 22px -4px var(-
 
 .ttext h1{display:flex;align-items:center;gap:.22em}
 .ttext h1 .logo{height:.95em;width:auto;flex:none;filter:drop-shadow(0 0 22px rgba(191,90,242,.55))}
+
+/* Install banner (phones only, shown until installed or dismissed) */
+.instbar{position:fixed;left:12px;right:12px;bottom:max(12px,env(safe-area-inset-bottom,0px));z-index:60;display:flex;align-items:center;gap:10px;padding:10px 10px 10px 14px;
+  background:var(--panel);color:var(--fg);border:1px solid var(--line);border-radius:16px;box-shadow:0 12px 40px -12px #000A;font-size:14px;line-height:1.3}
+.instbar[hidden]{display:none}
+.instbar p{margin:0;flex:1;min-width:0}.instbar p b{display:block;font-size:15px}
+.instbar .btn{flex:none;padding:10px 14px;font-size:14px}
+.instbar .x{flex:none;border:0;background:none;color:var(--muted);font-size:13px;font-weight:600;padding:8px 6px;cursor:pointer}
 </style>
 
 <div class="app">
@@ -1931,6 +1939,32 @@ if(!/^#join-/.test(location.hash||''))showTitle(true);
 
 <script>
 if('serviceWorker' in navigator){addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{});});}
+
+/* ---------- Install prompt ----------
+   Android Chrome: offers the real install dialog from a small banner. iPhone Safari has no install dialog, so the banner
+   explains Share > Add to Home Screen. Only on touch phones, never when already installed, and a dismissal is remembered. */
+(function(){
+  const KEY='kingsrun-install';let ev=null,bar=null;
+  const standalone=()=>matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+  const snoozed=()=>{try{const t=+localStorage.getItem(KEY);return t&&Date.now()-t<14*864e5;}catch(e){return false;}};
+  const snooze=()=>{try{localStorage.setItem(KEY,String(Date.now()));}catch(e){}};
+  const ok=()=>ONLINE&&!standalone()&&!snoozed()&&matchMedia('(hover: none)').matches&&matchMedia('(max-width: 899px)').matches;
+  function hide(){if(bar)bar.hidden=true;}
+  function show(html,withBtn){
+    if(!bar){bar=document.createElement('div');bar.className='instbar';bar.setAttribute('role','dialog');bar.setAttribute('aria-label','Install Kingsrun');document.body.appendChild(bar);
+      bar.addEventListener('click',async e=>{
+        const b=e.target.closest('[data-i]');if(!b)return;
+        if(b.dataset.i==='no'){snooze();hide();return;}
+        if(b.dataset.i==='go'&&ev){ev.prompt();try{const r=await ev.userChoice;if(r.outcome!=='accepted')snooze();}catch(e){}ev=null;hide();}
+      });}
+    bar.innerHTML=html+(withBtn?'<button class="btn" data-i="go">Install</button>':'')+'<button class="x" data-i="no" aria-label="Not now">Not now</button>';
+    bar.hidden=false;
+  }
+  addEventListener('beforeinstallprompt',e=>{e.preventDefault();ev=e;if(ok())setTimeout(()=>{if(ev&&ok())show('<p><b>Install Kingsrun</b>Play full screen from your home screen, even offline.</p>',true);},1500);});
+  addEventListener('appinstalled',()=>{ev=null;hide();});
+  const ios=/iphone|ipad|ipod/i.test(navigator.userAgent)&&!window.MSStream;
+  if(ios&&ok())setTimeout(()=>{if(ok())show('<p><b>Add Kingsrun to your home screen</b>Tap the Share button, then “Add to Home Screen”.</p>',false);},2500);
+})();
 </script>
 </body>
 </html>
