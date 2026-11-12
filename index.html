@@ -391,6 +391,33 @@ button.card.fresh:not(.sel){box-shadow:0 0 0 2px var(--good),0 0 22px -4px var(-
 }
 .keys span{margin:0 9px;white-space:nowrap}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* Desktop composition: the table fills the height between the opponents and the hand, piles sit centred and large,
+   the turn text sits under them, the hand is centred, and the action bar changes with the phase of the turn. */
+@media (hover:hover) and (min-width:900px) and (min-height:620px){
+  .app{margin:0 auto;gap:12px}
+  .table{flex:1 1 0;min-height:clamp(250px,36vh,420px);grid-template-columns:1fr;grid-template-rows:auto auto;align-content:center;justify-items:center;gap:22px;padding:18px;
+    background:radial-gradient(60% 70% at 50% 45%,rgba(140,80,255,.16),rgba(255,255,255,.02) 70%);box-shadow:inset 0 1px 1px rgba(255,255,255,.08)}
+  .piles{gap:clamp(24px,4vw,64px);justify-content:center}
+  .pile,.app.roomy .pile{--cw:clamp(64px,min(14.5vh,13vw),190px)}
+  .info{align-items:center;text-align:center;max-width:640px}
+  .info .status,.info .log{text-align:center}
+  .info .status,.app.roomy .info .status{font-size:clamp(17px,2.4vh,22px)}
+  .handzone{flex:0 1 auto;min-height:0;overflow-y:auto}
+  .handhead{margin-top:0;justify-content:center;gap:16px}
+  .handhead h2{font-size:19px}
+  .groups{justify-content:center}
+  .grp{flex-grow:0}
+  .actions{justify-content:center}
+  .actions .btn{flex:0 1 280px;padding:14px 22px}
+  .actions .btn.ghost{flex:0 0 auto}
+  .actions[data-ph=draw] #discardBtn,.actions[data-ph=draw] #hintBtn{display:none}
+  .actions[data-ph=draw] .dsk{flex:0 1 240px}
+  .actions:not([data-ph=draw]) .dsk{display:none}
+  .actions[data-ph=wait] #hintBtn{display:none}
+  .actions[data-ph=wait] #discardBtn{background:none;box-shadow:none;border:1px dashed rgba(255,255,255,.14)}
+}
+@media not ((hover:hover) and (min-width:900px) and (min-height:620px)){.dsk{display:none}}
 </style>
 
 <div class="app">
@@ -418,6 +445,8 @@ button.card.fresh:not(.sel){box-shadow:0 0 0 2px var(--good),0 0 22px -4px var(-
   </section>
   <div class="actions">
     <button class="btn ghost" id="hintBtn" data-act="hint">Hint</button>
+    <button class="btn dsk" id="drawBtn" data-act="deck">Draw from deck</button>
+    <button class="btn dsk ghost" id="takeBtn" data-act="pile">Take discard</button>
     <button class="btn" id="discardBtn" data-act="discard">Discard</button>
   </div>
   <p class="keys" aria-hidden="true"><span><b>D</b>Draw</span><span><b>T</b>Take discard</span><span><b>← →</b>Pick a card</span><span><b>Enter</b>Discard</span><span><b>H</b>Hint</span><span><b>M</b>Menu</span></p>
@@ -1083,6 +1112,10 @@ function render(){
     d.textContent=G.outBy!==null?`Discard ${short(selCard)} & finish`:out?`Discard ${short(selCard)} & go out`:`Discard ${short(selCard)}`;
   }
   $('hintBtn').disabled=!canSel;
+  {const A=document.querySelector('.actions'),ph=!myTurn?'wait':G.phase==='draw'?'draw':!selCard?'pick':'go';A.dataset.ph=ph;
+   $('drawBtn').disabled=$('deckBtn').disabled;$('takeBtn').disabled=$('pileBtn').disabled;
+   $('takeBtn').textContent=top?`Take ${short(top)}`:'Take discard';
+   if(ph==='pick')d.textContent='Select a card to discard';}
 
   const showCover=pp()&&!G.reveal&&!menuOpen&&(G.phase==='draw'||G.phase==='discard');
   $('cover').hidden=!showCover;
