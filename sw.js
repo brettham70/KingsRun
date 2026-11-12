@@ -1,9 +1,10 @@
 // Kingsrun offline support. Version changes whenever any app file changes.
-const CACHE = 'kingsrun-2aab2d7917';
+const CACHE = 'kingsrun-faa4953f24';
 const ASSETS = ["./", "index.html", "manifest.webmanifest", "icon-192.png", "icon-512.png", "maskable-512.png", "apple-touch-icon.png", "young-serif-400.woff2", "figtree-400.woff2", "figtree-500.woff2", "figtree-600.woff2", "figtree-700.woff2", "ibm-plex-mono-500.woff2"];
 
 self.addEventListener('install', e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
+  // cache: 'reload' skips the browser's own cache, so a new version stores the new files, not stale copies
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS.map(u => new Request(u, {cache: 'reload'})))).then(() => self.skipWaiting()));
 });
 self.addEventListener('activate', e => {
   e.waitUntil(caches.keys()
@@ -16,7 +17,8 @@ self.addEventListener('fetch', e => {
   if (req.mode === 'navigate') {
     // Network first so a new version shows up when online; fall back to the cached game offline.
     e.respondWith(
-      fetch(req).then(res => {
+      // no-cache: always ask the server whether the page changed, so an update shows on the next open
+      fetch(req, {cache: 'no-cache'}).then(res => {
         const copy = res.clone();
         caches.open(CACHE).then(c => c.put('index.html', copy));
         return res;
