@@ -386,7 +386,7 @@ button.card.fresh:not(.sel){box-shadow:0 0 0 2px var(--good),0 0 22px -4px var(-
   .title .scrim{background:linear-gradient(90deg,#000 4%,transparent 52%),linear-gradient(transparent 62%,#000)}
   .ttop{padding-inline:clamp(2.8rem,5vw,6rem)}
   .ttext{right:auto;align-items:flex-start;text-align:left;max-width:560px;padding-left:clamp(2.8rem,5vw,6rem);padding-bottom:clamp(36px,7vh,76px)}
-  .ttext h1{font-size:clamp(68px,7.4vw,112px)}
+  .ttext h1{font-size:clamp(60px,6.2vw,100px)}
   .tbtns{justify-content:flex-start}
 }
 .keys span{margin:0 9px;white-space:nowrap}
@@ -449,11 +449,22 @@ button.card.fresh:not(.sel){box-shadow:0 0 0 2px var(--good),0 0 22px -4px var(-
   .bdg{font-family:var(--mono);font-weight:500;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;border-radius:5px;background:var(--accent);color:#000;flex:none}
   .bdg.out{background:var(--good)}
 }
+
+.brand{display:flex;align-items:center;gap:9px}
+.brand span{background:linear-gradient(180deg,#FFFFFF,#9A9A9E);-webkit-background-clip:text;background-clip:text;color:transparent}
+.brand .logo{height:30px;width:auto;flex:none;filter:drop-shadow(0 0 10px rgba(191,90,242,.45))}
+.ttext h1{display:flex;align-items:center;gap:.22em}
+.ttext h1 .logo{height:.95em;width:auto;flex:none;filter:drop-shadow(0 0 22px rgba(191,90,242,.55))}
 </style>
 
 <div class="app">
   <header class="top">
-    <div class="brand">Kingsrun</div>
+    <div class="brand"><svg class="logo" viewBox="0 0 48 44" aria-hidden="true"><defs><linearGradient id="lg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#9A9A9E"/></linearGradient>
+<radialGradient id="lg2" cx=".5" cy=".4" r=".7"><stop offset="0" stop-color="#FFE066"/><stop offset="1" stop-color="#F0B90B"/></radialGradient></defs>
+<path d="M6.5 35 9 13.5 19 24 24 9.5 29 24 39 13.5 41.5 35Z" fill="url(#lg1)" stroke="url(#lg1)" stroke-width="3" stroke-linejoin="round"/>
+<rect x="6" y="37.5" width="36" height="4" rx="2" fill="url(#lg1)"/>
+<g fill="#BF5AF2"><circle cx="9" cy="11" r="2.8"/><circle cx="24" cy="6.5" r="3.1"/><circle cx="39" cy="11" r="2.8"/></g>
+<polygon points="24.00,20.80 25.53,24.90 29.90,25.08 26.47,27.80 27.64,32.02 24.00,29.60 20.36,32.02 21.53,27.80 18.10,25.08 22.47,24.90" fill="url(#lg2)" stroke="#000" stroke-opacity=".35" stroke-width=".6" stroke-linejoin="round"/></svg><span>Kingsrun</span></div>
     <span class="pill wildp" id="wildPill"></span>
     <button class="iconbtn" id="menuBtn" data-act="menu">Menu</button>
   </header>
@@ -491,7 +502,12 @@ button.card.fresh:not(.sel){box-shadow:0 0 0 2px var(--good),0 0 22px -4px var(-
   <div class="ttop"><span>Motion edition</span><span>Drag or scroll to spin</span></div>
   <div class="ttext">
     <p class="eyebrow">Five suits · 11 rounds · rising wilds</p>
-    <h1>Kingsrun</h1>
+    <h1><svg class="logo" viewBox="0 0 48 44" aria-hidden="true"><defs><linearGradient id="lg1t" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#9A9A9E"/></linearGradient>
+<radialGradient id="lg2t" cx=".5" cy=".4" r=".7"><stop offset="0" stop-color="#FFE066"/><stop offset="1" stop-color="#F0B90B"/></radialGradient></defs>
+<path d="M6.5 35 9 13.5 19 24 24 9.5 29 24 39 13.5 41.5 35Z" fill="url(#lg1t)" stroke="url(#lg1t)" stroke-width="3" stroke-linejoin="round"/>
+<rect x="6" y="37.5" width="36" height="4" rx="2" fill="url(#lg1t)"/>
+<g fill="#BF5AF2"><circle cx="9" cy="11" r="2.8"/><circle cx="24" cy="6.5" r="3.1"/><circle cx="39" cy="11" r="2.8"/></g>
+<polygon points="24.00,20.80 25.53,24.90 29.90,25.08 26.47,27.80 27.64,32.02 24.00,29.60 20.36,32.02 21.53,27.80 18.10,25.08 22.47,24.90" fill="url(#lg2t)" stroke="#000" stroke-opacity=".35" stroke-width=".6" stroke-linejoin="round"/></svg><span>Kingsrun</span></h1>
     <p class="lead">Group your hand into books and runs before anyone else does. The wild card climbs from 3s all the way to Kings.</p>
     <div class="tbtns"><button class="btn" id="tplay" data-act="tplay">Play</button><button class="btn ghost" data-act="tnew">New game</button></div>
   </div>

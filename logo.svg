@@ -1,0 +1,6 @@
+<svg class="logo" viewBox="0 0 48 44" aria-hidden="true"><defs><linearGradient id="lg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#9A9A9E"/></linearGradient>
+<radialGradient id="lg2" cx=".5" cy=".4" r=".7"><stop offset="0" stop-color="#FFE066"/><stop offset="1" stop-color="#F0B90B"/></radialGradient></defs>
+<path d="M6.5 35 9 13.5 19 24 24 9.5 29 24 39 13.5 41.5 35Z" fill="url(#lg1)" stroke="url(#lg1)" stroke-width="3" stroke-linejoin="round"/>
+<rect x="6" y="37.5" width="36" height="4" rx="2" fill="url(#lg1)"/>
+<g fill="#BF5AF2"><circle cx="9" cy="11" r="2.8"/><circle cx="24" cy="6.5" r="3.1"/><circle cx="39" cy="11" r="2.8"/></g>
+<polygon points="24.00,20.80 25.53,24.90 29.90,25.08 26.47,27.80 27.64,32.02 24.00,29.60 20.36,32.02 21.53,27.80 18.10,25.08 22.47,24.90" fill="url(#lg2)" stroke="#000" stroke-opacity=".35" stroke-width=".6" stroke-linejoin="round"/></svg>
