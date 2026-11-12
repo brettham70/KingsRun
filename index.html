@@ -4,9 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Kingsrun</title>
-<meta name="description" content="Kingsrun, Motion edition: a five-suit rummy card game with a rotating wild card, on a 3D card table.">
-<meta name="theme-color" content="#000000">
-<meta name="color-scheme" content="dark">
+<meta name="description" content="A five-suit rummy card game with a rotating wild card. Play the computer or pass and play.">
+<meta name="theme-color" content="#D9DEE0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#12161B" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light dark">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -35,6 +36,42 @@ img{max-width:100%}
 [hidden]{display:none!important}
 /* Layout: one-screen card table — opponents on top, piles in the middle, your hand grouped into melds below, action bar last */
 :root{
+  --bg:#D9DEE0; --bg2:#C9D1D4; --panel:#EEF1F2; --fg:#1C2329; --muted:#56636B; --line:#B5BFC4;
+  --accent:#6B2D7F; --accent-fg:#FFFFFF; --tray:#E3E8EA; --good:#23784A; --bad:#B4233A;
+  --face:#FBF8F1; --edge:#CFC8B8; --shadow:#1C232955; --wild:#7A3592; --gold:#8A6510; --coin1:#E9C766; --coin2:#B8891C;
+  --su0:#A8740F; --su1:#C2283A; --su2:#23784A; --su3:#1F232B; --su4:#2457B8;
+  --back1:#5A2569; --back2:#6E3480; --joker1:#4A1E58; --joker2:#7A3592;
+  --display:"Young Serif", Georgia, "Times New Roman", serif;
+  --body:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#12161B; --bg2:#1A2128; --panel:#1F262E; --fg:#E8ECEE; --muted:#97A4AC; --line:#33404A;
+  --accent:#C08BD6; --accent-fg:#1A0F20; --tray:#182027; --good:#5BC28A; --bad:#F0707F;
+  --face:#EFEADF; --edge:#8C8574; --shadow:#000000AA; --gold:#E2C064; color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#12161B; --bg2:#1A2128; --panel:#1F262E; --fg:#E8ECEE; --muted:#97A4AC; --line:#33404A;
+  --accent:#C08BD6; --accent-fg:#1A0F20; --tray:#182027; --good:#5BC28A; --bad:#F0707F;
+  --face:#EFEADF; --edge:#8C8574; --shadow:#000000AA; --gold:#E2C064; color-scheme:dark;
+}
+/* Colour themes: each sets table, accent, wild marker, card backs and Jokers, with its own dark-mode values */
+:root[data-palette="felt"]{--bg2:#C3D3C9;--accent:#8A6510;--accent-fg:#FFFFFF;--wild:#7A5A0E;--back1:#174F37;--back2:#1F6446;--joker1:#123D2B;--joker2:#1E6B49}
+:root[data-palette="ocean"]{--bg2:#C5D1DF;--accent:#1F57A6;--accent-fg:#FFFFFF;--wild:#1F57A6;--back1:#1A3C6B;--back2:#244F88;--joker1:#152F55;--joker2:#2A5E9E}
+:root[data-palette="ember"]{--bg2:#E0CFCA;--accent:#A3302A;--accent-fg:#FFFFFF;--wild:#9A2D27;--back1:#7A221F;--back2:#952D28;--joker1:#5E1917;--joker2:#A3362F}
+:root[data-palette="slate"]{--bg2:#CDD2D6;--accent:#2C343C;--accent-fg:#FFFFFF;--wild:#3A434C;--back1:#2A3037;--back2:#3A424B;--joker1:#1F2429;--joker2:#4A545E}
+@media (prefers-color-scheme: dark){
+  :root[data-palette="felt"]:not([data-theme="light"]){--bg2:#13241C;--accent:#E2C064;--accent-fg:#1E1606;--wild:#7A5A0E;--back1:#174F37;--back2:#1F6446;--joker1:#123D2B;--joker2:#1E6B49}
+  :root[data-palette="ocean"]:not([data-theme="light"]){--bg2:#121C29;--accent:#8DB6F0;--accent-fg:#0B1626;--wild:#1F57A6;--back1:#1A3C6B;--back2:#244F88;--joker1:#152F55;--joker2:#2A5E9E}
+  :root[data-palette="ember"]:not([data-theme="light"]){--bg2:#261614;--accent:#F0998A;--accent-fg:#2A0D0B;--wild:#9A2D27;--back1:#7A221F;--back2:#952D28;--joker1:#5E1917;--joker2:#A3362F}
+  :root[data-palette="slate"]:not([data-theme="light"]){--bg2:#1A1E22;--accent:#DDE3E7;--accent-fg:#14181C;--wild:#4A545E;--back1:#2A3037;--back2:#3A424B;--joker1:#1F2429;--joker2:#4A545E}
+}
+:root[data-palette="felt"][data-theme="dark"]{--bg2:#13241C;--accent:#E2C064;--accent-fg:#1E1606}
+:root[data-palette="ocean"][data-theme="dark"]{--bg2:#121C29;--accent:#8DB6F0;--accent-fg:#0B1626}
+:root[data-palette="ember"][data-theme="dark"]{--bg2:#261614;--accent:#F0998A;--accent-fg:#2A0D0B}
+:root[data-palette="slate"][data-theme="dark"]{--bg2:#1A1E22;--accent:#DDE3E7;--accent-fg:#14181C}
+@media (hover:hover) and (min-width:900px){
+:root:root:root:not([data-x]){
   color-scheme:dark;
   --bg:#000000; --bg2:#0B0B0C; --panel:#111113; --fg:#F5F5F7; --muted:#98989F; --line:#2C2C30;
   --accent:#BF5AF2; --accent-fg:#000000; --tray:#18181B; --good:#30D158; --bad:#FF453A;
@@ -45,11 +82,11 @@ img{max-width:100%}
   --body:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
   --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
 }
-/* Colour themes: each sets the glow, the buttons and the card backs */
-:root[data-palette="felt"]{--accent:#30D158;--back1:#0E3323;--back2:#15482F}
-:root[data-palette="ocean"]{--accent:#4DA3FF;--back1:#0F2747;--back2:#17386A}
-:root[data-palette="ember"]{--accent:#FF6B4A;--back1:#4A1210;--back2:#6A1A17}
-:root[data-palette="slate"]{--accent:#F5F5F7;--back1:#1C1C1E;--back2:#2C2C2E}
+:root:root[data-palette="felt"]:not([data-x]):not([data-y]){--accent:#30D158;--back1:#0E3323;--back2:#15482F}
+:root:root[data-palette="ocean"]:not([data-x]):not([data-y]){--accent:#4DA3FF;--back1:#0F2747;--back2:#17386A}
+:root:root[data-palette="ember"]:not([data-x]):not([data-y]){--accent:#FF6B4A;--back1:#4A1210;--back2:#6A1A17}
+:root:root[data-palette="slate"]:not([data-x]):not([data-y]){--accent:#F5F5F7;--back1:#1C1C1E;--back2:#2C2C2E}
+}
 html,body{height:100%}
 body{background:var(--bg);color:var(--fg);font-family:var(--body);overflow:hidden}
 *{box-sizing:border-box}
@@ -284,6 +321,14 @@ table.sc{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;f
 /* ===== Motion edition =====
    A black stage, dark cards with real 3D thickness, mouse-driven tilt and a card carousel on the title screen.
    Everything below restyles the game; the rules and the layout logic above are unchanged. */
+.keys{display:none}
+.nav[data-act="title"]{display:none}
+/* Phone-style pile (no 3D slabs) unless the desktop look is on */
+.p3d{display:block;position:relative;width:var(--cw);height:calc(var(--cw)*1.4)}
+.p3d>i{display:none}
+.p3d>span{display:block}
+.brand .logo{display:none}
+@media (hover:hover) and (min-width:900px){
 html,body{background:#000}
 body::before{content:"";position:fixed;inset:0;pointer-events:none;
   background:radial-gradient(60% 42% at 50% 34%,color-mix(in srgb,var(--accent) 15%,transparent),transparent 72%)}
@@ -342,7 +387,7 @@ button.card.fresh:not(.sel){box-shadow:0 0 0 2px var(--good),0 0 22px -4px var(-
 .pile{perspective:720px}
 .p3d{display:block;position:relative;width:var(--cw);height:calc(var(--cw)*1.4);transform-style:preserve-3d;
   transform:rotateX(calc(var(--my,0)*-13deg)) rotateY(calc(var(--mx,0)*16deg)) rotateZ(-3deg)}
-.p3d>i{position:absolute;inset:0;border-radius:calc(var(--cw)*.13);background:#808080;border:1px solid #6E6E73;transform:translateZ(calc(var(--n)*-2px))}
+.p3d>i{display:block;position:absolute;inset:0;border-radius:calc(var(--cw)*.13);background:#808080;border:1px solid #6E6E73;transform:translateZ(calc(var(--n)*-2px))}
 .p3d>i:nth-child(1){--n:1}.p3d>i:nth-child(2){--n:2}.p3d>i:nth-child(3){--n:3}.p3d>i:nth-child(4){--n:4}.p3d>i:nth-child(5){--n:5;background:#4A4A4E}
 .p3d>span{display:block;position:relative;transform:translateZ(0)}
 .p3d::before{content:"";position:absolute;inset:8% -6% -12% 8%;border-radius:22%;background:var(--accent);opacity:.3;filter:blur(22px);transform:translateZ(-26px)}
@@ -390,6 +435,15 @@ button.card.fresh:not(.sel){box-shadow:0 0 0 2px var(--good),0 0 22px -4px var(-
   .tbtns{justify-content:flex-start}
 }
 .keys span{margin:0 9px;white-space:nowrap}
+.nav[data-act="title"]{display:flex}
+.brand{display:flex;align-items:center;gap:9px}
+.brand span{background:linear-gradient(180deg,#FFFFFF,#9A9A9E);-webkit-background-clip:text;background-clip:text;color:transparent}
+.brand .logo{display:block;height:30px;width:auto;flex:none;filter:drop-shadow(0 0 10px rgba(191,90,242,.45))}
+}
+.tour{display:flex;flex-direction:column;gap:10px}
+.tour h2{font-size:clamp(26px,7vw,34px)} .tour p{margin:0;font-size:15px;line-height:1.45}
+.tour .eyebrow{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+.tour .rules{font-size:14.5px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 
 /* Desktop composition: the table fills the height between the opponents and the hand, piles sit centred and large,
@@ -450,9 +504,6 @@ button.card.fresh:not(.sel){box-shadow:0 0 0 2px var(--good),0 0 22px -4px var(-
   .bdg.out{background:var(--good)}
 }
 
-.brand{display:flex;align-items:center;gap:9px}
-.brand span{background:linear-gradient(180deg,#FFFFFF,#9A9A9E);-webkit-background-clip:text;background-clip:text;color:transparent}
-.brand .logo{height:30px;width:auto;flex:none;filter:drop-shadow(0 0 10px rgba(191,90,242,.45))}
 .ttext h1{display:flex;align-items:center;gap:.22em}
 .ttext h1 .logo{height:.95em;width:auto;flex:none;filter:drop-shadow(0 0 22px rgba(191,90,242,.55))}
 </style>
@@ -499,7 +550,7 @@ button.card.fresh:not(.sel){box-shadow:0 0 0 2px var(--good),0 0 22px -4px var(-
 <div class="title" id="title" hidden>
   <div class="cam"><div class="rig" id="trig"></div></div>
   <div class="scrim"></div>
-  <div class="ttop"><span>Motion edition</span><span>Drag or scroll to spin</span></div>
+  <div class="ttop"><span>Desktop edition</span><span>Drag or scroll to spin</span></div>
   <div class="ttext">
     <p class="eyebrow">Five suits · 11 rounds · rising wilds</p>
     <h1><svg class="logo" viewBox="0 0 48 44" aria-hidden="true"><defs><linearGradient id="lg1t" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#9A9A9E"/></linearGradient>
@@ -612,14 +663,25 @@ function bestDiscard(hand,wr){
   return best;
 }
 
-// Uniform integer in [0,n) from the browser's cryptographic RNG, with rejection sampling so no value is favoured.
-function randInt(n){
+// Randomness. Normally every draw comes from the browser's cryptographic RNG (fair and unpredictable).
+// seedRng(n) switches to a repeatable generator, so a whole game can be replayed from one number (tests, simulations,
+// and later daily runs). clearRng() goes back to the secure one. Nothing in the app seeds it during normal play.
+let RNG_FN=null;
+function seedRng(seed){let a=(seed>>>0)||1;RNG_FN=()=>{a=(a+0x6D2B79F5)>>>0;let t=a;t=Math.imul(t^(t>>>15),t|1);t^=t+Math.imul(t^(t>>>7),t|61);return (t^(t>>>14))>>>0;};}
+function clearRng(){RNG_FN=null;}
+function randU32(){
+  if(RNG_FN)return RNG_FN();
   const c=globalThis.crypto;
-  if(!c||!c.getRandomValues)return Math.floor(Math.random()*n);
-  const limit=Math.floor(0x100000000/n)*n, buf=new Uint32Array(1);
-  do{c.getRandomValues(buf);}while(buf[0]>=limit);
-  return buf[0]%n;
+  if(!c||!c.getRandomValues)return Math.floor(Math.random()*0x100000000);
+  const buf=new Uint32Array(1);c.getRandomValues(buf);return buf[0];
 }
+// Uniform integer in [0,n), with rejection sampling so no value is favoured.
+function randInt(n){
+  const limit=Math.floor(0x100000000/n)*n;let v;
+  do{v=randU32();}while(v>=limit);
+  return v%n;
+}
+const randFloat=()=>randInt(1048576)/1048576;
 // Fisher–Yates: every ordering of the deck is equally likely.
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=randInt(i+1);[a[i],a[j]]=[a[j],a[i]];}return a;}
 function makeDeck(){
@@ -649,6 +711,10 @@ function setPalette(k){
 }
 try{setPalette(localStorage.getItem(PAL_KEY)||'plum')}catch(e){setPalette('plum')}
 const NAMES_KEY='kingsrun-names';
+// Computer level: how often each computer player makes its best play (Hard always does, as the game always used to).
+const LEVELS={easy:{name:'Easy',skill:.55,note:'Makes plenty of mistakes.'},normal:{name:'Normal',skill:.8,note:'Usually plays well, sometimes slips.'},hard:{name:'Hard',skill:1,note:'Always makes its best play.'}};
+const LEVEL_KEY='kingsrun-level';
+function levelPref(){try{const l=localStorage.getItem(LEVEL_KEY);if(LEVELS[l])return l}catch(e){}return 'normal'}
 let G=null, sel=null, menuOpen=false, timer=null, pending=null, menuView='main', autoKey=null, confirmReset=false, confirmClear=false, restoreOpen=false, backupCode=null, recMsg='';
 
 const $=id=>document.getElementById(id);
@@ -668,17 +734,65 @@ const cleanName=s=>String(s||'').replace(/[<>&"]/g,'').trim().slice(0,14);
 function loadNames(){try{return JSON.parse(localStorage.getItem(NAMES_KEY))||[]}catch(e){return[]}}
 function saveNames(n){try{localStorage.setItem(NAMES_KEY,JSON.stringify(n))}catch(e){}}
 
-function save(){if(onl())return;try{localStorage.setItem(KEY,JSON.stringify(G))}catch(e){}}
-function load(){try{const s=localStorage.getItem(KEY);if(s)return JSON.parse(s)}catch(e){}return null}
+/*SAVE-START*/
+// Saved games carry a version number. Version 1 (before this) stored the bare game; version 2 adds the computer level.
+// Anything from a newer app, or that fails the checks below, is never loaded: it's kept aside and a fresh game starts.
+const SAVE_VERSION=2, DECK_SIZE=116;
+const PHASES=['lobby','draw','discard','roundEnd','gameEnd','court'];
+const goodCard=c=>c&&Number.isInteger(c.id)&&Number.isInteger(c.s)&&c.s>=-1&&c.s<=4&&Number.isFinite(c.r);
+// Whether a game is internally consistent: the right players, a legal turn, and all 116 cards accounted for once.
+function validGame(g){
+  if(!g||typeof g!=='object'||!['ai','pp','run'].includes(g.mode))return false;
+  if(!Array.isArray(g.players)||g.players.length<2||g.players.length>4)return false;
+  if(!Number.isInteger(g.round)||g.round<1||g.round>11||!PHASES.includes(g.phase))return false;
+  if(!Number.isInteger(g.turn)||g.turn<0||g.turn>=g.players.length)return false;
+  if(!Array.isArray(g.deck)||!Array.isArray(g.discard))return false;
+  const ids=new Set();let n=0;
+  const add=cs=>{for(const c of cs){if(!goodCard(c)||ids.has(c.id))return false;ids.add(c.id);n++;}return true;};
+  if(!add(g.deck)||!add(g.discard))return false;
+  for(const p of g.players){
+    if(!p||typeof p.name!=='string'||!Array.isArray(p.hand)||!Array.isArray(p.rounds)||!Number.isFinite(p.score))return false;
+    if(!add(p.hand))return false;
+  }
+  if(n!==DECK_SIZE)return false;
+  if(g.mode==='run'){
+    const r=g.run;
+    if(!r||typeof r!=='object'||!Number.isFinite(r.gold)||!Array.isArray(r.regalia)||!Array.isArray(r.decrees)||!Array.isArray(r.shop))return false;
+  }
+  return true;
+}
+// Turn whatever was stored, from any past version, into a game this version can play; null if it can't be trusted.
+function migrateSave(raw){
+  if(!raw||typeof raw!=='object')return null;
+  let v,g;
+  if(raw.v===undefined){v=1;g=raw;}else{v=raw.v;g=raw.g;if(!Number.isInteger(v)||v<1||v>SAVE_VERSION)return null;}
+  if(!g||typeof g!=='object'||!Array.isArray(g.players))return null;
+  g=JSON.parse(JSON.stringify(g));
+  if(!g.mode)g.mode='ai';
+  if(!g.cfg)g.cfg={mode:g.mode,count:g.mode==='pp'?g.players.length:g.players.length-1,names:[]};
+  if(v<2&&g.mode==='ai'&&g.cfg.level===undefined)g.cfg.level='hard';   // games begun before levels existed played at full strength
+  return validGame(g)?g:null;
+}
+function save(){if(onl())return;try{localStorage.setItem(KEY,JSON.stringify({v:SAVE_VERSION,g:G}))}catch(e){}}
+let lostSave=false;
+function load(){
+  let s=null;try{s=localStorage.getItem(KEY)}catch(e){return null}
+  if(!s)return null;
+  let g=null;try{g=migrateSave(JSON.parse(s))}catch(e){}
+  if(!g){lostSave=true;try{localStorage.setItem(KEY+'-unreadable',s)}catch(e){}}
+  return g;
+}
+/*SAVE-END*/
 
 function newGame(cfg){
   const list=cfg.mode==='pp'
     ?Array.from({length:cfg.count},(_,i)=>({name:cleanName(cfg.names[i])||`Player ${i+1}`,ai:false}))
     :cfg.mode==='run'?[{name:'You',ai:false},...NAMES.slice(0,2).map(n=>({name:n,base:n,ai:true}))]
-    :[{name:'You',ai:false},...NAMES.slice(0,cfg.count).map(n=>({name:n,ai:true}))];
+    :[{name:'You',ai:false},...NAMES.slice(0,cfg.count).map(n=>({name:n,ai:true,skill:LEVELS[LEVELS[cfg.level]?cfg.level:'normal'].skill}))];
   G={mode:cfg.mode,cfg:{mode:cfg.mode,count:cfg.mode==='run'?2:cfg.count,names:[...(cfg.names||[])]},
      players:list.map(p=>({...p,hand:[],score:0,rounds:[]})),reveal:false,
      round:0,dealer:0,deck:[],discard:[],turn:0,phase:'draw',outBy:null,finalLeft:0,log:'',fresh:null,result:null};
+  if(cfg.mode==='ai')G.cfg.level=LEVELS[cfg.level]?cfg.level:'normal';
   if(cfg.mode==='run')G.run=newRun();
   G.dealer=(N()-2+N())%N();
   sel=null;menuOpen=false;
@@ -730,7 +844,7 @@ function recordGame(){
     if(e.best===null||p.score<e.best)e.best=p.score;
     if(p.score===min){if(winners.length>1)e.ties++;else e.wins++;}
   }
-  const game={date:Date.now(),mode:G.mode,results:G.players.map(p=>({name:p.name,score:p.score})),winners:winners.map(p=>p.name)};
+  const game={date:Date.now(),mode:G.mode,level:G.cfg.level,results:G.players.map(p=>({name:p.name,score:p.score})),winners:winners.map(p=>p.name)};
   r.marks=marks(r);
   applyMarks(r.marks,game);
   r.games.unshift(game);
@@ -773,7 +887,7 @@ function recentGames(){
     const d=new Date(x.date).toLocaleDateString(undefined,{day:'numeric',month:'short'});
     const res=[...x.results].sort((a,b)=>a.score-b.score).map(p=>`${p.name} ${p.score}`).join(' · ');
     const w=x.winners.length>1?`Tie: ${x.winners.join(' & ')}`:`${x.winners[0]} won`;
-    return `<li><span class="rd">${d} · ${x.mode==='pp'?'Pass &amp; play':x.mode==='online'?'Online':'Vs computer'}</span><b>${w}</b><span class="rs">${res}</span></li>`;}).join('')}</ul>`;
+    return `<li><span class="rd">${d} · ${x.mode==='pp'?'Pass &amp; play':x.mode==='online'?'Online':'Vs computer'+(x.level&&LEVELS[x.level]?' · '+LEVELS[x.level].name:'')}</span><b>${w}</b><span class="rs">${res}</span></li>`;}).join('')}</ul>`;
 }
 
 /* ---------- The Run ----------
@@ -932,6 +1046,25 @@ function useDecree(id){
   runPanel=false;
 }
 
+// First-run walkthrough: three short cards the first time a Run starts (and from How to play).
+const TOUR_KEY='kingsrun-tour';
+let tour=null;
+const tourSeen=()=>{try{return !!localStorage.getItem(TOUR_KEY)}catch(e){return true}};
+const TOUR=()=>[
+  {h:'Gold is your life',p:`You start with ${ECON.start} gold. Every point left in your hand when a round ends costs 1 gold. If the Treasury can’t cover it, the run is over.`,
+    b:[`Go out first: +${ECON.out} gold`,`Lowest score at the table: +${ECON.low}`,`Royal tribute every round: +${ECON.tribute}`,`In rounds 1–3 a round never costs more than ${ECON.act1Cap}`]},
+  {h:'Spend it at the Court',p:'After each round you visit the Court. Spending makes you stronger but leaves less gold in reserve, so choose carefully.',
+    b:['Regalia last the whole run, up to '+ECON.maxR,'Decrees are used once, up to '+ECON.maxD+'. Tap the gold bar on the table to play one','New offers cost gold; you can sell a Regalia for half']},
+  {h:'Beat the bosses',p:'Three rounds bring a boss to the table, and each one bends a rule.',
+    b:['Round 4, The Miser: no taking from the discard pile','Round 8, The Jester: the wild card changes every turn','Round 11, The Usurper: your Jokers aren’t wild',`Score fewer points than the boss: +${ECON.boss} gold and a free pick at the next Court`]}];
+function tourHTML(){
+  const T=TOUR(),t=T[tour],last=tour===T.length-1;
+  return `<div class="tour"><p class="eyebrow">The Run · ${tour+1} of ${T.length}</p><h2>${t.h}</h2><p>${t.p}</p>
+    <ul class="rules">${t.b.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+    <div class="sheetfoot"><button class="btn ghost" data-act="tourskip">${last?'Close':'Skip'}</button><button class="btn" data-act="tournext">${last?'Start playing':'Next'}</button></div>`;
+}
+function closeTour(){tour=null;try{localStorage.setItem(TOUR_KEY,'1')}catch(e){}}
+
 const RUNREC_KEY='kingsrun-runs';
 function loadRuns(){try{const r=JSON.parse(localStorage.getItem(RUNREC_KEY));if(r&&r.recent)return r}catch(e){}return{played:0,won:0,best:null,furthest:0,recent:[]}}
 function recordRun(){
@@ -1006,14 +1139,14 @@ function courtHTML(){
 }
 
 // Computer players. In a Run, `skill` (0–1) is how often they make the best play; otherwise they always do.
-const sloppy=p=>p.skill!=null&&Math.random()>p.skill;
+const sloppy=p=>p.skill!=null&&randFloat()>p.skill;
 function aiDraw(){
   const p=cur(),wr=rulesFor(G.turn),top=G.discard[G.discard.length-1];
   let take=false;
   if(top&&canTakePile(G.turn)){
     if(isWild(top,wr))take=true;
     else{const now=solve(p.hand,wr).cost;const d=bestDiscard([...p.hand,top],wr);if(d.card!==top&&d.cost<now)take=true;
-      if(sloppy(p))take=Math.random()<.5;}
+      if(sloppy(p))take=randFloat()<.5;}
   }
   const c=take?G.discard.pop():drawDeck();
   p.hand.push(c);
@@ -1029,9 +1162,9 @@ function aiDiscard(){
   if(!/out!$/.test(G.log))G.log+='.';
 }
 function pump(){
-  if(timer||!G||onl())return;
+  if(timer||!G||onl()||tour!=null)return;
   if(!cur().ai||!(G.phase==='draw'||G.phase==='discard'))return;
-  timer=setTimeout(()=>{timer=null;if(G.phase==='draw')aiDraw();else aiDiscard();commit();},G.phase==='draw'?800:700);
+  timer=setTimeout(()=>{timer=null;if(tour!=null)return;if(G.phase==='draw')aiDraw();else aiDiscard();commit();},G.phase==='draw'?800:700);
 }
 function commit(){save();render();pump();}
 
@@ -1265,7 +1398,7 @@ function renderSheet(){
         <li>Bosses take a seat in rounds 4, 8 and 11 and bend the rules. Score fewer points than the boss for +${ECON.boss} gold and a free pick.</li>
         <li>After each round, visit the Court. Regalia are permanent perks (up to ${ECON.maxR}); Decrees are one-use cards you play from the gold bar on the table (up to ${ECON.maxD}).</li>
         <li>Survive round 11 to win. Your score is the gold left in your Treasury.</li>
-      </ul>`;
+      </ul>${isRun()?'<button class="btn ghost wide" data-act="tourshow">Show the Run walkthrough</button>':''}`;
     }else{
       const totals=G.players.map(p=>`${esc(p.name)} ${p.score}`).join(' · ');
       const palName=(PALETTES.find(p=>p.key===palette)||PALETTES[0]).name;
@@ -1279,6 +1412,7 @@ function renderSheet(){
       <div class="seg"><button data-act="mode" data-m="ai" aria-pressed="${P.mode==='ai'}">Vs computer</button><button data-act="mode" data-m="pp" aria-pressed="${isPP}">Pass &amp; play</button><button data-act="mode" data-m="run" aria-pressed="${isR}">The Run</button></div>
       ${isR?`<div class="runintro"><p><b>A solo roguelike.</b> Your gold is your life: every point you're caught with costs a coin. Go out, beat the bosses and spend wisely at the Court to survive all 11 rounds.</p></div>`
         :`<div class="seg">${counts.map(k=>`<button data-act="count" data-n="${k}" aria-pressed="${k===P.count}">${isPP?`${k} players`:`${k} opponent${k>1?'s':''}`}</button>`).join('')}</div>`}
+      ${P.mode==='ai'?`<h3>Computer players</h3><div class="seg">${Object.entries(LEVELS).map(([k,l])=>`<button data-act="level" data-l="${k}" aria-pressed="${k===P.level}">${l.name}</button>`).join('')}</div><p class="note">${LEVELS[P.level].note}</p>`:''}
       ${isPP?`<div class="names">${Array.from({length:P.count},(_,i)=>`<label for="pname${i}">Player ${i+1}<input id="pname${i}" data-i="${i}" value="${esc(P.names[i]||'')}" placeholder="Player ${i+1}" maxlength="14" autocomplete="off"></label>`).join('')}</div>`:''}
       <button class="btn" data-act="new">${isPP?'Start pass &amp; play':isR?'Start a new run':'Start new game'}</button>
       ${onlineMenuHTML()}`}
@@ -1288,12 +1422,16 @@ function renderSheet(){
         <button class="nav" data-act="mview" data-v="colour"><b>Colour</b><span>${palName}</span><i aria-hidden="true">›</i></button>
         <button class="nav" data-act="mview" data-v="rules"><b>How to play</b><span>Rules and scoring</span><i aria-hidden="true">›</i></button>
         <button class="nav" data-act="title"><b>Title screen</b><span>The card carousel</span><i aria-hidden="true">›</i></button>
-      </div>`;
+      </div>
+      <p class="note" id="appver"></p>`;
     }
     sh.innerHTML=html;
+    // The installed app shows its version (the offline cache name) so you can tell whether an update has arrived.
+    if(menuView==='main')try{caches.keys().then(k=>{const v=k.find(x=>x.startsWith('kingsrun-')),el=$('appver');if(el&&v)el.textContent='App version '+v.slice(9,15);}).catch(()=>{});}catch(e){}
     ov.hidden=false;return;
   }
   if(onl()&&G.phase==='lobby'){sh.innerHTML=lobbyHTML();ov.hidden=false;return;}
+  if(isRun()&&tour!=null){sh.innerHTML=tourHTML();ov.hidden=false;return;}
   if(isRun()&&G.phase==='court'){sh.innerHTML=courtHTML();ov.hidden=false;return;}
   if(isRun()&&runPanel&&(G.phase==='draw'||G.phase==='discard')){sh.innerHTML=runPanelHTML();ov.hidden=false;return;}
   if(G.phase==='roundEnd'||G.phase==='gameEnd'){
@@ -1473,7 +1611,7 @@ function openMenu(){
   menuOpen=true;menuView='main';confirmReset=false;confirmClear=false;restoreOpen=false;backupCode=null;recMsg='';inviteMsg='';
   const saved=loadNames();
   const m=G.cfg.mode==='online'?'ai':G.cfg.mode;
-  pending={mode:m,count:G.cfg.mode==='online'?2:G.cfg.count,names:Array.from({length:4},(_,i)=>(G.cfg.names||[])[i]||saved[i]||'')};
+  pending={mode:m,level:LEVELS[G.cfg.level]?G.cfg.level:levelPref(),count:G.cfg.mode==='online'?2:G.cfg.count,names:Array.from({length:4},(_,i)=>(G.cfg.names||[])[i]||saved[i]||'')};
   render();
 }
 function copyInvite(){
@@ -1575,11 +1713,17 @@ document.addEventListener('click',e=>{
   else if(a==='close'){menuOpen=false;render();}
   else if(a==='mode'){const m=t.dataset.m;if(m!==pending.mode){pending.mode=m;pending.count=2;}render();}
   else if(a==='count'){pending.count=+t.dataset.n;render();}
+  else if(a==='level'){if(LEVELS[t.dataset.l]){pending.level=t.dataset.l;try{localStorage.setItem(LEVEL_KEY,pending.level)}catch(e){}}render();}
   else if(a==='new'){
     clearTimeout(timer);timer=null;
     if(pending.mode==='pp')saveNames(pending.names);
-    newGame(pending);commit();
+    newGame(pending);
+    tour=pending.mode==='run'&&!tourSeen()?0:null;
+    commit();
   }
+  else if(a==='tournext'){if(tour!=null){tour++;if(tour>=TOUR().length)closeTour();commit();}}
+  else if(a==='tourskip'){closeTour();commit();}
+  else if(a==='tourshow'){if(isRun()){menuOpen=false;tour=0;render();}}
 });
 document.addEventListener('input',e=>{
   const i=e.target.dataset&&e.target.dataset.i;
@@ -1656,7 +1800,9 @@ function titleRun(){
   if(RM.matches){titleFrame();return;}
   if(!T.raf)T.raf=requestAnimationFrame(titleTick);
 }
+const DESK=matchMedia('(hover:hover) and (min-width:900px)');
 function showTitle(on){
+  if(on&&!DESK.matches)on=false;
   T.open=on;$('title').hidden=!on;
   if(!on){FX.deal=null;return;}
   if(!T.els.length)titleBuild();
@@ -1666,7 +1812,7 @@ function showTitle(on){
   titleRun();
 }
 document.addEventListener('visibilitychange',titleRun);
-addEventListener('resize',()=>{if(T.open){titleMetrics();if(RM.matches)titleFrame();}});
+addEventListener('resize',()=>{if(T.open&&!DESK.matches){showTitle(false);render();return;}if(T.open){titleMetrics();if(RM.matches)titleFrame();}});
 $('title').addEventListener('wheel',e=>{T.vel=Math.max(-.03,Math.min(.03,T.vel-e.deltaY*.00004));},{passive:true});
 $('title').addEventListener('pointerdown',e=>{if(!e.target.closest('button'))T.drag={y:e.clientY};});
 addEventListener('pointerup',()=>{T.drag=null;});
@@ -1719,7 +1865,7 @@ const EASE='cubic-bezier(.2,.8,.2,1)';
 function motionFx(v){
   const playing=G.round>0&&(G.phase==='draw'||G.phase==='discard');
   const top=G.discard[G.discard.length-1],tid=top?top.id:null;
-  const can=!RM.matches&&!T.open&&typeof Element.prototype.animate==='function';
+  const can=!RM.matches&&DESK.matches&&!T.open&&typeof Element.prototype.animate==='function';
   const dk=`${G.round}:${v}:${pp()?G.reveal:''}`;
   if(playing&&(!pp()||G.reveal)&&FX.deal!==dk){
     FX.deal=dk;
@@ -1766,7 +1912,8 @@ document.addEventListener('keydown',e=>{
 });
 
 G=load();
-if(!G||!G.players)newGame({mode:'ai',count:2,names:[]});
+if(!G){newGame({mode:'ai',count:2,names:[],level:levelPref()});if(lostSave)G.log='Your last game couldn’t be restored, so a new one was started. '+G.log;}
+if(G.run)G.run.regalia=G.run.regalia.filter(id=>REG(id));
 if(!G.mode)G.mode='ai';
 if(!G.cfg)G.cfg={mode:G.mode,count:G.mode==='pp'?N():N()-1,names:[]};
 G.reveal=false;

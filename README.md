@@ -1,9 +1,9 @@
-# Kingsrun · Motion edition
+# Kingsrun
 
 A five-suit rummy card game with a rotating wild card, played over 11 rounds.
 Play against 1–3 computer opponents or pass and play with 2–4 people on one phone.
 
-This branch (`motion-edition`) is the same game with a new look, built for a browser as much as a phone:
+One link, two looks. On a phone (or any narrow or touch-only screen) you get the original compact layout and colour themes. On a desktop browser (a mouse and a window at least 900px wide) you get the Motion edition:
 a black table, dark cards with real 3D thickness, a deck and discard pile that lean with your mouse, and a title
 screen with a spinning carousel of the five Kings. The rules, The Run, online play and your saved records are unchanged.
 The look is adapted from the "Animated Cards" design on MotionSites.
