@@ -537,6 +537,40 @@ button.card.fresh:not(.sel){box-shadow:0 0 0 2px var(--good),0 0 22px -4px var(-
     border:1px solid rgba(255,255,255,.1);box-shadow:inset 0 1px 0 rgba(255,255,255,.09)}
   .res .lay .g.dead{border-color:rgba(255,255,255,.22)}
 }
+
+/* ===== cook round 2: The Run gets the fantasy theme (parchment cards, enchanted back, dusk table); desktop only ===== */
+@media (hover:hover) and (min-width:900px) and (min-height:620px){
+html[data-mode=run] .btn:not(.ghost):not(:disabled){background:linear-gradient(180deg,#F3CF74,#D4A238);color:#2A1A08;box-shadow:0 8px 24px -8px rgba(232,184,74,.55),inset 0 1px 0 rgba(255,255,255,.45)}
+}
+@media (hover:hover) and (min-width:900px){
+  html[data-mode=run]{--gold:#E8B84A;--ink:#3A2410}
+  html[data-mode=run] .card.s0{color:#9A6508}html[data-mode=run] .card.s1{color:#B3202F}html[data-mode=run] .card.s2{color:#1D6B40}html[data-mode=run] .card.s3{color:#241F2E}html[data-mode=run] .card.s4{color:#1F4DA6}
+  html[data-mode=run] .card:not(.back):not(.joker){
+    background:
+      radial-gradient(130% 90% at 100% 100%,color-mix(in srgb,currentColor 16%,transparent),transparent 60%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .22 0 0 0 0 .08 0 0 0 .16 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E"),
+      linear-gradient(155deg,#F7EBCF 0%,#EBD9AE 55%,#DCC592 100%);
+    border:1px solid color-mix(in srgb,currentColor 55%,#5A3A12);
+    box-shadow:inset 0 0 0 calc(var(--cw)*.035) #EFDFB8,inset 0 0 0 calc(var(--cw)*.045) color-mix(in srgb,currentColor 55%,#6B4A1E),
+      inset 0 0 calc(var(--cw)*.3) rgba(120,80,20,.28),0 12px 26px -12px #000,-3px 0 7px -3px #000}
+  html[data-mode=run] .grp .cs .card:not(.back):not(.joker){box-shadow:inset 0 0 0 calc(var(--cw)*.035) #EFDFB8,inset 0 0 0 calc(var(--cw)*.045) color-mix(in srgb,currentColor 55%,#6B4A1E),
+      inset 0 0 calc(var(--cw)*.3) rgba(120,80,20,.28),0 12px 26px -12px #000,-3px 0 7px -3px #000}
+  html[data-mode=run] .card:not(.back):not(.joker)::before{background:linear-gradient(118deg,rgba(255,255,255,.35),rgba(255,255,255,0) 40%)}
+  html[data-mode=run] .card:not(.back):not(.joker)::after{content:"";position:absolute;inset:calc(var(--cw)*.075);border:1px dotted color-mix(in srgb,currentColor 50%,transparent);border-radius:calc(var(--cw)*.07);pointer-events:none}
+  html[data-mode=run] .card .big{opacity:.95;filter:drop-shadow(0 1px 0 rgba(255,255,255,.5))}
+  html[data-mode=run] .card .rk{text-shadow:0 1px 0 rgba(255,255,255,.55)}
+  html[data-mode=run] .card.wild{border:1.5px solid var(--gold);box-shadow:inset 0 0 0 calc(var(--cw)*.035) #EFDFB8,inset 0 0 0 calc(var(--cw)*.045) var(--gold),0 0 24px -6px var(--gold),0 12px 26px -12px #000}
+  html[data-mode=run] .card .tag{background:linear-gradient(180deg,#F4CF6B,#B98A22);color:#2A1804;border-top:1px solid rgba(255,255,255,.5)}
+  html[data-mode=run] .card.back{background:radial-gradient(60% 45% at 50% 50%,rgba(255,214,120,.35),transparent 70%),repeating-conic-gradient(from 0deg at 50% 50%,rgba(232,184,74,.16) 0 6deg,transparent 6deg 12deg),linear-gradient(160deg,#1B2352,#2B1B5C 60%,#140F33);
+    border:calc(var(--cw)*.03) solid var(--gold);box-shadow:inset 0 0 0 1px rgba(0,0,0,.5),inset 0 0 30px rgba(0,0,0,.5),0 0 34px -8px rgba(232,184,74,.55),0 12px 26px -12px #000}
+  html[data-mode=run] .table{background:radial-gradient(50% 58% at 50% 48%,rgba(232,184,74,.2),transparent 70%),radial-gradient(90% 120% at 50% 0%,rgba(60,50,130,.34),transparent 70%),
+      radial-gradient(1.2px 1.2px at 12% 22%,#fff8,transparent),radial-gradient(1.2px 1.2px at 78% 14%,#fff8,transparent),radial-gradient(1px 1px at 64% 70%,#fff7,transparent),radial-gradient(1px 1px at 28% 78%,#fff7,transparent),radial-gradient(1.4px 1.4px at 90% 58%,#fff8,transparent),radial-gradient(1px 1px at 40% 12%,#fff6,transparent),
+      linear-gradient(#07070D,#0A0A14);border-color:rgba(232,184,74,.22);box-shadow:inset 0 1px 1px rgba(255,235,180,.16),inset 0 0 140px rgba(0,0,0,.65)}
+  html[data-mode=run] .table::before{border-color:rgba(232,184,74,.18)}
+  html[data-mode=run] .sheet{border-color:rgba(232,184,74,.28);box-shadow:inset 0 1px 0 rgba(255,235,180,.22),0 40px 120px -30px #000,0 0 90px -44px var(--gold)}
+  html[data-mode=run] .sheet h2,html[data-mode=run] .offer b{color:#F6E3B0}
+  html[data-mode=run] .bp.you{border-color:rgba(232,184,74,.5)}
+}
 </style>
 
 <div class="app">
@@ -1242,6 +1276,7 @@ let fitW=0,fitH=0;
 try{new ResizeObserver(es=>{const r=es[0].contentRect;if(Math.abs(r.width-fitW)>1||Math.abs(r.height-fitH)>1){fitW=r.width;fitH=r.height;if(G)fitHand();}}).observe(document.getElementById('handzone'));}catch(e){addEventListener('resize',()=>{if(G)fitHand();});}
 try{document.fonts.ready.then(()=>{if(G)fitHand();});}catch(e){}
 function render(){
+  document.documentElement.dataset.mode=isRun()?'run':'std';
   const v=viewer(),wr=rulesFor(v),wn=wildRank(),me=G.players[v],myTurn=canAct(),run=isRun()?G.run:null,boss=run&&BOSSES[run.boss];
   $('roundPill').textContent=G.round>0?`Round ${G.round} of 11${onl()?` · Game ${O.code}`:boss?` · Boss: ${boss.name}`:run?' · The Run':''}`:onl()?`Online · Game ${O.code}`:'';
   $('wildPill').textContent=G.round>0?`${rankLabel(wn)}s wild`:'Lobby';
