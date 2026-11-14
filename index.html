@@ -514,6 +514,29 @@ button.card.fresh:not(.sel){box-shadow:0 0 0 2px var(--good),0 0 22px -4px var(-
 .instbar p{margin:0;flex:1;min-width:0}.instbar p b{display:block;font-size:15px}
 .instbar .btn{flex:none;padding:10px 14px;font-size:14px}
 .instbar .x{flex:none;border:0;background:none;color:var(--muted);font-size:13px;font-weight:600;padding:8px 6px;cursor:pointer}
+
+/* ===== cook round 1: materials and light (desktop only) ===== */
+@media (hover:hover) and (min-width:900px){
+  .card::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+    background:linear-gradient(118deg,rgba(255,255,255,.17),rgba(255,255,255,.04) 34%,transparent 52%)}
+  .card,.grp .cs .card{border-color:color-mix(in srgb,currentColor 34%,rgba(255,255,255,.16));
+    box-shadow:inset 0 1px 1px rgba(255,255,255,.24),inset 0 -14px 24px -18px color-mix(in srgb,currentColor 60%,transparent),
+      0 12px 26px -12px color-mix(in srgb,currentColor 42%,#000),-3px 0 7px -3px #000}
+  .card.back,.card.joker{border-color:rgba(255,255,255,.2)}
+  .table{position:relative;container-type:size;
+    background:radial-gradient(52% 62% at 50% 46%,rgba(150,90,255,.2),transparent 70%),radial-gradient(120% 150% at 12% 0%,rgba(255,255,255,.07),rgba(255,255,255,.015) 62%);
+    box-shadow:inset 0 1px 1px rgba(255,255,255,.1),inset 0 0 140px rgba(0,0,0,.65)}
+  .table::before{content:"";position:absolute;inset:12px;border:1px solid rgba(255,255,255,.055);border-radius:20px;pointer-events:none}
+  .pile,.app.roomy .pile{--cw:clamp(64px,min(calc((100cqh - 175px)/1.45),17cqw),250px)}
+  .sheet{background:linear-gradient(180deg,rgba(34,31,46,.80),rgba(13,13,17,.90));
+    -webkit-backdrop-filter:blur(26px) saturate(1.3);backdrop-filter:blur(26px) saturate(1.3);border-color:rgba(255,255,255,.15);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 40px 120px -30px #000,0 0 90px -44px var(--accent)}
+  .sheetfoot,.sheethead{background:transparent;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+  .sheet .btn.ghost.wide{background:linear-gradient(160deg,rgba(255,255,255,.09),rgba(255,255,255,.03));border-color:rgba(255,255,255,.12)}
+  .offer,.res,.owned li{background:linear-gradient(160deg,rgba(255,255,255,.085),rgba(255,255,255,.025));
+    border:1px solid rgba(255,255,255,.1);box-shadow:inset 0 1px 0 rgba(255,255,255,.09)}
+  .res .lay .g.dead{border-color:rgba(255,255,255,.22)}
+}
 </style>
 
 <div class="app">
