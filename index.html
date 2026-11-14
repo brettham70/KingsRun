@@ -571,6 +571,22 @@ html[data-mode=run] .btn:not(.ghost):not(:disabled){background:linear-gradient(1
   html[data-mode=run] .sheet h2,html[data-mode=run] .offer b{color:#F6E3B0}
   html[data-mode=run] .bp.you{border-color:rgba(232,184,74,.5)}
 }
+
+.card .art,.bart{display:none}
+/* ===== cook round 3: court-card figures and boss cards (desktop only) ===== */
+@media (hover:hover) and (min-width:900px){
+  .card{--cut:#101012;--skin:color-mix(in srgb,currentColor 32%,#101012)}
+  html[data-mode=run] .card{--cut:#F1E3BD;--skin:#F6EAC9}
+  .card.court .art{display:block;position:absolute;right:calc(var(--cw)*.03);bottom:calc(var(--cw)*.05);width:calc(var(--cw)*.88);height:auto;overflow:visible;pointer-events:none;filter:drop-shadow(0 calc(var(--cw)*.02) calc(var(--cw)*.05) color-mix(in srgb,currentColor 40%,transparent))}
+  .card.court .big{display:none}
+  .card.court .tag{z-index:2}
+  .mini .card .art{display:none}
+  .bp.boss{padding-top:6px;border-color:rgba(232,70,91,.55);background:linear-gradient(180deg,rgba(232,70,91,.14),rgba(255,255,255,.04))}
+  .bp.boss .bart{display:block;width:100%;height:118px;margin:0 0 4px;filter:drop-shadow(0 6px 14px rgba(0,0,0,.6))}
+  .bp.boss .bsc{font-size:22px;color:var(--bad)}
+  .bossnote{position:relative;padding-left:92px;min-height:104px;justify-content:center}
+  .bossnote .bart{display:block;position:absolute;left:8px;top:50%;transform:translateY(-50%);width:76px;height:95px;filter:drop-shadow(0 4px 10px rgba(0,0,0,.6))}
+}
 </style>
 
 <div class="app">
@@ -1178,7 +1194,7 @@ function runPanelHTML(){
   const r=G.run,boss=BOSSES[r.boss];
   return `<div class="sheethead"><h2>Your Court</h2><button class="iconbtn" data-act="rclose">Done</button></div>
     <div class="treasury"><span class="ml">Treasury</span><b><i class="coin" aria-hidden="true"></i>${r.gold}</b><span class="mw">Every point you’re caught with costs 1 gold.${G.round<=3?` Act 1 bills are capped at ${ECON.act1Cap}.`:''}</span></div>
-    ${boss?`<div class="bossnote"><b>${boss.name}</b><span>${boss.rule}</span></div>`:''}
+    ${boss?`<div class="bossnote">${bossArt(boss.key)}<b>${boss.name}</b><span>${boss.rule}</span></div>`:''}
     <h3>Decrees · ${r.decrees.length} of ${ECON.maxD}</h3>${decreeList(true)}
     ${r.pardon||r.insurance?`<p class="note">Active this round: ${[r.pardon&&'Royal Pardon',r.insurance&&'Insurance'].filter(Boolean).join(', ')}.</p>`:''}
     <h3>Regalia · ${r.regalia.length} of ${ECON.maxR}</h3>${regaliaList(false)}`;
@@ -1192,7 +1208,7 @@ function courtHTML(){
       <button class="btn${o.sold||full||p>r.gold?' ghost':''}" data-act="rbuy" data-k="${k}" ${o.sold||full||p>r.gold?'disabled':''}>${lbl}</button></div>`;};
   return `<div class="sheethead"><h2>The Court</h2><span class="goldbig"><i class="coin" aria-hidden="true"></i>${r.gold}</span></div>
     <p class="note">Next: round ${nr} of 11 · ${nr+2} cards · ${rankLabel(nr+2)}s wild${nr<=3?` · bills capped at ${ECON.act1Cap}`:''}</p>
-    ${nb?`<div class="bossnote"><b>Boss next: ${nb.name}</b><span>${nb.rule} Beat it for +${ECON.boss} gold and a free pick at the next Court.</span></div>`:''}
+    ${nb?`<div class="bossnote">${bossArt(nb.key)}<b>Boss next: ${nb.name}</b><span>${nb.rule} Beat it for +${ECON.boss} gold and a free pick at the next Court.</span></div>`:''}
     ${r.free?'<p class="note good">Boss bounty: your first pick here is free.</p>':''}
     ${nr<=3&&r.gold<ECON.act1Cap?`<p class="note err">Careful: next round can cost up to ${ECON.act1Cap}, and you have ${r.gold}.</p>`:''}
     <div class="offers">${r.shop.map(offer).join('')}</div>
@@ -1233,11 +1249,35 @@ function pump(){
 }
 function commit(){save();render();pump();}
 
+
+/* ===== cook round 3: original SVG figures for court cards and bosses (shown on desktop only) ===== */
+const CUT='var(--cut,#101012)',SKIN='var(--skin,var(--cut,#101012))';
+const COURT_ART={
+ 13:`<path d="M30 32 L33 13 L43 23 L50 9 L57 23 L67 13 L70 32 Z" fill="currentColor"/><circle cx="33" cy="12" r="2.6" fill="currentColor"/><circle cx="50" cy="8" r="2.6" fill="currentColor"/><circle cx="67" cy="12" r="2.6" fill="currentColor"/><rect x="29" y="30" width="42" height="6" rx="1.5" fill="currentColor"/><circle cx="50" cy="33" r="1.8" fill="${CUT}"/><circle cx="40" cy="33" r="1.4" fill="${CUT}"/><circle cx="60" cy="33" r="1.4" fill="${CUT}"/>
+ <path d="M12 130 L16 100 Q26 87 40 84 L50 97 L60 84 Q74 87 84 100 L88 130 Z" fill="currentColor"/><path d="M40 84 L50 100 L60 84" stroke="${CUT}" stroke-width="2" fill="none"/><g fill="${CUT}"><circle cx="24" cy="110" r="2"/><circle cx="33" cy="122" r="2"/><circle cx="76" cy="110" r="2"/><circle cx="67" cy="122" r="2"/><circle cx="50" cy="116" r="2.4"/></g>
+ <ellipse cx="50" cy="55" rx="15" ry="18" fill="${SKIN}" stroke="currentColor" stroke-width="2.6"/><circle cx="44" cy="51" r="1.9" fill="currentColor"/><circle cx="56" cy="51" r="1.9" fill="currentColor"/><path d="M50 52 v6" stroke="currentColor" stroke-width="1.6" fill="none"/>
+ <path d="M34 54 Q34 80 50 86 Q66 80 66 54 Q60 68 50 68 Q40 68 34 54 Z" fill="currentColor"/><path d="M42 61 Q50 56 58 61" stroke="${CUT}" stroke-width="2" fill="none"/>`,
+ 12:`<path d="M29 56 Q24 20 50 17 Q76 20 71 56 L76 96 Q63 100 60 86 L40 86 Q37 100 24 96 Z" fill="currentColor"/>
+ <path d="M44 64 h12 v24 q-6 8 -12 0 z" fill="${SKIN}" stroke="currentColor" stroke-width="2"/>
+ <path d="M14 130 L20 102 Q30 90 44 86 Q50 94 56 86 Q70 90 80 102 L86 130 Z" fill="currentColor"/><path d="M39 90 Q50 108 61 90" stroke="${CUT}" stroke-width="2" fill="none"/><circle cx="50" cy="104" r="3.2" fill="${CUT}"/><circle cx="43" cy="98" r="1.4" fill="${CUT}"/><circle cx="57" cy="98" r="1.4" fill="${CUT}"/>
+ <ellipse cx="50" cy="52" rx="12.5" ry="15.5" fill="${SKIN}" stroke="currentColor" stroke-width="2.4"/><path d="M42 50 q3 -3 6 0 M52 50 q3 -3 6 0" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M45 61 q5 4 10 0" stroke="currentColor" stroke-width="2" fill="none"/>
+ <path d="M34 30 L38 13 L44 24 L50 8 L56 24 L62 13 L66 30 Z" fill="currentColor" stroke="${CUT}" stroke-width="1.6"/><circle cx="50" cy="15" r="2.2" fill="${CUT}"/>`,
+ 11:`<path d="M60 18 Q86 2 94 28 Q82 16 66 26 Z" fill="currentColor"/><path d="M62 20 Q80 12 90 26" stroke="${CUT}" stroke-width="1.2" fill="none"/>
+ <path d="M28 40 Q28 17 52 16 Q75 18 74 40 Z" fill="currentColor"/><path d="M20 42 Q50 34 82 42 L82 47 Q50 41 20 47 Z" fill="currentColor"/><circle cx="52" cy="29" r="2.6" fill="${CUT}"/>
+ <path d="M45 68 h10 v16 h-10 z" fill="${SKIN}" stroke="currentColor" stroke-width="2"/>
+ <path d="M14 130 L19 102 Q30 90 42 84 L50 93 L58 84 Q70 90 81 102 L86 130 Z" fill="currentColor"/><path d="M42 84 L50 98 L58 84" stroke="${CUT}" stroke-width="2" fill="none"/><path d="M26 100 L72 130" stroke="${CUT}" stroke-width="3" fill="none"/><circle cx="50" cy="108" r="2" fill="${CUT}"/><circle cx="50" cy="118" r="2" fill="${CUT}"/>
+ <ellipse cx="50" cy="57" rx="12.5" ry="14.5" fill="${SKIN}" stroke="currentColor" stroke-width="2.4"/><circle cx="45" cy="55" r="1.8" fill="currentColor"/><circle cx="55" cy="55" r="1.8" fill="currentColor"/><path d="M45 64 q5 4 10 0" stroke="currentColor" stroke-width="2" fill="none"/>`};
+const courtArt=r=>COURT_ART[r]?`<svg class="art" viewBox="0 0 100 130" aria-hidden="true"><circle cx="50" cy="66" r="47" fill="currentColor" opacity=".09"/><circle cx="50" cy="66" r="47" fill="none" stroke="currentColor" stroke-width="1" opacity=".35"/>${COURT_ART[r]}</svg>`:'';
+const BOSS_LOOK={
+ miser:{c:'#E2B84C',t:'Hoards every discard',svg:`<path d="M22 150 L27 72 Q33 22 62 20 Q92 22 98 72 L103 150 Z" fill="currentColor"/><ellipse cx="62" cy="68" rx="22" ry="28" fill="#15110a"/><path d="M49 62 h11 M65 62 h11" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/><path d="M63 64 q-7 12 2 15" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round"/><path d="M52 86 q10 5 20 0" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round"/><path d="M38 150 Q28 120 52 113 Q62 108 72 113 Q96 120 86 150 Z" fill="#15110a" stroke="currentColor" stroke-width="3"/><path d="M52 113 h20" stroke="currentColor" stroke-width="3"/><circle cx="62" cy="133" r="9" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="62" cy="133" r="3" fill="currentColor"/><circle cx="100" cy="36" r="9" fill="currentColor"/><circle cx="100" cy="36" r="4.5" fill="#15110a"/><circle cx="18" cy="58" r="6" fill="currentColor"/><circle cx="18" cy="58" r="3" fill="#15110a"/>`},
+ jester:{c:'#FF6DB8',t:'Changes the wild every turn',svg:`<path d="M22 64 Q14 32 5 18 Q23 20 40 47 Q46 15 61 4 Q74 18 80 47 Q98 20 115 18 Q106 32 98 64 Z" fill="currentColor"/><g fill="#FFD25A"><circle cx="5" cy="18" r="6"/><circle cx="61" cy="4" r="6"/><circle cx="115" cy="18" r="6"/></g><ellipse cx="60" cy="80" rx="24" ry="26" fill="#14081a" stroke="currentColor" stroke-width="3"/><path d="M36 80 A24 26 0 0 1 60 54 L60 106 A24 26 0 0 1 36 80 Z" fill="currentColor" opacity=".85"/><path d="M45 76 l5 -5 l5 5 l-5 5 z M65 76 l5 -5 l5 5 l-5 5 z" fill="#FFD25A"/><path d="M44 92 Q60 108 76 92" stroke="#FFD25A" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M28 150 L33 114 L43 126 L51 109 L60 124 L69 109 L77 126 L87 114 L92 150 Z" fill="currentColor"/><path d="M60 130 l8 10 l-8 10 l-8 -10 z" fill="#14081a"/>`},
+ usurper:{c:'#E8465B',t:'Your Jokers aren’t wild',svg:`<path d="M6 150 L26 80 Q60 98 94 80 L114 150 Z" fill="currentColor" opacity=".9"/><ellipse cx="60" cy="74" rx="20" ry="24" fill="#12060a" stroke="currentColor" stroke-width="3"/><circle cx="52" cy="72" r="4.2" fill="currentColor"/><circle cx="68" cy="72" r="4.2" fill="currentColor"/><path d="M60 52 L56 64 L63 72 L58 88" stroke="currentColor" stroke-width="2.2" fill="none"/><path d="M51 90 h18" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><g transform="rotate(-14 60 42)"><path d="M33 46 L37 20 L49 34 L60 12 L71 34 L83 20 L87 46 Z" fill="#FFD25A"/><rect x="32" y="44" width="56" height="7" rx="2" fill="#FFD25A"/><circle cx="60" cy="47.5" r="2" fill="#12060a"/></g><path d="M60 108 l5 11 l11 5 l-11 5 l-5 11 l-5 -11 l-11 -5 l11 -5 z" fill="#FFD25A"/>`}};
+const bossArt=k=>BOSS_LOOK[k]?`<svg class="bart" viewBox="0 0 120 150" aria-hidden="true" style="color:${BOSS_LOOK[k].c}">${BOSS_LOOK[k].svg}</svg>`:'';
 function cardHTML(c,wr,tag='div',attrs='',cls=''){
   if(c.s<0){const w=isWild(c,wr);
     return `<${tag} class="card joker${w?' wild':' deadj'} ${cls}" ${attrs} aria-label="Joker, ${w?'wild':'not wild'}"><span class="rk">JKR</span><span class="big">✦</span><span class="tag">${w?'wild':'dead'}</span></${tag}>`;}
   const w=isWild(c,wr);
-  return `<${tag} class="card s${c.s}${w?' wild':''} ${cls}" ${attrs} aria-label="${rankLabel(c.r)} of ${SUIT_NAMES[c.s]}${w?', wild':''}"><span class="rk">${rankLabel(c.r)}<i>${SUITS[c.s]}</i></span><span class="big">${SUITS[c.s]}</span>${w?'<span class="tag">wild</span>':''}</${tag}>`;
+  return `<${tag} class="card s${c.s}${c.r>=11?' court':''}${w?' wild':''} ${cls}" ${attrs} aria-label="${rankLabel(c.r)} of ${SUIT_NAMES[c.s]}${w?', wild':''}"><span class="rk">${rankLabel(c.r)}<i>${SUITS[c.s]}</i></span>${courtArt(c.r)}<span class="big">${SUITS[c.s]}</span>${w?'<span class="tag">wild</span>':''}</${tag}>`;
 }
 function meldLabel(m,wr){
   const nat=m.cards.find(c=>!isWild(c,wr));
@@ -1294,7 +1334,7 @@ function render(){
     const big=run?(you?`${run.gold}<small>gold</small>`:p.boss?'Boss':'&nbsp;'):p.score;
     const last=!run&&p.rounds&&p.rounds.length?`last round ${p.rounds[p.rounds.length-1]>0?'+':''}${p.rounds[p.rounds.length-1]}`:'';
     const sub=run?(you?`${Math.floor(solve(p.hand,rulesFor(i)).cost)} unmatched`:p.boss?esc(BOSSES[p.boss].short):`${p.hand.length} cards`):last;
-    return `<div class="bp${you?' you':''}${act?' act':''}${out?' out':''}${!run&&G.round>1&&p.score===lo?' lead':''}"><div class="bn"><span>${you&&!onl()&&p.name==='You'?'You':esc(p.name)}</span>${out?'<b class="bdg out">Out</b>':act?'<b class="bdg">Playing</b>':''}</div><div class="bsc">${big}</div><div class="bm">${sub}</div></div>`;}).join('');}
+    return `<div class="bp${you?' you':''}${act?' act':''}${out?' out':''}${p.boss?' boss':''}${!run&&G.round>1&&p.score===lo?' lead':''}">${p.boss?bossArt(p.boss):''}<div class="bn"><span>${you&&!onl()&&p.name==='You'?'You':esc(p.name)}</span>${out?'<b class="bdg out">Out</b>':act?'<b class="bdg">Playing</b>':''}</div><div class="bsc">${big}</div><div class="bm">${sub}</div></div>`;}).join('');}
 
   const canDraw=myTurn&&G.phase==='draw';
   const peek=run&&G.deck.length&&(runHas('spyglass')||run.peek)&&(G.phase==='draw'||G.phase==='discard')?G.deck[G.deck.length-1]:null;
