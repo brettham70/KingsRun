@@ -1,5 +1,5 @@
 // Kingsrun offline support. Version changes whenever any app file changes.
-const CACHE = 'kingsrun-6a17e4441a';
+const CACHE = 'kingsrun-09c070655e';
 const ASSETS = ["./", "index.html", "manifest.webmanifest", "icon-192.png", "icon-512.png", "maskable-512.png", "apple-touch-icon.png", "young-serif-400.woff2", "figtree-400.woff2", "figtree-500.woff2", "figtree-600.woff2", "figtree-700.woff2", "ibm-plex-mono-500.woff2"];
 
 self.addEventListener('install', e => {
