@@ -1,0 +1,42 @@
+[
+ {
+  "name": "84 conditions x 500 runs, identical seed list in every condition (paired)",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "no run is \"gated\" outside the gate rules (the 40-attempt safety stop never fired)",
+  "ok": true,
+  "detail": "max attempts at one boss: 22"
+ },
+ {
+  "name": "under every \"must beat\" rule, every completed run beat all three bosses",
+  "ok": true,
+  "detail": "9250 completed runs"
+ },
+ {
+  "name": "tolls recorded per round add up to the run total",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "attempt numbers only on boss rounds, and rematches only under rematch rules",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "no run exceeds round 11",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "the \"current rules\" condition has no tolls, thefts or gate endings",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "tribute amounts are 10 / 15 / 20 by boss",
+  "ok": true,
+  "detail": ""
+ }
+]

@@ -1,0 +1,797 @@
+{
+ "base_seed_e1_e2_e3_e5": 20261117,
+ "base_seed_e4": 20261118,
+ "experiments": {
+  "e6": {
+   "N": 500,
+   "runs": 21000,
+   "rounds": 181802,
+   "seconds": 658.497,
+   "paired_seeds_per_condition": 500,
+   "conditions": [
+    {
+     "id": "skill80|none|current",
+     "court": "none",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8
+     },
+     "variant": "current"
+    },
+    {
+     "id": "skill80|none|gate",
+     "court": "none",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8,
+      "bossRule": {
+       "all": {
+        "type": "gate"
+       }
+      }
+     },
+     "variant": "current"
+    },
+    {
+     "id": "skill80|none|rematch0",
+     "court": "none",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8,
+      "bossRule": {
+       "all": {
+        "type": "rematch",
+        "toll": 0,
+        "step": 0
+       }
+      }
+     },
+     "variant": "current"
+    },
+    {
+     "id": "skill80|none|rematch5",
+     "court": "none",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8,
+      "bossRule": {
+       "all": {
+        "type": "rematch",
+        "toll": 5,
+        "step": 0
+       }
+      }
+     },
+     "variant": "current"
+    },
+    {
+     "id": "skill80|none|rematch10",
+     "court": "none",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8,
+      "bossRule": {
+       "all": {
+        "type": "rematch",
+        "toll": 10,
+        "step": 0
+       }
+      }
+     },
+     "variant": "current"
+    },
+    {
+     "id": "skill80|none|rematch_esc",
+     "court": "none",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8,
+      "bossRule": {
+       "all": {
+        "type": "rematch",
+        "toll": 5,
+        "step": 5
+       }
+      }
+     },
+     "variant": "current"
+    },
+    {
+     "id": "skill80|none|rematch20",
+     "court": "none",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8,
+      "bossRule": {
+       "all": {
+        "type": "rematch",
+        "toll": 20,
+        "step": 0
+       }
+      }
+     },
+     "variant": "current"
+    },
+    {
+     "id": "skill80|none|rematch_pct25",
+     "court": "none",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8,
+      "bossRule": {
+       "all": {
+        "type": "rematch",
+        "toll": 5,
+        "pct": 0.25
+       }
+      }
+     },
+     "variant": "current"
+    },
+    {
+     "id": "skill80|none|tribute",
+     "court": "none",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8,
+      "bossRule": {
+       "miser": {
+        "type": "tribute",
+        "amount": 10
+       },
+       "jester": {
+        "type": "tribute",
+        "amount": 15
+       },
+       "usurper": {
+        "type": "tribute",
+        "amount": 20
+       }
+      }
+     },
+     "variant": "current"
+    },
+    {
+     "id": "skill80|none|steal",
+     "court": "none",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8,
+      "bossRule": {
+       "all": {
+        "type": "steal"
+       }
+      }
+     },
+     "variant": "current"
+    },
+    {
+     "id": "skill80|none|finalgate",
+     "court": "none",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8,
+      "bossRule": {
+       "miser": {
+        "type": "rematch",
+        "toll": 5
+       },
+       "jester": {
+        "type": "rematch",
+        "toll": 5
+       },
+       "usurper": {
+        "type": "gate"
+       }
+      }
+     },
+     "variant": "current"
+    },
+    {
+     "id": "skill80|none|current_sym",
+     "court": "none",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8
+     },
+     "variant": {
+      "usurperSym": true
+     }
+    },
+    {
+     "id": "skill80|none|rematch5_sym",
+     "court": "none",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8,
+      "bossRule": {
+       "all": {
+        "type": "rematch",
+        "toll": 5,
+        "step": 0
+       }
+      }
+     },
+     "variant": {
+      "usurperSym": true
+     }
+    },
+    {
+     "id": "skill80|none|finalgate_sym",
+     "court": "none",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8,
+      "bossRule": {
+       "miser": {
+        "type": "rematch",
+        "toll": 5
+       },
+       "jester": {
+        "type": "rematch",
+        "toll": 5
+       },
+       "usurper": {
+        "type": "gate"
+       }
+      }
+     },
+     "variant": {
+      "usurperSym": true
+     }
+    },
+    {
+     "id": "skill80|defensive|current",
+     "court": "defensive",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8
+     },
+     "variant": "current"
+    },
+    {
+     "id": "skill80|defensive|gate",
+     "court": "defensive",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8,
+      "bossRule": {
+       "all": {
+        "type": "gate"
+       }
+      }
+     },
+     "variant": "current"
+    },
+    {
+     "id": "skill80|defensive|rematch0",
+     "court": "defensive",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8,
+      "bossRule": {
+       "all": {
+        "type": "rematch",
+        "toll": 0,
+        "step": 0
+       }
+      }
+     },
+     "variant": "current"
+    },
+    {
+     "id": "skill80|defensive|rematch5",
+     "court": "defensive",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8,
+      "bossRule": {
+       "all": {
+        "type": "rematch",
+        "toll": 5,
+        "step": 0
+       }
+      }
+     },
+     "variant": "current"
+    },
+    {
+     "id": "skill80|defensive|rematch10",
+     "court": "defensive",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8,
+      "bossRule": {
+       "all": {
+        "type": "rematch",
+        "toll": 10,
+        "step": 0
+       }
+      }
+     },
+     "variant": "current"
+    },
+    {
+     "id": "skill80|defensive|rematch_esc",
+     "court": "defensive",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8,
+      "bossRule": {
+       "all": {
+        "type": "rematch",
+        "toll": 5,
+        "step": 5
+       }
+      }
+     },
+     "variant": "current"
+    },
+    {
+     "id": "skill80|defensive|rematch20",
+     "court": "defensive",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8,
+      "bossRule": {
+       "all": {
+        "type": "rematch",
+        "toll": 20,
+        "step": 0
+       }
+      }
+     },
+     "variant": "current"
+    },
+    {
+     "id": "skill80|defensive|rematch_pct25",
+     "court": "defensive",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8,
+      "bossRule": {
+       "all": {
+        "type": "rematch",
+        "toll": 5,
+        "pct": 0.25
+       }
+      }
+     },
+     "variant": "current"
+    },
+    {
+     "id": "skill80|defensive|tribute",
+     "court": "defensive",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8,
+      "bossRule": {
+       "miser": {
+        "type": "tribute",
+        "amount": 10
+       },
+       "jester": {
+        "type": "tribute",
+        "amount": 15
+       },
+       "usurper": {
+        "type": "tribute",
+        "amount": 20
+       }
+      }
+     },
+     "variant": "current"
+    },
+    {
+     "id": "skill80|defensive|steal",
+     "court": "defensive",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8,
+      "bossRule": {
+       "all": {
+        "type": "steal"
+       }
+      }
+     },
+     "variant": "current"
+    },
+    {
+     "id": "skill80|defensive|finalgate",
+     "court": "defensive",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8,
+      "bossRule": {
+       "miser": {
+        "type": "rematch",
+        "toll": 5
+       },
+       "jester": {
+        "type": "rematch",
+        "toll": 5
+       },
+       "usurper": {
+        "type": "gate"
+       }
+      }
+     },
+     "variant": "current"
+    },
+    {
+     "id": "skill80|defensive|current_sym",
+     "court": "defensive",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8
+     },
+     "variant": {
+      "usurperSym": true
+     }
+    },
+    {
+     "id": "skill80|defensive|rematch5_sym",
+     "court": "defensive",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8,
+      "bossRule": {
+       "all": {
+        "type": "rematch",
+        "toll": 5,
+        "step": 0
+       }
+      }
+     },
+     "variant": {
+      "usurperSym": true
+     }
+    },
+    {
+     "id": "skill80|defensive|finalgate_sym",
+     "court": "defensive",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8,
+      "bossRule": {
+       "miser": {
+        "type": "rematch",
+        "toll": 5
+       },
+       "jester": {
+        "type": "rematch",
+        "toll": 5
+       },
+       "usurper": {
+        "type": "gate"
+       }
+      }
+     },
+     "variant": {
+      "usurperSym": true
+     }
+    },
+    {
+     "id": "skill80|aggressive|current",
+     "court": "aggressive",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8
+     },
+     "variant": "current"
+    },
+    {
+     "id": "skill80|aggressive|gate",
+     "court": "aggressive",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8,
+      "bossRule": {
+       "all": {
+        "type": "gate"
+       }
+      }
+     },
+     "variant": "current"
+    },
+    {
+     "id": "skill80|aggressive|rematch0",
+     "court": "aggressive",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8,
+      "bossRule": {
+       "all": {
+        "type": "rematch",
+        "toll": 0,
+        "step": 0
+       }
+      }
+     },
+     "variant": "current"
+    },
+    {
+     "id": "skill80|aggressive|rematch5",
+     "court": "aggressive",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8,
+      "bossRule": {
+       "all": {
+        "type": "rematch",
+        "toll": 5,
+        "step": 0
+       }
+      }
+     },
+     "variant": "current"
+    },
+    {
+     "id": "skill80|aggressive|rematch10",
+     "court": "aggressive",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8,
+      "bossRule": {
+       "all": {
+        "type": "rematch",
+        "toll": 10,
+        "step": 0
+       }
+      }
+     },
+     "variant": "current"
+    },
+    {
+     "id": "skill80|aggressive|rematch_esc",
+     "court": "aggressive",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8,
+      "bossRule": {
+       "all": {
+        "type": "rematch",
+        "toll": 5,
+        "step": 5
+       }
+      }
+     },
+     "variant": "current"
+    },
+    {
+     "id": "skill80|aggressive|rematch20",
+     "court": "aggressive",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8,
+      "bossRule": {
+       "all": {
+        "type": "rematch",
+        "toll": 20,
+        "step": 0
+       }
+      }
+     },
+     "variant": "current"
+    },
+    {
+     "id": "skill80|aggressive|rematch_pct25",
+     "court": "aggressive",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8,
+      "bossRule": {
+       "all": {
+        "type": "rematch",
+        "toll": 5,
+        "pct": 0.25
+       }
+      }
+     },
+     "variant": "current"
+    },
+    {
+     "id": "skill80|aggressive|tribute",
+     "court": "aggressive",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8,
+      "bossRule": {
+       "miser": {
+        "type": "tribute",
+        "amount": 10
+       },
+       "jester": {
+        "type": "tribute",
+        "amount": 15
+       },
+       "usurper": {
+        "type": "tribute",
+        "amount": 20
+       }
+      }
+     },
+     "variant": "current"
+    },
+    {
+     "id": "skill80|aggressive|steal",
+     "court": "aggressive",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8,
+      "bossRule": {
+       "all": {
+        "type": "steal"
+       }
+      }
+     },
+     "variant": "current"
+    },
+    {
+     "id": "skill80|aggressive|finalgate",
+     "court": "aggressive",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8,
+      "bossRule": {
+       "miser": {
+        "type": "rematch",
+        "toll": 5
+       },
+       "jester": {
+        "type": "rematch",
+        "toll": 5
+       },
+       "usurper": {
+        "type": "gate"
+       }
+      }
+     },
+     "variant": "current"
+    },
+    {
+     "id": "skill80|aggressive|current_sym",
+     "court": "aggressive",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8
+     },
+     "variant": {
+      "usurperSym": true
+     }
+    },
+    {
+     "id": "skill80|aggressive|rematch5_sym",
+     "court": "aggressive",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8,
+      "bossRule": {
+       "all": {
+        "type": "rematch",
+        "toll": 5,
+        "step": 0
+       }
+      }
+     },
+     "variant": {
+      "usurperSym": true
+     }
+    },
+    {
+     "id": "skill80|aggressive|finalgate_sym",
+     "court": "aggressive",
+     "reserve": 10,
+     "opts": {
+      "skill": 0.8,
+      "bossRule": {
+       "miser": {
+        "type": "rematch",
+        "toll": 5
+       },
+       "jester": {
+        "type": "rematch",
+        "toll": 5
+       },
+       "usurper": {
+        "type": "gate"
+       }
+      }
+     },
+     "variant": {
+      "usurperSym": true
+     }
+    }
+   ],
+   "boss_rules": {
+    "current": null,
+    "gate": {
+     "all": {
+      "type": "gate"
+     }
+    },
+    "rematch0": {
+     "all": {
+      "type": "rematch",
+      "toll": 0,
+      "step": 0
+     }
+    },
+    "rematch5": {
+     "all": {
+      "type": "rematch",
+      "toll": 5,
+      "step": 0
+     }
+    },
+    "rematch10": {
+     "all": {
+      "type": "rematch",
+      "toll": 10,
+      "step": 0
+     }
+    },
+    "rematch_esc": {
+     "all": {
+      "type": "rematch",
+      "toll": 5,
+      "step": 5
+     }
+    },
+    "rematch20": {
+     "all": {
+      "type": "rematch",
+      "toll": 20,
+      "step": 0
+     }
+    },
+    "rematch_pct25": {
+     "all": {
+      "type": "rematch",
+      "toll": 5,
+      "pct": 0.25
+     }
+    },
+    "tribute": {
+     "miser": {
+      "type": "tribute",
+      "amount": 10
+     },
+     "jester": {
+      "type": "tribute",
+      "amount": 15
+     },
+     "usurper": {
+      "type": "tribute",
+      "amount": 20
+     }
+    },
+    "steal": {
+     "all": {
+      "type": "steal"
+     }
+    },
+    "finalgate": {
+     "miser": {
+      "type": "rematch",
+      "toll": 5
+     },
+     "jester": {
+      "type": "rematch",
+      "toll": 5
+     },
+     "usurper": {
+      "type": "gate"
+     }
+    }
+   },
+   "skills": {
+    "best": {},
+    "skill80": {
+     "skill": 0.8
+    }
+   },
+   "note": "reserve 10 for listed Court policies"
+  }
+ }
+}

@@ -13,6 +13,8 @@ r['completed'] = (r.outcome == 'completed').astype(int); r['gated'] = (r.outcome
 for c in ('boss_tolls_paid', 'regalia_stolen', 'att_miser', 'att_jester', 'att_usurper'): r[c] = r[c].fillna(0)
 r['ended_by'] = r.ended_by.fillna(''); r['ended_at_boss'] = r.ended_at_boss.fillna('')
 r.loc[(r.rule.isin(['current', 'current_sym'])) & (r.outcome == 'bankrupt'), 'ended_by'] = 'bill'
+last = d.groupby(['cond', 'i']).tail(1)[['cond', 'i', 'boss']].rename(columns={'boss': 'last_boss'})      # where every unfinished run ended (works for current rules too)
+r = r.merge(last, on=['cond', 'i']); r['ended_at_boss'] = np.where(r.outcome != 'completed', r.last_boss.fillna(''), '')
 N = r.groupby('cond').size().iloc[0]
 RULES = ['current', 'tribute', 'steal', 'rematch0', 'rematch5', 'rematch10', 'rematch_esc', 'rematch20', 'rematch_pct25', 'finalgate', 'gate', 'current_sym', 'rematch5_sym', 'finalgate_sym']
 NAME = {'current': 'Current rules', 'tribute': 'Tribute on a loss (10 / 15 / 20 gold)', 'steal': 'Boss takes your priciest Regalia', 'rematch0': 'Rematch, no toll', 'rematch5': 'Rematch, 5 gold per loss', 'rematch10': 'Rematch, 10 gold per loss',
