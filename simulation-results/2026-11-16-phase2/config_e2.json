@@ -1,0 +1,233 @@
+{
+ "base_seed_e1_e2_e3_e5": 20261117,
+ "base_seed_e4": 20261118,
+ "experiments": {
+  "e2": {
+   "N": 600,
+   "runs": 12000,
+   "rounds": 120435,
+   "seconds": 958.428,
+   "paired_seeds_per_condition": 600,
+   "conditions": [
+    {
+     "id": "control",
+     "court": "none",
+     "reserve": 5,
+     "opts": {
+      "forced": []
+     },
+     "variant": "current"
+    },
+    {
+     "id": "commoner",
+     "court": "none",
+     "reserve": 5,
+     "opts": {
+      "forced": [
+       "commoner"
+      ]
+     },
+     "variant": "current"
+    },
+    {
+     "id": "seventh",
+     "court": "none",
+     "reserve": 5,
+     "opts": {
+      "forced": [
+       "seventh"
+      ]
+     },
+     "variant": "current"
+    },
+    {
+     "id": "jewels",
+     "court": "none",
+     "reserve": 5,
+     "opts": {
+      "forced": [
+       "jewels"
+      ]
+     },
+     "variant": "current"
+    },
+    {
+     "id": "fool",
+     "court": "none",
+     "reserve": 5,
+     "opts": {
+      "forced": [
+       "fool"
+      ]
+     },
+     "variant": "current"
+    },
+    {
+     "id": "twin",
+     "court": "none",
+     "reserve": 5,
+     "opts": {
+      "forced": [
+       "twin"
+      ]
+     },
+     "variant": "current"
+    },
+    {
+     "id": "starlight",
+     "court": "none",
+     "reserve": 5,
+     "opts": {
+      "forced": [
+       "starlight"
+      ]
+     },
+     "variant": "current"
+    },
+    {
+     "id": "lowtide",
+     "court": "none",
+     "reserve": 5,
+     "opts": {
+      "forced": [
+       "lowtide"
+      ]
+     },
+     "variant": "current"
+    },
+    {
+     "id": "purse",
+     "court": "none",
+     "reserve": 5,
+     "opts": {
+      "forced": [
+       "purse"
+      ]
+     },
+     "variant": "current"
+    },
+    {
+     "id": "vault",
+     "court": "none",
+     "reserve": 5,
+     "opts": {
+      "forced": [
+       "vault"
+      ]
+     },
+     "variant": "current"
+    },
+    {
+     "id": "spyglass",
+     "court": "none",
+     "reserve": 5,
+     "opts": {
+      "forced": [
+       "spyglass"
+      ]
+     },
+     "variant": "current"
+    },
+    {
+     "id": "eaves",
+     "court": "none",
+     "reserve": 5,
+     "opts": {
+      "forced": [
+       "eaves"
+      ]
+     },
+     "variant": "current"
+    },
+    {
+     "id": "herald",
+     "court": "none",
+     "reserve": 5,
+     "opts": {
+      "forced": [
+       "herald"
+      ]
+     },
+     "variant": "current"
+    },
+    {
+     "id": "earlybird",
+     "court": "none",
+     "reserve": 5,
+     "opts": {
+      "forced": [
+       "earlybird"
+      ]
+     },
+     "variant": "current"
+    },
+    {
+     "id": "mint",
+     "court": "none",
+     "reserve": 5,
+     "opts": {
+      "forced": [
+       "mint"
+      ]
+     },
+     "variant": "current"
+    },
+    {
+     "id": "tax",
+     "court": "none",
+     "reserve": 5,
+     "opts": {
+      "forced": [
+       "tax"
+      ]
+     },
+     "variant": "current"
+    },
+    {
+     "id": "interest",
+     "court": "none",
+     "reserve": 5,
+     "opts": {
+      "forced": [
+       "interest"
+      ]
+     },
+     "variant": "current"
+    },
+    {
+     "id": "patron",
+     "court": "none",
+     "reserve": 5,
+     "opts": {
+      "forced": [
+       "patron"
+      ]
+     },
+     "variant": "current"
+    },
+    {
+     "id": "secondwind",
+     "court": "none",
+     "reserve": 5,
+     "opts": {
+      "forced": [
+       "secondwind"
+      ]
+     },
+     "variant": "current"
+    },
+    {
+     "id": "gambler",
+     "court": "none",
+     "reserve": 5,
+     "opts": {
+      "forced": [
+       "gambler"
+      ]
+     },
+     "variant": "current"
+    }
+   ]
+  }
+ }
+}

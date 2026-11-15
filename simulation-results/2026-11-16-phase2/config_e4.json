@@ -1,0 +1,11 @@
+{
+ "base_seed_e1_e2_e3_e5": 20261117,
+ "base_seed_e4": 20261118,
+ "experiments": {
+  "e4": {
+   "N": 2000,
+   "runs": 108000,
+   "seconds": 1151.265
+  }
+ }
+}

@@ -1,0 +1,102 @@
+[
+ {
+  "name": "e1: 8 conditions x 1000 runs, identical seed list in every condition (paired)",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "e1: no run exceeds 11 rounds",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "e2: 20 conditions x 600 runs, identical seed list in every condition (paired)",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "e2: no run exceeds 11 rounds",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "e3: 10 conditions x 1000 runs, identical seed list in every condition (paired)",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "e3: no run exceeds 11 rounds",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "e5: 24 conditions x 500 runs, identical seed list in every condition (paired)",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "e5: no run exceeds 11 rounds",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "e1 (no-Court): going-out reward equals 10 x the variant multiplier (30 / 20 / 25) and 0 for control, in every round the player went out",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "e1 (no-Court, rounds 4-11): penalty paid = ceil(raw x variant penalty multiplier)",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "e1: Gambler's Hand owned at the end in every variant run, never in control",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "e2: forced Regalia owned at the end of every run (no-Court never sells; Second Wind may be used up)",
+  "ok": true,
+  "detail": "12000 runs"
+ },
+ {
+  "name": "e2: control runs bought nothing",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "e4: every boss x build x on/off cell has the same encounter count",
+  "ok": true,
+  "detail": "2000 per cell"
+ },
+ {
+  "name": "e4: boss rounds are 4 / 8 / 11",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "e4: income-only build plays identically to no build (it cannot change card play) in all 6 boss/on-off cells",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "e4: Court Fool changes nothing against the Usurper (code disables it) but does elsewhere",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "e4: nobody enters with other than 40 gold",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "re-running 242 sampled runs from their seeds and conditions reproduces them exactly",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "all 242 sampled runs' round ledgers reconcile",
+  "ok": true,
+  "detail": ""
+ }
+]

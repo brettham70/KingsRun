@@ -1,0 +1,246 @@
+{
+ "base_seed_e1_e2_e3_e5": 20261117,
+ "base_seed_e4": 20261118,
+ "experiments": {
+  "e5": {
+   "N": 500,
+   "runs": 12000,
+   "rounds": 91867,
+   "seconds": 749.645,
+   "paired_seeds_per_condition": 500,
+   "conditions": [
+    {
+     "id": "none|best",
+     "court": "none",
+     "reserve": 5,
+     "opts": {},
+     "variant": "current"
+    },
+    {
+     "id": "none|skill80",
+     "court": "none",
+     "reserve": 5,
+     "opts": {
+      "skill": 0.8
+     },
+     "variant": "current"
+    },
+    {
+     "id": "none|skill55",
+     "court": "none",
+     "reserve": 5,
+     "opts": {
+      "skill": 0.55
+     },
+     "variant": "current"
+    },
+    {
+     "id": "none|skill30",
+     "court": "none",
+     "reserve": 5,
+     "opts": {
+      "skill": 0.3
+     },
+     "variant": "current"
+    },
+    {
+     "id": "none|deckonly",
+     "court": "none",
+     "reserve": 5,
+     "opts": {
+      "deckOnly": true
+     },
+     "variant": "current"
+    },
+    {
+     "id": "none|deckonly80",
+     "court": "none",
+     "reserve": 5,
+     "opts": {
+      "deckOnly": true,
+      "skill": 0.8
+     },
+     "variant": "current"
+    },
+    {
+     "id": "defensive|best",
+     "court": "defensive",
+     "reserve": 5,
+     "opts": {},
+     "variant": "current"
+    },
+    {
+     "id": "defensive|skill80",
+     "court": "defensive",
+     "reserve": 5,
+     "opts": {
+      "skill": 0.8
+     },
+     "variant": "current"
+    },
+    {
+     "id": "defensive|skill55",
+     "court": "defensive",
+     "reserve": 5,
+     "opts": {
+      "skill": 0.55
+     },
+     "variant": "current"
+    },
+    {
+     "id": "defensive|skill30",
+     "court": "defensive",
+     "reserve": 5,
+     "opts": {
+      "skill": 0.3
+     },
+     "variant": "current"
+    },
+    {
+     "id": "defensive|deckonly",
+     "court": "defensive",
+     "reserve": 5,
+     "opts": {
+      "deckOnly": true
+     },
+     "variant": "current"
+    },
+    {
+     "id": "defensive|deckonly80",
+     "court": "defensive",
+     "reserve": 5,
+     "opts": {
+      "deckOnly": true,
+      "skill": 0.8
+     },
+     "variant": "current"
+    },
+    {
+     "id": "aggressive|best",
+     "court": "aggressive",
+     "reserve": 5,
+     "opts": {},
+     "variant": "current"
+    },
+    {
+     "id": "aggressive|skill80",
+     "court": "aggressive",
+     "reserve": 5,
+     "opts": {
+      "skill": 0.8
+     },
+     "variant": "current"
+    },
+    {
+     "id": "aggressive|skill55",
+     "court": "aggressive",
+     "reserve": 5,
+     "opts": {
+      "skill": 0.55
+     },
+     "variant": "current"
+    },
+    {
+     "id": "aggressive|skill30",
+     "court": "aggressive",
+     "reserve": 5,
+     "opts": {
+      "skill": 0.3
+     },
+     "variant": "current"
+    },
+    {
+     "id": "aggressive|deckonly",
+     "court": "aggressive",
+     "reserve": 5,
+     "opts": {
+      "deckOnly": true
+     },
+     "variant": "current"
+    },
+    {
+     "id": "aggressive|deckonly80",
+     "court": "aggressive",
+     "reserve": 5,
+     "opts": {
+      "deckOnly": true,
+      "skill": 0.8
+     },
+     "variant": "current"
+    },
+    {
+     "id": "economic|best",
+     "court": "economic",
+     "reserve": 5,
+     "opts": {},
+     "variant": "current"
+    },
+    {
+     "id": "economic|skill80",
+     "court": "economic",
+     "reserve": 5,
+     "opts": {
+      "skill": 0.8
+     },
+     "variant": "current"
+    },
+    {
+     "id": "economic|skill55",
+     "court": "economic",
+     "reserve": 5,
+     "opts": {
+      "skill": 0.55
+     },
+     "variant": "current"
+    },
+    {
+     "id": "economic|skill30",
+     "court": "economic",
+     "reserve": 5,
+     "opts": {
+      "skill": 0.3
+     },
+     "variant": "current"
+    },
+    {
+     "id": "economic|deckonly",
+     "court": "economic",
+     "reserve": 5,
+     "opts": {
+      "deckOnly": true
+     },
+     "variant": "current"
+    },
+    {
+     "id": "economic|deckonly80",
+     "court": "economic",
+     "reserve": 5,
+     "opts": {
+      "deckOnly": true,
+      "skill": 0.8
+     },
+     "variant": "current"
+    }
+   ],
+   "policies": {
+    "best": {},
+    "skill80": {
+     "skill": 0.8
+    },
+    "skill55": {
+     "skill": 0.55
+    },
+    "skill30": {
+     "skill": 0.3
+    },
+    "deckonly": {
+     "deckOnly": true
+    },
+    "deckonly80": {
+     "deckOnly": true,
+     "skill": 0.8
+    }
+   }
+  }
+ }
+}

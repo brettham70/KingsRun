@@ -1,0 +1,85 @@
+{
+ "base_seed_e1_e2_e3_e5": 20261117,
+ "base_seed_e4": 20261118,
+ "experiments": {
+  "e3": {
+   "N": 1000,
+   "runs": 10000,
+   "rounds": 88798,
+   "seconds": 808.37,
+   "paired_seeds_per_condition": 1000,
+   "conditions": [
+    {
+     "id": "baseline",
+     "court": "baseline",
+     "reserve": 5,
+     "opts": {},
+     "variant": "current"
+    },
+    {
+     "id": "economic|5",
+     "court": "economic",
+     "reserve": 5,
+     "opts": {},
+     "variant": "current"
+    },
+    {
+     "id": "economic|10",
+     "court": "economic",
+     "reserve": 10,
+     "opts": {},
+     "variant": "current"
+    },
+    {
+     "id": "economic|15",
+     "court": "economic",
+     "reserve": 15,
+     "opts": {},
+     "variant": "current"
+    },
+    {
+     "id": "aggressive|5",
+     "court": "aggressive",
+     "reserve": 5,
+     "opts": {},
+     "variant": "current"
+    },
+    {
+     "id": "aggressive|10",
+     "court": "aggressive",
+     "reserve": 10,
+     "opts": {},
+     "variant": "current"
+    },
+    {
+     "id": "aggressive|15",
+     "court": "aggressive",
+     "reserve": 15,
+     "opts": {},
+     "variant": "current"
+    },
+    {
+     "id": "defensive|5",
+     "court": "defensive",
+     "reserve": 5,
+     "opts": {},
+     "variant": "current"
+    },
+    {
+     "id": "defensive|10",
+     "court": "defensive",
+     "reserve": 10,
+     "opts": {},
+     "variant": "current"
+    },
+    {
+     "id": "defensive|15",
+     "court": "defensive",
+     "reserve": 15,
+     "opts": {},
+     "variant": "current"
+    }
+   ]
+  }
+ }
+}

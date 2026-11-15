@@ -1,0 +1,161 @@
+{
+ "base_seed_e1_e2_e3_e5": 20261117,
+ "base_seed_e4": 20261118,
+ "experiments": {
+  "e1": {
+   "N": 1000,
+   "runs": 8000,
+   "rounds": 71677,
+   "seconds": 645.339,
+   "paired_seeds_per_condition": 1000,
+   "conditions": [
+    {
+     "id": "none|control",
+     "court": "none",
+     "reserve": 5,
+     "opts": {
+      "forced": [],
+      "ban": [
+       "gambler"
+      ]
+     },
+     "variant": "current"
+    },
+    {
+     "id": "none|g3_15",
+     "court": "none",
+     "reserve": 5,
+     "opts": {
+      "forced": [
+       "gambler"
+      ],
+      "gambler": {
+       "out": 3,
+       "pen": 1.5
+      }
+     },
+     "variant": {
+      "out": 3,
+      "pen": 1.5
+     }
+    },
+    {
+     "id": "none|g2_15",
+     "court": "none",
+     "reserve": 5,
+     "opts": {
+      "forced": [
+       "gambler"
+      ],
+      "gambler": {
+       "out": 2,
+       "pen": 1.5
+      }
+     },
+     "variant": {
+      "out": 2,
+      "pen": 1.5
+     }
+    },
+    {
+     "id": "none|g25_2",
+     "court": "none",
+     "reserve": 5,
+     "opts": {
+      "forced": [
+       "gambler"
+      ],
+      "gambler": {
+       "out": 2.5,
+       "pen": 2
+      }
+     },
+     "variant": {
+      "out": 2.5,
+      "pen": 2
+     }
+    },
+    {
+     "id": "aggressive|control",
+     "court": "aggressive",
+     "reserve": 5,
+     "opts": {
+      "forced": [],
+      "ban": [
+       "gambler"
+      ]
+     },
+     "variant": "current"
+    },
+    {
+     "id": "aggressive|g3_15",
+     "court": "aggressive",
+     "reserve": 5,
+     "opts": {
+      "forced": [
+       "gambler"
+      ],
+      "gambler": {
+       "out": 3,
+       "pen": 1.5
+      }
+     },
+     "variant": {
+      "out": 3,
+      "pen": 1.5
+     }
+    },
+    {
+     "id": "aggressive|g2_15",
+     "court": "aggressive",
+     "reserve": 5,
+     "opts": {
+      "forced": [
+       "gambler"
+      ],
+      "gambler": {
+       "out": 2,
+       "pen": 1.5
+      }
+     },
+     "variant": {
+      "out": 2,
+      "pen": 1.5
+     }
+    },
+    {
+     "id": "aggressive|g25_2",
+     "court": "aggressive",
+     "reserve": 5,
+     "opts": {
+      "forced": [
+       "gambler"
+      ],
+      "gambler": {
+       "out": 2.5,
+       "pen": 2
+      }
+     },
+     "variant": {
+      "out": 2.5,
+      "pen": 2
+     }
+    }
+   ],
+   "variants": {
+    "g3_15": {
+     "out": 3,
+     "pen": 1.5
+    },
+    "g2_15": {
+     "out": 2,
+     "pen": 1.5
+    },
+    "g25_2": {
+     "out": 2.5,
+     "pen": 2
+    }
+   }
+  }
+ }
+}
