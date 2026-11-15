@@ -1,0 +1,12 @@
+.git
+.gitignore
+.assetsignore
+wrangler.jsonc
+node_modules
+cook
+simulation
+simulation-results
+tests
+package.json
+package-lock.json
+*.md
