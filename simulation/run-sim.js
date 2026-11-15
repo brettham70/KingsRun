@@ -58,6 +58,7 @@ function runOne(g, group, runId, seed, reserve = RESERVE, opts = {}) {
   const G = g.G, R = G.run, policy = makePolicy(group, seed, reserve, opts.ban || []);
   const rounds = [], events = [], ev = (o) => events.push({ run_id: runId, ...o });
   let totalSpent = 0, totalSold = 0, totalReroll = 0, bountyFree = 0, freeUsed = 0, minAfter = 25, order = 0;
+  let attempt = 1, endReason = '', tolls = 0, stolen = 0; const att = { miser: 0, jester: 0, usurper: 0 };
   const owned_by_round = [];
 
   for (;;) {
@@ -111,6 +112,30 @@ function runOne(g, group, runId, seed, reserve = RESERVE, opts = {}) {
     };
     if (!bust) minAfter = Math.min(minAfter, L.after);
     rounds.push(row);
+    // ---- experimental boss rules (sim-only; absent unless opts.bossRule is given) ----
+    if (opts.bossRule && boss) {
+      row.attempt = attempt; att[boss] = attempt;
+      const rule = opts.bossRule[boss] || opts.bossRule.all, lost = !(f.boss_bounty > 0);
+      if (rule && lost && !bust) {
+        const pay = amt => {            // a toll is paid like a bill: Second Wind can save it, otherwise below 0 ends the run
+          R.gold -= amt; tolls += amt; row.boss_toll = amt;
+          if (R.gold < 0 && R.regalia.includes('secondwind')) { R.regalia = R.regalia.filter(x => x !== 'secondwind'); R.gold = 10; row.second_wind_on_toll = 1; }
+          return R.gold >= 0;
+        };
+        if (rule.type === 'gate') endReason = 'gate';
+        else if (rule.type === 'tribute') { if (!pay(rule.amount)) endReason = 'toll'; }
+        else if (rule.type === 'steal') {
+          if (R.regalia.length) { const id = [...R.regalia].sort((a, b) => g.REG(b).price - g.REG(a).price)[0]; R.regalia = R.regalia.filter(x => x !== id); row.boss_stole = id; stolen++; }
+          else if (!pay(10)) endReason = 'toll';
+        } else if (rule.type === 'rematch') {
+          if (!pay(Math.max(rule.toll + (rule.step || 0) * (attempt - 1), rule.pct ? Math.ceil(R.gold * rule.pct) : 0))) endReason = 'toll';
+          else if (attempt >= 40) endReason = 'gate';       // safety stop; reported if it ever happens
+          else { attempt++; g.replayRound(); continue; }
+        }
+        if (endReason) break;
+      }
+      attempt = 1;
+    }
     if (bust || G.phase === 'gameEnd') break;
 
     // ---- The Court (production openCourt/rollCourt/buyOffer/sellRegalia; reroll replicated in harness) ----
@@ -145,16 +170,18 @@ function runOne(g, group, runId, seed, reserve = RESERVE, opts = {}) {
     owned_by_round.push(R.regalia.join('|'));
     g.nextRound();
   }
-  const last = rounds[rounds.length - 1], bust = R.over === 'bust';
+  const last = rounds[rounds.length - 1], bust = R.over === 'bust' || endReason === 'toll', gated = endReason === 'gate';
   const run = {
-    run_id: runId, group, seed, outcome: bust ? 'bankrupt' : 'completed', rounds_reached: G.round, bust_round: bust ? G.round : '',
-    final_treasury: bust ? 0 : R.gold, shortfall_at_bust: bust ? R.gold : '', min_treasury: minAfter,
+    run_id: runId, group, seed, outcome: gated ? 'gated' : bust ? 'bankrupt' : 'completed', rounds_reached: G.round, bust_round: (bust || gated) ? G.round : '',
+    final_treasury: (bust || gated) ? 0 : R.gold, shortfall_at_bust: bust ? R.gold : '', min_treasury: minAfter,
     regalia_final: R.regalia.join('|'), decrees_final: R.decrees.join('|'), bosses_beaten: R.bossesBeaten,
     gold_spent_purchases: totalSpent, gold_spent_rerolls: totalReroll, gold_from_sales: totalSold, free_picks_available: bountyFree, free_picks_used: freeUsed,
     items_bought: events.filter(e => e.type === 'buy').length, regalia_bought: events.filter(e => e.type === 'buy' && e.kind === 'R').length, decrees_bought: events.filter(e => e.type === 'buy' && e.kind === 'D').length,
     gold_generated: sum(rounds.map(r => r.rewards_total)), penalties_paid: sum(rounds.map(r => r.penalty_paid)),
     ledger_ok: rounds.every(r => r.ledger_ok) ? 1 : 0,
   };
+  if (opts.bossRule) Object.assign(run, { ended_by: gated ? 'gate' : endReason === 'toll' ? 'toll' : bust ? 'bill' : '', ended_at_boss: (bust || gated) && last.boss ? last.boss : '', boss_tolls_paid: tolls, regalia_stolen: stolen,
+    att_miser: att.miser, att_jester: att.jester, att_usurper: att.usurper, rounds_played: rounds.length });
   return { run, rounds, events };
 }
 

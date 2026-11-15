@@ -39,6 +39,11 @@ function load(opts = {}) {
     if (src.split(a).length !== 2 || src.split(b).length !== 2) throw new Error('gambler patch targets not found exactly once');
     src = src.replace(a, `if(runHas('gambler'))g=Math.floor(g*${out});`).replace(b, `Math.ceil(bill*${pen})`);
   }
+  if (opts.usurperSym) {      // Usurper's dead Jokers apply to every seat, not only the player
+    const a = "const noJ=me&&G.run.boss==='usurper';";
+    if (src.split(a).length !== 2) throw new Error('usurper patch target not found exactly once');
+    src = src.replace(a, "const noJ=G.run.boss==='usurper';");
+  }
   const store = {};
   const localStorage = { getItem: k => (k in store ? store[k] : null), setItem: (k, v) => { store[k] = String(v); } };
   const body = `"use strict";\n${src}\n
@@ -59,6 +64,8 @@ function load(opts = {}) {
     // Draw from the deck only (a cautious player who never takes the discard); mirrors aiDraw's deck branch.
     deckDraw(){const p=cur(),c=drawDeck();p.hand.push(c);G.log=p.name+' drew from the deck.';G.phase='discard';},
     setSkill(s){G.players[0].skill=s;},
+    // Deal the same round again (boss rematch experiments). Undoes the end-of-run marks a round-11 settlement sets.
+    replayRound(){G.run.over=null;G.recorded=false;G.round--;startRound();},
   };`;
   return new Function('localStorage', body)(localStorage);
 }

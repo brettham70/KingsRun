@@ -9,12 +9,12 @@ const arg = (k, d) => { const i = process.argv.indexOf('--' + k); return i > 0 ?
 const BASE = 20261117;                       // new seed base: Phase 2 uses deals independent of Phase 1
 const OUT = arg('out', path.join('simulation-results', '2026-11-16-phase2'));
 fs.mkdirSync(OUT, { recursive: true });
-const loaders = {}; const G_ = (v) => { const k = JSON.stringify(v); return loaders[k] || (loaders[k] = v === 'cur' ? load() : load({ gambler: v })); };
+const loaders = {}; const G_ = (v) => { const k = JSON.stringify(v); return loaders[k] || (loaders[k] = v === 'cur' ? load() : v.out !== undefined ? load({ gambler: v }) : load(v)); };
 const ALL_REGALIA = ['commoner', 'seventh', 'jewels', 'fool', 'twin', 'starlight', 'lowtide', 'purse', 'vault', 'spyglass', 'eaves', 'herald', 'earlybird', 'mint', 'tax', 'interest', 'patron', 'secondwind', 'gambler'];
 const RUNCOLS = ['exp', 'cond', 'i', 'seed', 'court', 'reserve', 'outcome', 'rounds_reached', 'bust_round', 'final_treasury', 'min_treasury', 'items_bought', 'gold_generated', 'penalties_paid', 'bosses_beaten', 'regalia_final'];
 const RNDCOLS = ['exp', 'cond', 'i', 'round', 'boss', 'treasury_start', 'hand_penalty_raw', 'penalty_paid', 'player_out', 'player_turns', 'pts_player', 'pts_opp1', 'rewards_total', 'out_reward', 'beat_boss', 'bankrupt', 'treasury_end_settlement', 'gambler_marginal_out', 'gambler_extra', 'earlybird_marginal', 'herald_marginal'];
 
-function runConditions(exp, conds, N) {
+function runConditions(exp, conds, N, xr = [], xd = []) {
   const runs = [], rounds = []; const t0 = Date.now();
   for (let i = 0; i < N; i++) {
     const seed = seedFor(BASE, i);
@@ -26,8 +26,8 @@ function runConditions(exp, conds, N) {
     }
     if ((i + 1) % 200 === 0) process.stderr.write(`  ${exp} ${i + 1}/${N} (${((Date.now() - t0) / 1000).toFixed(0)}s)\n`);
   }
-  fs.writeFileSync(path.join(OUT, `${exp}_runs.csv`), csv(runs, RUNCOLS));
-  fs.writeFileSync(path.join(OUT, `${exp}_rounds.csv`), csv(rounds, RNDCOLS));
+  fs.writeFileSync(path.join(OUT, `${exp}_runs.csv`), csv(runs, [...RUNCOLS, ...xr]));
+  fs.writeFileSync(path.join(OUT, `${exp}_rounds.csv`), csv(rounds, [...RNDCOLS, ...xd]));
   return { runs: runs.length, rounds: rounds.length, seconds: (Date.now() - t0) / 1000 };
 }
 
@@ -56,6 +56,30 @@ const EXP = {
   },
 };
 
+// ---- Experiment 6: tougher bosses ("you have to beat them"). All rules are sim-only. ----
+const RM = (toll, step = 0) => ({ all: { type: 'rematch', toll, step } });
+const BOSS_RULES = {
+  current: null,
+  gate: { all: { type: 'gate' } },                                   // lose to any boss = run over
+  rematch0: RM(0), rematch5: RM(5), rematch10: RM(10), rematch_esc: RM(5, 5), rematch20: RM(20), rematch_pct25: { all: { type: 'rematch', toll: 5, pct: 0.25 } },   // must win to move on; each loss costs a toll and the round is re-dealt
+  tribute: { miser: { type: 'tribute', amount: 10 }, jester: { type: 'tribute', amount: 15 }, usurper: { type: 'tribute', amount: 20 } },
+  steal: { all: { type: 'steal' } },                                 // boss takes your most expensive Regalia (10 gold if you have none)
+  finalgate: { miser: { type: 'rematch', toll: 5 }, jester: { type: 'rematch', toll: 5 }, usurper: { type: 'gate' } },
+};
+const E6_SKILLS = { best: {}, skill80: { skill: 0.8 } };
+EXP.e6 = (N) => {
+  const only = arg('skill', ''), conds = [];
+  for (const [sk, so] of Object.entries(E6_SKILLS)) { if (only && only !== sk) continue;
+    for (const court of ['none', 'defensive', 'aggressive']) {
+      for (const [k, rule] of Object.entries(BOSS_RULES)) conds.push({ id: `${sk}|${court}|${k}`, court, reserve: 10, opts: { ...so, ...(rule ? { bossRule: rule } : {}) } });
+      // softened final boss: the Usurper's dead Jokers apply to everyone
+      conds.push({ id: `${sk}|${court}|current_sym`, court, reserve: 10, variant: { usurperSym: true }, opts: { ...so } });
+      conds.push({ id: `${sk}|${court}|rematch5_sym`, court, reserve: 10, variant: { usurperSym: true }, opts: { ...so, bossRule: BOSS_RULES.rematch5 } });
+      conds.push({ id: `${sk}|${court}|finalgate_sym`, court, reserve: 10, variant: { usurperSym: true }, opts: { ...so, bossRule: BOSS_RULES.finalgate } });
+    } }
+  return { conds, meta: { boss_rules: BOSS_RULES, skills: E6_SKILLS, note: 'reserve 10 for listed Court policies' }, xr: ['ended_by', 'ended_at_boss', 'boss_tolls_paid', 'regalia_stolen', 'att_miser', 'att_jester', 'att_usurper', 'rounds_played'], xd: ['attempt', 'boss_toll', 'boss_stole', 'second_wind_on_toll'] };
+};
+
 // ---- Experiment 4: single-round boss encounters with matched builds (starts at the boss round with fixed treasury) ----
 const BUILDS = { none: [], wilds: ['commoner', 'seventh', 'jewels'], fool: ['fool'], wilds_fool: ['commoner', 'seventh', 'jewels', 'fool'], wilds_fool_star: ['commoner', 'seventh', 'jewels', 'fool', 'starlight'],
   freeleft: ['starlight', 'lowtide', 'purse'], defense: ['secondwind', 'vault', 'starlight'], income: ['patron', 'interest', 'tax'], twin: ['twin'] };
@@ -79,13 +103,13 @@ function e4(N, gold = 40) {
   return { runs: rows.length, seconds: (Date.now() - t0) / 1000 };
 }
 
-const DEFAULT_N = { e1: 1000, e2: 600, e3: 1000, e4: 2000, e5: 500 };
+const DEFAULT_N = { e1: 1000, e2: 600, e3: 1000, e4: 2000, e5: 500, e6: 500 };
 function main() {
   const which = process.argv[2] || 'all', list = which === 'all' ? ['e1', 'e2', 'e3', 'e4', 'e5'] : [which];
-  const cfgPath = path.join(OUT, `config_${which}.json`); const cfg = { base_seed_e1_e2_e3_e5: BASE, base_seed_e4: BASE + 1, experiments: {} };
+  const cfgPath = path.join(OUT, `config_${arg('tag', which)}.json`); const cfg = { base_seed_e1_e2_e3_e5: BASE, base_seed_e4: BASE + 1, experiments: {} };
   for (const e of list) {
     const N = +arg('runs', DEFAULT_N[e]);
-    const res = e === 'e4' ? e4(N) : (() => { const d = EXP[e](N); const r = runConditions(e, d.conds, N); return { ...r, paired_seeds_per_condition: N, conditions: d.conds.map(c => ({ id: c.id, court: c.court, reserve: c.reserve ?? 5, opts: c.opts || {}, variant: c.variant || 'current' })), ...d.meta }; })();
+    const res = e === 'e4' ? e4(N) : (() => { const d = EXP[e](N); const r = runConditions(arg('tag', e), d.conds, N, d.xr, d.xd); return { ...r, paired_seeds_per_condition: N, conditions: d.conds.map(c => ({ id: c.id, court: c.court, reserve: c.reserve ?? 5, opts: c.opts || {}, variant: c.variant || 'current' })), ...d.meta }; })();
     cfg.experiments[e] = { N, ...res }; console.log(e, JSON.stringify({ N, ...(res.runs ? { runs: res.runs } : {}), seconds: res.seconds }));
     fs.writeFileSync(cfgPath, JSON.stringify(cfg, null, 1));
   }
