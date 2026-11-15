@@ -1,0 +1,122 @@
+[
+ {
+  "name": "exactly 1000 runs recorded",
+  "ok": true,
+  "detail": "1000 rows"
+ },
+ {
+  "name": "every run id unique",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "every run has a recorded seed, and seeds are unique",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "five groups, 200 each (sums to 1000)",
+  "ok": true,
+  "detail": "{\"baseline\":200,\"random\":200,\"economic\":200,\"aggressive\":200,\"defensive\":200}"
+ },
+ {
+  "name": "no run exceeds 11 rounds",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "every run has one round record per round reached",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "bankrupt runs stop at the bankrupt round (last record bankrupt, none after)",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "completed runs reached round 11 and survived it",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "every round ledger reconciles (before + credits - debits = after)",
+  "ok": true,
+  "detail": "0 mismatches"
+ },
+ {
+  "name": "ledger opening balance equals recorded start-of-round treasury",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "no unrecognised ledger lines",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "treasury never negative except the bankruptcy settlement",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "every completed run ends with treasury >= 0",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "Regalia capacity (<=5) and Decree capacity (<=3) respected",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "bosses appear only on rounds 4 (miser), 8 (jester), 11 (usurper)",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "Act 1 cap respected (rounds 1-3 penalty paid <= 10)",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "Miser's Vault respected (penalty paid <= 25 whenever owned)",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "boss bounty paid exactly when the player scored below the boss (and only on boss rounds)",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "free picks never exceed bounties earned (no double counting)",
+  "ok": true,
+  "detail": "628 free picks used / 830 bounties"
+ },
+ {
+  "name": "every purchase was paid for (price 0 only when a free pick)",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "baseline never paid for anything (only free bounty picks)",
+  "ok": true,
+  "detail": "147 free picks taken"
+ },
+ {
+  "name": "no placeholder / NaN values in numeric fields",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "same seed + group reproduces the same run (10 re-runs)",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "recorded seeds follow the documented scheme",
+  "ok": true,
+  "detail": ""
+ }
+]

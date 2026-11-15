@@ -1,0 +1,7 @@
+group,runs,completed,bankrupt,completion_rate,completion_ci95_lo,completion_ci95_hi,bankruptcy_rate,mean_round_reached,median_round_reached,mean_bust_round,completed_final_treasury_mean,completed_final_treasury_median,completed_final_treasury_min,completed_final_treasury_max,pct_completed_gt25,pct_completed_0_5,pct_completed_6_15,pct_completed_16_30,pct_completed_31_50,pct_completed_51plus,mean_gold_spent_purchases,mean_gold_spent_rerolls,mean_gold_from_sales,mean_items_bought,mean_gold_generated,mean_penalties_paid,mean_bosses_beaten
+baseline,200,121,79,0.605,0.5359,0.6702,0.395,9.5,11.0,7.203,83.42,79.0,3,220,87.6,4.1,1.7,9.1,9.9,75.2,0.0,0.0,0.0,0.74,98.3,79.7,0.84
+random,200,85,115,0.425,0.3585,0.4943,0.575,7.585,9.0,5.061,86.28,71.0,9,304,88.2,0.0,3.5,9.4,16.5,70.6,68.63,12.62,11.87,8.71,108.6,35.8,0.76
+economic,200,91,109,0.455,0.3875,0.5242,0.545,8.12,8.5,5.716,110.66,112.0,7,245,94.5,0.0,3.3,4.4,3.3,89.0,26.64,11.37,0.0,3.75,124.7,68.9,0.7
+aggressive,200,133,67,0.665,0.597,0.7268,0.335,8.79,11.0,4.403,261.43,234.0,30,722,100.0,0.0,0.0,0.8,0.8,98.5,58.1,9.95,0.0,6.94,248.7,37.0,1.22
+defensive,200,145,55,0.725,0.6593,0.7822,0.275,9.745,11.0,6.436,35.87,31.0,3,141,56.6,4.8,21.4,23.4,24.1,26.2,47.22,12.48,0.0,7.08,89.7,36.0,0.79
+ALL,1000,575,425,0.575,0.5441,0.6053,0.425,8.748,11.0,5.701,117.34,79.0,3,722,83.8,2.1,6.8,10.1,11.3,69.7,40.12,9.28,2.37,5.44,134.0,51.5,0.86

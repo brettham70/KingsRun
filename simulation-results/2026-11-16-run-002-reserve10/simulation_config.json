@@ -1,0 +1,290 @@
+{
+ "sim_version": "1.0.0",
+ "base_seed": 20261116,
+ "seed_scheme": "seed_i = avalanche_hash(baseSeed + (i+1)*0x9E3779B1), i = run index from 0; every run has its own seed; group = i mod 5 so every group samples the whole seed range",
+ "runs": 1000,
+ "groups": [
+  "baseline",
+  "random",
+  "economic",
+  "aggressive",
+  "defensive"
+ ],
+ "group_assignment": "run index i (0-based) -> GROUP_NAMES[i % 5]",
+ "runs_per_group": 200,
+ "card_play_ai": "the page's own aiDraw/aiDiscard (opponent AI) applied to seat 0 with no 'skill' set, i.e. always the best play (same as Hard). Opponents use the Run's own tiers.",
+ "opponent_tiers": {
+  "rounds 1-3": {
+   "title": "Squire",
+   "skill": 0.55
+  },
+  "rounds 4-7": {
+   "title": "Knight",
+   "skill": 0.8
+  },
+  "rounds 8-11": {
+   "title": "Baron",
+   "skill": 0.95
+  },
+  "boss": "skill 1"
+ },
+ "court_policy_groups": {
+  "economic": {
+   "regalia": [
+    "patron",
+    "herald",
+    "tax",
+    "interest",
+    "mint",
+    "earlybird"
+   ],
+   "decrees": []
+  },
+  "aggressive": {
+   "regalia": [
+    "fool",
+    "jewels",
+    "commoner",
+    "seventh",
+    "twin",
+    "herald",
+    "earlybird",
+    "gambler"
+   ],
+   "decrees": [
+    "redeal",
+    "pickpocket"
+   ]
+  },
+  "defensive": {
+   "regalia": [
+    "secondwind",
+    "vault",
+    "lowtide",
+    "starlight",
+    "purse"
+   ],
+   "decrees": [
+    "insurance",
+    "pardon"
+   ]
+  }
+ },
+ "reserve_gold_after_listed_purchase": 10,
+ "info_only_items_excluded": [
+  "spyglass",
+  "eaves",
+  "scout"
+ ],
+ "policy_notes": {
+  "baseline": "Never buys. Takes the Boss-bounty free pick (price 0) from the first offer in shop order, because the spec says to retain free rewards.",
+  "random": "Uniform choice among legal actions {buy any affordable offer, reroll, done}; if Regalia slots are full and a Regalia offer is affordable, selling any owned Regalia is also a legal action. Max 6 actions per Court. No reserve.",
+  "listed": "economic/aggressive/defensive: buy the best-ranked affordable listed offer (ranking = list order; a free Boss-bounty pick goes to the listed offer with the highest list price), keep >= 5 gold after paying unless free; sell an unlisted Regalia if slots are full; reroll once if nothing listed is on offer and 12+ gold would remain.",
+  "decrees": "insurance: last lap & hand cost>=8; pardon: last lap & cost>=6; redeal: first turn & avg leftover>=7/card; pickpocket: if the 2nd discard lowers best cost; fog: when cost<=6; scout: whenever possible (no effect on this AI)."
+ },
+ "economy": {
+  "start": 25,
+  "act1Cap": 10,
+  "tribute": 3,
+  "out": 10,
+  "low": 4,
+  "boss": 12,
+  "reroll": 2,
+  "maxR": 5,
+  "maxD": 3,
+  "vault": 25
+ },
+ "regalia": [
+  {
+   "id": "commoner",
+   "name": "Commoner's Crown",
+   "short": "3s wild",
+   "text": "3s are wild for you.",
+   "price": 22
+  },
+  {
+   "id": "seventh",
+   "name": "Seventh Heaven",
+   "short": "7s wild",
+   "text": "7s are wild for you.",
+   "price": 24
+  },
+  {
+   "id": "jewels",
+   "name": "Crown Jewels",
+   "short": "Ks wild",
+   "text": "Kings are wild for you.",
+   "price": 24
+  },
+  {
+   "id": "fool",
+   "name": "Court Fool",
+   "short": "+Joker",
+   "text": "You’re dealt an extra Joker every round (except against the Usurper).",
+   "price": 15
+  },
+  {
+   "id": "twin",
+   "name": "Twin Crowns",
+   "short": "Royal pairs",
+   "text": "Pairs of J, Q or K count as books for you.",
+   "price": 16
+  },
+  {
+   "id": "starlight",
+   "name": "Starlight",
+   "short": "★ free",
+   "text": "★ cards left in your hand cost nothing.",
+   "price": 13
+  },
+  {
+   "id": "lowtide",
+   "name": "Low Tide",
+   "short": "3–5 free",
+   "text": "3s, 4s and 5s left in your hand cost nothing.",
+   "price": 13
+  },
+  {
+   "id": "purse",
+   "name": "Heavy Purse",
+   "short": "Faces 5",
+   "text": "J, Q and K left in your hand cost 5 each.",
+   "price": 9
+  },
+  {
+   "id": "vault",
+   "name": "Miser's Vault",
+   "short": "Cap 25",
+   "text": "A round never costs you more than 25 gold.",
+   "price": 12
+  },
+  {
+   "id": "spyglass",
+   "name": "Spyglass",
+   "short": "See deck",
+   "text": "You can always see the top card of the deck.",
+   "price": 10
+  },
+  {
+   "id": "eaves",
+   "name": "Eavesdropper",
+   "short": "Read foes",
+   "text": "See how many unmatched points each opponent holds.",
+   "price": 5
+  },
+  {
+   "id": "herald",
+   "name": "Herald",
+   "short": "+5 out",
+   "text": "+5 more gold whenever you go out first.",
+   "price": 9
+  },
+  {
+   "id": "earlybird",
+   "name": "Early Bird",
+   "short": "Quick out",
+   "text": "Go out within your first 3 turns and your going-out gold doubles.",
+   "price": 6
+  },
+  {
+   "id": "mint",
+   "name": "Royal Mint",
+   "short": "♦ gold",
+   "text": "+1 gold for every ♦ in your groups at round end.",
+   "price": 6
+  },
+  {
+   "id": "tax",
+   "name": "Tax Collector",
+   "short": "Tax",
+   "text": "+1 gold for every 10 points your opponents are caught with.",
+   "price": 9
+  },
+  {
+   "id": "interest",
+   "name": "Interest",
+   "short": "Interest",
+   "text": "+1 gold for every 10 in your Treasury at round end (up to +5).",
+   "price": 10
+  },
+  {
+   "id": "patron",
+   "name": "Patron",
+   "short": "+3/round",
+   "text": "+3 gold every round.",
+   "price": 10
+  },
+  {
+   "id": "secondwind",
+   "name": "Second Wind",
+   "short": "2nd wind",
+   "text": "Once per run, survive bankruptcy with 10 gold. Then it’s used up.",
+   "price": 9
+  },
+  {
+   "id": "gambler",
+   "name": "Gambler's Hand",
+   "short": "Gamble",
+   "text": "Going-out gold ×3, but what you’re caught with costs 1.5×.",
+   "price": 4
+  }
+ ],
+ "decrees": [
+  {
+   "id": "pickpocket",
+   "name": "Pickpocket",
+   "text": "Before you draw: take the second card down in the discard pile.",
+   "price": 4
+  },
+  {
+   "id": "scout",
+   "name": "Scout",
+   "text": "Before you draw: see the top card of the deck.",
+   "price": 3
+  },
+  {
+   "id": "redeal",
+   "name": "Redeal",
+   "text": "Before you draw: shuffle your hand into the deck and draw a fresh one.",
+   "price": 5
+  },
+  {
+   "id": "fog",
+   "name": "Fog",
+   "text": "On your turn: the next player can’t take from the discard pile.",
+   "price": 3
+  },
+  {
+   "id": "pardon",
+   "name": "Royal Pardon",
+   "text": "This round, your highest-scoring leftover card is free.",
+   "price": 4
+  },
+  {
+   "id": "insurance",
+   "name": "Insurance",
+   "text": "This round’s bill is halved.",
+   "price": 5
+  }
+ ],
+ "bosses": {
+  "4": {
+   "key": "miser",
+   "name": "The Miser",
+   "short": "No one takes discards",
+   "rule": "Nobody may take from the discard pile this round."
+  },
+  "8": {
+   "key": "jester",
+   "name": "The Jester",
+   "short": "Wild changes every turn",
+   "rule": "The wild rank changes after every turn."
+  },
+  "11": {
+   "key": "usurper",
+   "name": "The Usurper",
+   "short": "Your Jokers aren’t wild",
+   "rule": "Jokers aren’t wild for you. They’re dead cards worth 50."
+  }
+ }
+}

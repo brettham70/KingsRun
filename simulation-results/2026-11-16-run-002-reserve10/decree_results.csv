@@ -1,0 +1,7 @@
+item,name,list_price,times_offered,times_acquired,acquired_free,acquire_rate_when_offered,decree_rounds_held,times_used,runs_using,unused_at_end_of_run,use_rate_of_acquired,offered_while_inventory_full,avg_round_used,avg_hand_cost_when_used,rounds_with_use,player_out_rate_in_those_rounds,mean_penalty_paid_in_those_rounds,baseline_out_rate_all_rounds,direct_gold_saved_total,direct_gold_saved_per_use
+pickpocket,Pickpocket,4,2037,420,38,0.2062,851,331,200,89,0.7881,166,6.48,23.15,301,0.468,5.36,0.417,,
+scout,Scout,3,2109,102,4,0.0484,127,90,67,12,0.8824,161,5.4,23.0,90,0.467,4.52,0.417,,
+redeal,Redeal,5,2042,425,28,0.2081,1232,144,122,281,0.3388,135,5.09,68.18,144,0.438,7.43,0.417,,
+fog,Fog,3,1947,107,7,0.055,137,79,63,28,0.7383,139,5.52,2.72,75,0.613,0.47,0.417,,
+pardon,Royal Pardon,4,2020,510,35,0.2525,1109,420,245,90,0.8235,160,7.08,24.4,420,0.0,7.06,0.417,2617.0,6.23
+insurance,Insurance,5,1991,468,38,0.2351,1017,380,228,88,0.812,157,7.03,26.0,380,0.0,7.04,0.417,2671.0,7.03

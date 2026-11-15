@@ -1,0 +1,32 @@
+{
+ "sim_version": "1.0.0",
+ "git_commit": "2de434359a58e5e1001d8a945931f0c4c1f4d92d",
+ "game_files_uncommitted_changes": false,
+ "executed_at": "2026-11-15T19:28:06.289Z",
+ "node": "v22.23.4",
+ "seconds": 30.094,
+ "status": "complete: simulation, validation, analysis and report generated",
+ "runs_started": 1000,
+ "runs_recorded": 1000,
+ "rounds_recorded": 8483,
+ "events_recorded": 46652,
+ "outputs": {
+  "run_results": "run_results.csv",
+  "round_results": "round_results.csv",
+  "event_log": "event_log.csv"
+ },
+ "analysis_files": [
+  "strategy_results.csv",
+  "round_summary.csv",
+  "regalia_results.csv",
+  "decree_results.csv",
+  "boss_results.csv",
+  "boss_by_group.csv",
+  "regalia_combinations.csv",
+  "economy_extras.json",
+  "validation_results.json",
+  "balance_report.md",
+  "charts/*.png"
+ ],
+ "sensitivity_run": "../2026-11-16-run-002-reserve10"
+}
