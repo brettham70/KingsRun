@@ -30,10 +30,19 @@ const SRC = [
   slice('// Computer players.', 'function pump()'),
 ].join('\n');
 
-function load() {
+function load(opts = {}) {
+  // Sim-only rule variants (applied to the in-memory copy of the page code; index.html is never modified).
+  let src = SRC;
+  if (opts.gambler) {
+    const { out, pen } = opts.gambler;
+    const a = "if(runHas('gambler'))g*=3;", b = 'Math.ceil(bill*1.5)';
+    if (src.split(a).length !== 2 || src.split(b).length !== 2) throw new Error('gambler patch targets not found exactly once');
+    src = src.replace(a, `if(runHas('gambler'))g=Math.floor(g*${out});`).replace(b, `Math.ceil(bill*${pen})`);
+  }
   const store = {};
   const localStorage = { getItem: k => (k in store ? store[k] : null), setItem: (k, v) => { store[k] = String(v); } };
-  const body = `"use strict";\n${SRC}\n
+  const body = `"use strict";\n${src}\n
+  const BOSS0={...BOSSES};
   return {
     get G(){return G;}, set sel(v){sel=v;},
     newGame, startRound, aiDraw, aiDiscard, useDecree, decreeBlock, openCourt, rollCourt, buyOffer, sellRegalia,
@@ -43,6 +52,13 @@ function load() {
     reroll(){const r=G.run;if(!(G.phase==='court'&&r.gold>=r.rerollCost))return false;r.gold-=r.rerollCost;r.rerollCost++;rollCourt();return true;},
     // === duplicated from the page's click handler (a==='next'): leave the Court and deal the next round ===
     nextRound(){runMsg='';startRound();},
+    // === experiment helpers (not in the page) ===
+    // Re-deal from a chosen round with chosen Regalia / gold. Same RNG consumption whatever the Regalia, so seeds stay paired across conditions.
+    begin(o){const r=G.run;if(o.gold!=null)r.gold=o.gold;r.regalia=[...(o.forced||[])];G.round=(o.startRound||1)-1;G.dealer=(N()-2+N())%N();startRound();},
+    setBosses(on){if(on){for(const k in BOSS0)BOSSES[k]=BOSS0[k];}else{for(const k in BOSS0)delete BOSSES[k];}},
+    // Draw from the deck only (a cautious player who never takes the discard); mirrors aiDraw's deck branch.
+    deckDraw(){const p=cur(),c=drawDeck();p.hand.push(c);G.log=p.name+' drew from the deck.';G.phase='discard';},
+    setSkill(s){G.players[0].skill=s;},
   };`;
   return new Function('localStorage', body)(localStorage);
 }

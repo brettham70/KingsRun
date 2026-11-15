@@ -50,10 +50,12 @@ function parseLedger(lines) {
   return f;
 }
 
-function runOne(g, group, runId, seed, reserve = RESERVE) {
+function runOne(g, group, runId, seed, reserve = RESERVE, opts = {}) {
   g.seedRng(seed);
   g.newGame({ mode: 'run', count: 2, names: [] });
-  const G = g.G, R = G.run, policy = makePolicy(group, seed, reserve);
+  if (opts.forced || opts.startRound || opts.gold != null) g.begin(opts);
+  if (opts.skill != null) g.setSkill(opts.skill);
+  const G = g.G, R = G.run, policy = makePolicy(group, seed, reserve, opts.ban || []);
   const rounds = [], events = [], ev = (o) => events.push({ run_id: runId, ...o });
   let totalSpent = 0, totalSold = 0, totalReroll = 0, bountyFree = 0, freeUsed = 0, minAfter = 25, order = 0;
   const owned_by_round = [];
@@ -66,7 +68,7 @@ function runOne(g, group, runId, seed, reserve = RESERVE) {
     while (G.phase === 'draw' || G.phase === 'discard') {
       if (++guard > 3000) throw new Error(`runaway round ${rd} in ${runId}`);
       if (G.turn === 0 && G.phase === 'draw') for (const u of useDecrees(g)) { uses.push({ ...u, turn: R.turns, hand: G.players[0].hand.length }); ev({ round: rd, type: 'decree_use', item: u.id, detail: u.why, cost_before: u.cost_before }); }
-      if (G.phase === 'draw') g.aiDraw(); else g.aiDiscard();
+      if (G.phase === 'draw') { if (opts.deckOnly && G.turn === 0) g.deckDraw(); else g.aiDraw(); } else g.aiDiscard();
     }
     // ---- settlement has run (production runEndRound). Read it back. ----
     const L = R.ledger, f = parseLedger(L.lines), pts = G.result.map(x => x.pts), out = G.outBy === 0;
@@ -82,7 +84,8 @@ function runOne(g, group, runId, seed, reserve = RESERVE) {
     }
     // marginal going-out gold per item
     const turns = R.turns, h = regStart.includes('herald'), e = regStart.includes('earlybird'), gm = regStart.includes('gambler');
-    const outf = (hh, ee, gg) => ((10 + (hh ? 5 : 0)) * (ee && turns <= 3 ? 2 : 1)) * (gg ? 3 : 1);
+    const GM = opts.gambler ? opts.gambler.out : 3;
+    const outf = (hh, ee, gg) => { const b = (10 + (hh ? 5 : 0)) * (ee && turns <= 3 ? 2 : 1); return gg ? Math.floor(b * GM) : b; };
     const outAll = out ? outf(h, e, gm) : 0;
     const marg = out ? { herald: h ? outAll - outf(false, e, gm) : 0, earlybird: e ? outAll - outf(h, false, gm) : 0, gambler: gm ? outAll - outf(h, e, false) : 0 } : { herald: 0, earlybird: 0, gambler: 0 };
     const row = {
@@ -199,4 +202,4 @@ function main() {
   console.log(`${N} runs, ${rounds.length} rounds, ${events.length} events in ${manifest.seconds.toFixed(1)}s -> ${outDir}`);
 }
 if (require.main === module) main();
-module.exports = { runOne, seedFor, csv };
+module.exports = { runOne, seedFor, csv, parseLedger, variantRules };

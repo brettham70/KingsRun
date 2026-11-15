@@ -16,12 +16,13 @@ function pRng(seed) { let a = (seed ^ 0x9E3779B9) >>> 0 || 1; return () => { a =
 
 // view = { gold, free, shop:[{kind,id,sold,price}], regalia:[id], decrees:[id], rerollCost, maxR, maxD, REG, DEC, rerolls, steps }
 // returns one of {t:'buy',k} {t:'reroll'} {t:'sell',id} {t:'done'}
-function makePolicy(group, seed, reserve = RESERVE) {
+function makePolicy(group, seed, reserve = RESERVE, ban = []) {
   const rnd = pRng(seed);
   const price = o => o.price;
   const full = (v, kind) => kind === 'R' ? v.regalia.length >= v.maxR : v.decrees.length >= v.maxD;
   const legalBuy = (v, o) => !o.sold && price(o) <= v.gold && !full(v, o.kind);
 
+  if (group === 'none') return { name: group, act() { return { t: 'done' }; } };   // never buys, not even a free pick (clean control)
   if (group === 'baseline') {
     // Never buys. Only exception: the Boss bounty free pick (price 0), taken from the first offer in shop order. See report.
     return { name: group, act(v) { const k = v.shop.findIndex(o => v.free && legalBuy(v, o)); return k >= 0 ? { t: 'buy', k } : { t: 'done' }; } };
@@ -37,7 +38,7 @@ function makePolicy(group, seed, reserve = RESERVE) {
     } };
   }
   const G = GROUPS[group];
-  const rank = o => { const l = o.kind === 'R' ? G.regalia : G.decrees; return l.indexOf(o.id); };
+  const rank = o => { if (ban.includes(o.id)) return -1; const l = o.kind === 'R' ? G.regalia : G.decrees; return l.indexOf(o.id); };
   return { name: group, act(v) {
     // best listed offer we could pay for (ignoring the capacity limit for now)
     // A free pick (Boss bounty) goes to the listed offer that would cost most; otherwise the best-ranked affordable one.
